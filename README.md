@@ -9,7 +9,7 @@
 1. Download [GitHub Desktop][GitHub-Desktop]
 1. Clone this repo using the current URL in your web browser
 1. Open up the `miami-university-cse-464-group-project` folder with an IDE or text editor of your choice
-1. Install the [EditorConfig][EditorConfig-Download] for your IDE/text editor
+1. Install the [EditorConfig][EditorConfig-Download] plugin for your IDE/text editor
 
 ### Git workflow
 

@@ -1,2 +1,2 @@
 all:
-	pdflatex *.tex
+	latexmk -pdf *.tex

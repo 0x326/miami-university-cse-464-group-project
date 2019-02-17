@@ -4,6 +4,8 @@
 \author{Jacob Freedman, Scott Harris, Bryan Hayes, John Meyer}
 
 \usepackage[autostyle, english=american]{csquotes}
+\usepackage{mathtools}
+\usepackage{amssymb}
 
 \begin{document}
 
@@ -37,17 +39,24 @@ and could even see widespread use.
 
 Magic the Gathering consists of a finite set $ C $ of distinct cards.
 $ C $ can be partitioned into sets $ S_1, S_2, ..., S_n $, each called a Magic the Gathering \enquote{set}.
-$ C $ can also be partitioned into two sets $ L $ and $ L_0 $, where $ L $ are "basic lands" and $ L_0 $ are not.
+$ C $ can also be partitioned into two sets $ L $ and $ L_0 $, where $ L $ are \enquote{basic lands} and $ L_0 $ are not.
 
-In a limited, sealed-deck tournament style,
-a set $ S $ is chosen and used for play.
+Recall: A \enquote{multiset} $ M $ is a 2-tuple $ (A, m) $
+where $ A $ is a set and $ m: A \rightarrow \{x \in \mathbb{N} \mid x \ge 1 \} $.
+$ A $ is called the \enquote{support} of $ M $.
+A set $ U $ is a \enquote{universe} of $ M $ if and only if $ A \subseteq U $.
+The \enquote{sum} of multisets $ M_1 $ and $ M_2 $ is defined as
+$ (A_1 \cup A_2, \{ x \in (A_1 \cup A_2) \mid (x, m_1(x) + m_2(x)) \} $.
 
-Each participant is provided with 6 booster packs consisting of $ 15 $ cards, totaling to $ 90 $ cards.
-These cards $ B $ are a multiset whose elements are in $ S $.
-Participants are also provided with an infinite mutliset $ B_L $ whose elements are in $ L $.
+Let $ P $ denote probability.
 
-Participants must select a multiset $ D \subseteq B \cup B_L , \ |D| \ge 40 $.
+In a limited, sealed-deck tournament style, a set $ S $ is chosen and used for play.
+Each participant is provided a multiset $ B $ of cards whose universe is $ S $
+as well as a multiset $ B_L $ whose universe is $ L $.
+$ B $ is constrained to contain $ 90 $ cards
+whereas $ B_L $ contains an infinite amount of cards.
 
-We want to find $ D $ such that we maximize $ P(game success | D) $.
+Given participants must select a multiset $ D, \ |D| \ge 40 $ from the sum of $ B $ and $ B_L $,
+we want to choose $ D $ such that we maximize $ P(\text{game success} \mid D) $.
 
 \end{document}

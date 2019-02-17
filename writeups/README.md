@@ -1,4 +1,7 @@
 [Wikibook-LaTeX]: https://en.wikibooks.org/wiki/LaTeX
+[Scoop]: https://scoop.sh/
+[Chocolatey]: https://chocolatey.org/
+[Homebrew]: https://brew.sh/
 
 # Project Writeups
 
@@ -8,17 +11,21 @@ Uses [LaTeX][Wikibook-LaTeX]
 
 - LaTeX
 
-  - Windows: `scoop install latex` or `choco install miktex`
-  - macOS: `brew tap caskroom/cask && brew cask install mactex`
+  - Windows ([Scoop]): `scoop install latex`
+  - Windows ([Chocolatey]): `choco install miktex`
+  - macOS ([Homebrew]): `brew tap caskroom/cask && brew cask install mactex`
 
 - Perl
 
-  - Windows: `scoop install perl`
+  - Windows ([Scoop]): `scoop install perl`
+  - Windows ([Chocolatey]): `choco install strawberryperl`
+  - macOS ([Homebrew]): `brew install perl`
 
 - GNU make
 
-  - Windows: `scoop install make` or `choco install make`
-  - macOS: `brew install make`
+  - Windows ([Scoop]): `scoop install make`
+  - Windows ([Chocolatey]): `choco install make`
+  - macOS ([Homebrew]): `brew install make`
 
 ## Building
 

@@ -1,5 +1,5 @@
-_Python: https://www.python.org/
-_Pipenv: https://pipenv.readthedocs.io/en/latest/
+Python_: https://www.python.org/
+Pipenv_: https://pipenv.readthedocs.io/en/latest/
 
 Card Parser
 ===========

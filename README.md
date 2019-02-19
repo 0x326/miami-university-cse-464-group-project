@@ -1,6 +1,7 @@
 [GitHub-Desktop]: https://desktop.github.com/
 [EditorConfig-Download]: https://editorconfig.org/#download
 [GitHub-Pull-Request]: https://github.com/0x326/miami-university-cse-464-group-project/compare
+[Miniconda]: https://conda.io/en/latest/miniconda.html
 
 # CSE 464: Group Project
 
@@ -10,6 +11,27 @@
 1. Clone this repo using the current URL in your web browser
 1. Open up the `miami-university-cse-464-group-project` folder with an IDE or text editor of your choice
 1. Install the [EditorConfig][EditorConfig-Download] plugin for your IDE/text editor
+
+### Prerequisites
+
+1. [Miniconda]
+
+Unix-like shell:
+
+```bash
+./update.sh
+```
+
+Windows PowerShell:
+
+```powershell
+.\update.ps1
+```
+
+If you get an error while running the above script,
+you may need to `pip3 install` some dependencies manually.
+To do so, run `conda activate miami-university-cse-464-group-project`
+then use `pip` as usual.
 
 ### Git workflow
 

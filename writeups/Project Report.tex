@@ -142,8 +142,10 @@ It was tested with 200 random problem instances and it was found to outperform I
 \subsubsection{\enquote{Approximating the k-Set Packing Problem by Local Improvements}}
 
 \enquote{Approximating the k-Set Packing Problem by Local Improvements}
-proposes a more efficient variant of many algorithms created to solve the k-set packing problem.
-Prior work has improved it from $ \frac{k}{2} $ to $ \frac{k + 2}{3} $
+proposes a more efficient variant of many algorithms already created to solve the k-set packing problem.
+The k-set packing problem, given a universe $ U $ and a collection $ S \subset U $ with $ |S| \le k $,
+seeks to find the maximum number of sets $ \subset S $ which are mutually disjoint.
+Prior work has improved solving this problem from $ \frac{k}{2} $ to $ \frac{k + 2}{3} $
 then $ \frac{k + 1}{3} + \epsilon $ and $ \frac{1}{\epsilon} $.
 The changes they propose further reduce it to $ \frac{1}{\epsilon^2} $.
 They suggest that their contribution is possibly the best improvement that can be made for the problem,
@@ -156,6 +158,8 @@ They construct a \enquote{bipartite conflict graph}
 and search it for what they call \enquote{colorful tail changes} for every $ 3 \ge $ degree vertex.
 For each one they find,
 they build a multigraph and continue computation.
+To conclude, they use various strategies to squeeze out better performance from an already efficient solution
+and do so perhaps for the last time.
 
 \subsection{Bryan Hayes}
 

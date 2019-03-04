@@ -131,4 +131,30 @@ These algorithms are tested by playing multiple different games, batawaf, war, c
 results found that these algorithms found strategies for games that seem entirely luck based. This type of algorithm
 could be useful for finding the optimal deck against different styles of play.
 
+\subsection{John Meyer}
+
+\enquote{Active Set Methods with Reoptimization for Convex Quadratic Integer Programming}
+proposes a new algorithm to solve \enquote{unconstrained convex quadratic integer}
+problems with linear constraints.
+The algorithm they propose is a generalized branch-and-bound approach,
+which is the most effective method to solve problems of this type (quadratic integer programming problems),
+and it has wide application as many real-world problems can be represented in this fashion.
+It consists of a preprocessing phase and an iterative main phase,
+which uses an optimization known as a \enquote{warmstart.}
+For this optimization,
+each iteration of the main phase uses knowledge of the previous iteration to inform its next guess.
+If the number of constraints are held constant,
+the algorithm runs in linear time with respect to the problem size.
+It was tested with 200 random problem instances and it was found to outperform IBM CPLEX by a moderate measure.
+
+\section{References}
+
+% ACM citation style
+Christoph Buchheim and Long Trieu. 2014.
+Active Set Methods with Reoptimization for Convex Quadratic Integer Programming.
+In \textit{Combinatorial Optimization: Third International Symposium,
+ISCO 2014 Lisbon, Portugal, March 5–7, 2014 Revised Selected Papers}.
+Springer International Publishing Switzerland.
+DOI: 10.1007/978-3-319-09174-7.
+
 \end{document}

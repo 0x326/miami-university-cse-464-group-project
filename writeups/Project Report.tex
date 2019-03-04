@@ -126,7 +126,7 @@ Departement GMI, France
 
 This paper takes a different approach to optimization. The authors use a evolutionary algorithm and a stochastic
 optimization algorithm to find optimal outputs for partially observable games. They use 5 different algorithms, one
-naive evolutionary algorithm, two coevolutionary algorithms, a iterative evolutionary algorithm, and a seed method.
+naïve evolutionary algorithm, two coevolutionary algorithms, a iterative evolutionary algorithm, and a seed method.
 These algorithms are tested by playing multiple different games, batawaf, war, cheat, battleship and guess who. The
 results found that these algorithms found strategies for games that seem entirely luck based. This type of algorithm
 could be useful for finding the optimal deck against different styles of play.
@@ -146,6 +146,50 @@ each iteration of the main phase uses knowledge of the previous iteration to inf
 If the number of constraints are held constant,
 the algorithm runs in linear time with respect to the problem size.
 It was tested with 200 random problem instances and it was found to outperform IBM CPLEX by a moderate measure.
+
+\subsection{Bryan}
+
+This reading starts off by talking about Magic: The Gathering and a bit of its history.
+It compares the card game to the popular role-playing game
+Dungeons \& Dragons in terms of its lore and overall aesthetic,
+then goes on to talk about its impact on pop culture.
+After this, the reading explains some of the rules of Magic,
+and some of the different ways the game is played such as arranging the deck based on color of the card or
+limiting the total size of the deck.
+The main argument of this article is then presented;
+that Magic is a form of literary work.
+The author is arguing that,
+while each card on its own presents little context,
+the cards together paint a picture of a world filled with rich lore.
+The author backs this up using the fact that works of interactive fiction,
+such as graphic novels or motion comics,
+are themselves considered works of literature by today’s standards.
+It is argued that Magic can be viewed as a form of interactive fiction.
+In addition to this, the point is brought up that the Magic: The Gathering website
+has a large collection of written pieces about the characters and lore of the Magic mythos.
+All of these arguments, and the fact that Magic is a wildly popular and acclaimed game,
+lead the author to claim that the card game is a \enquote{dynamic literary text.}
+
+The reading begins with a short introduction on Magic: The Gathering,
+where it explains the general circumstances and goals of the game.
+It then moves on to discuss the purpose of the reading;
+deciding the complexity of the legality of a single move in Magic.
+The general rules and types of cards and what do they are then explained in detail.
+The concepts of the deck, the player’s hand, the stack, the battlefield,
+and the graveyard are briefly discussed, and the types of cards included are instants/sorceries,
+artifacts/enchantments, planeswalkers, creatures, and lands.
+Some of the variants of the game are discussed,
+including one of the single player variants known as Goldfish.
+It then moves on to discuss the mathematical implications of
+deciding the time complexity of the legality of a single move.
+The reading discusses the ideas of min-cost flow,
+the base case of having no requirements or restrictions on a move,
+and the types of possible restrictions.
+These restrictions include local restrictions, local counting restrictions,
+global counting restrictions, blocker capacity restrictions, and attack capacity restrictions.
+The complexity of the base case is then discussed,
+as well as the complexities of special cases.
+The reading concludes with a more in depth analysis of restriction one, the local restriction.
 
 \section{References}
 
@@ -176,5 +220,11 @@ In \textit{Combinatorial Optimization: Third International Symposium,
 ISCO 2014 Lisbon, Portugal, March 5–7, 2014 Revised Selected Papers}.
 Springer International Publishing Switzerland.
 DOI: 10.1007/978-3-319-09174-7.
+
+Krishnendu Chatterjee and Rasmus Ibsen-Jensen.
+The Complexity of Deciding Legality of a Single Step of Magic: The Gathering.
+
+Paul A. Crutcher. 2017. Magic: The Gathering, A Literary Text.
+\textit{Americana: The Journal of American Popular Culture} 16, 1 (2017).
 
 \end{document}

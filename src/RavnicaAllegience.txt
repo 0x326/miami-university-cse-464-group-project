@@ -1,0 +1,269 @@
+Angel of Grace                 | {3}{W}{W}            | 5.0   | Creature - Angel                         | Mythic     | 
+Angelic Exaltation             | {3}{W}               | 4.0   | Enchantment                              | Uncommon   | 
+Archway Angel                  | {5}{W}               | 6.0   | Creature - Angel                         | Uncommon   | 
+Arrester's Zeal                | {W}                  | 1.0   | Instant                                  | Common     | 
+Bring to Trial                 | {2}{W}               | 3.0   | Sorcery                                  | Common     | 
+Civic Stalwart                 | {3}{W}               | 4.0   | Creature - Elephant Soldier              | Common     | 
+Concordia Pegasus              | {1}{W}               | 2.0   | Creature - Pegasus                       | Common     | 
+Expose to Daylight             | {2}{W}               | 3.0   | Instant                                  | Common     | 
+Forbidding Spirit              | {1}{W}{W}            | 3.0   | Creature - Spirit Cleric                 | Uncommon   | 
+Haazda Officer                 | {2}{W}               | 3.0   | Creature - Human Soldier                 | Common     | 
+Hero of Precinct One           | {1}{W}               | 2.0   | Creature - Human Warrior                 | Rare       | 
+Impassioned Orator             | {1}{W}               | 2.0   | Creature - Human Cleric                  | Common     | 
+Justiciar's Portal             | {1}{W}               | 2.0   | Instant                                  | Common     | 
+Knight of Sorrows              | {4}{W}               | 5.0   | Creature - Human Knight                  | Common     | 
+Lumbering Battlement           | {4}{W}               | 5.0   | Creature - Beast                         | Rare       | 
+Ministrant of Obligation       | {2}{W}               | 3.0   | Creature - Human Cleric                  | Uncommon   | 
+Prowling Caracal               | {1}{W}               | 2.0   | Creature - Cat                           | Common     | 
+Rally to Battle                | {3}{W}               | 4.0   | Instant                                  | Uncommon   | 
+Resolute Watchdog              | {W}                  | 1.0   | Creature - Hound                         | Uncommon   | 
+Sentinel's Mark                | {1}{W}               | 2.0   | Enchantment - Aura                       | Uncommon   | 
+Sky Tether                     | {W}                  | 1.0   | Enchantment - Aura                       | Uncommon   | 
+Smothering Tithe               | {3}{W}               | 4.0   | Enchantment                              | Rare       | 
+Spirit of the Spires           | {3}{W}               | 4.0   | Creature - Spirit                        | Uncommon   | 
+Summary Judgment               | {1}{W}               | 2.0   | Instant                                  | Common     | 
+Syndicate Messenger            | {3}{W}               | 4.0   | Creature - Bird                          | Common     | 
+Tenth District Veteran         | {2}{W}               | 3.0   | Creature - Human Soldier                 | Common     | 
+Tithe Taker                    | {1}{W}               | 2.0   | Creature - Human Soldier                 | Rare       | 
+Twilight Panther               | {W}                  | 1.0   | Creature - Cat Spirit                    | Common     | 
+Unbreakable Formation          | {2}{W}               | 3.0   | Instant                                  | Rare       | 
+Watchful Giant                 | {5}{W}               | 6.0   | Creature - Giant Soldier                 | Common     | 
+Arrester's Admonition          | {2}{U}               | 3.0   | Instant                                  | Common     | 
+Benthic Biomancer              | {U}                  | 1.0   | Creature - Merfolk Wizard Mutant         | Rare       | 
+Chillbringer                   | {4}{U}               | 5.0   | Creature - Elemental                     | Common     | 
+Clear the Mind                 | {2}{U}               | 3.0   | Sorcery                                  | Common     | 
+Code of Constraint             | {2}{U}               | 3.0   | Instant                                  | Uncommon   | 
+Coral Commando                 | {2}{U}               | 3.0   | Creature - Merfolk Warrior               | Common     | 
+Essence Capture                | {U}{U}               | 2.0   | Instant                                  | Uncommon   | 
+Eyes Everywhere                | {2}{U}               | 3.0   | Enchantment                              | Uncommon   | 
+Faerie Duelist                 | {1}{U}               | 2.0   | Creature - Faerie Rogue                  | Common     | 
+Gateway Sneak                  | {2}{U}               | 3.0   | Creature - Vedalken Rogue                | Uncommon   | 
+Humongulus                     | {4}{U}               | 5.0   | Creature - Homunculus                    | Common     | 
+Mass Manipulation              | {X}{X}{U}{U}{U}{U}   | 4.0   | Sorcery                                  | Rare       | 
+Mesmerizing Benthid            | {3}{U}{U}            | 5.0   | Creature - Octopus                       | Mythic     | 
+Persistent Petitioners         | {1}{U}               | 2.0   | Creature - Human Advisor                 | Common     | 
+Precognitive Perception        | {3}{U}{U}            | 5.0   | Instant                                  | Rare       | 
+Prying Eyes                    | {4}{U}{U}            | 6.0   | Instant                                  | Common     | 
+Pteramander                    | {U}                  | 1.0   | Creature - Salamander Drake              | Uncommon   | 
+Quench                         | {1}{U}               | 2.0   | Instant                                  | Common     | 
+Sage's Row Savant              | {1}{U}               | 2.0   | Creature - Vedalken Wizard               | Common     | 
+Senate Courier                 | {2}{U}               | 3.0   | Creature - Bird                          | Common     | 
+Shimmer of Possibility         | {1}{U}               | 2.0   | Sorcery                                  | Common     | 
+Skatewing Spy                  | {3}{U}               | 4.0   | Creature - Vedalken Rogue Mutant         | Uncommon   | 
+Skitter Eel                    | {3}{U}               | 4.0   | Creature - Fish Crab                     | Common     | 
+Slimebind                      | {1}{U}               | 2.0   | Enchantment - Aura                       | Common     | 
+Sphinx of Foresight            | {2}{U}{U}            | 4.0   | Creature - Sphinx                        | Rare       | 
+Swirling Torrent               | {5}{U}               | 6.0   | Sorcery                                  | Uncommon   | 
+Thought Collapse               | {1}{U}{U}            | 3.0   | Instant                                  | Common     | 
+Verity Circle                  | {2}{U}               | 3.0   | Enchantment                              | Rare       | 
+Wall of Lost Thoughts          | {1}{U}               | 2.0   | Creature - Wall                          | Uncommon   | 
+Windstorm Drake                | {4}{U}               | 5.0   | Creature - Drake                         | Uncommon   | 
+Awaken the Erstwhile           | {3}{B}{B}            | 5.0   | Sorcery                                  | Rare       | 
+Bankrupt in Blood              | {1}{B}               | 2.0   | Sorcery                                  | Uncommon   | 
+Blade Juggler                  | {4}{B}               | 5.0   | Creature - Human Rogue                   | Common     | 
+Bladebrand                     | {1}{B}               | 2.0   | Instant                                  | Common     | 
+Bloodmist Infiltrator          | {2}{B}               | 3.0   | Creature - Vampire                       | Uncommon   | 
+Carrion Imp                    | {3}{B}               | 4.0   | Creature - Imp                           | Common     | 
+Catacomb Crocodile             | {4}{B}               | 5.0   | Creature - Crocodile                     | Common     | 
+Clear the Stage                | {4}{B}               | 5.0   | Instant                                  | Uncommon   | 
+Consign to the Pit             | {5}{B}               | 6.0   | Sorcery                                  | Common     | 
+Cry of the Carnarium           | {1}{B}{B}            | 3.0   | Sorcery                                  | Uncommon   | 
+Dead Revels                    | {3}{B}               | 4.0   | Sorcery                                  | Common     | 
+Debtors' Transport             | {5}{B}               | 6.0   | Creature - Thrull                        | Common     | 
+Drill Bit                      | {2}{B}               | 3.0   | Sorcery                                  | Uncommon   | 
+Font of Agonies                | {B}                  | 1.0   | Enchantment                              | Rare       | 
+Grotesque Demise               | {2}{B}               | 3.0   | Instant                                  | Common     | 
+Gutterbones                    | {B}                  | 1.0   | Creature - Skeleton Warrior              | Rare       | 
+Ill-Gotten Inheritance         | {3}{B}               | 4.0   | Enchantment                              | Common     | 
+Noxious Groodion               | {2}{B}               | 3.0   | Creature - Beast                         | Common     | 
+Orzhov Enforcer                | {1}{B}               | 2.0   | Creature - Human Rogue                   | Uncommon   | 
+Orzhov Racketeers              | {4}{B}               | 5.0   | Creature - Human Rogue                   | Uncommon   | 
+Pestilent Spirit               | {2}{B}               | 3.0   | Creature - Spirit                        | Rare       | 
+Plague Wight                   | {1}{B}               | 2.0   | Creature - Zombie                        | Common     | 
+Priest of Forgotten Gods       | {1}{B}               | 2.0   | Creature - Human Cleric                  | Rare       | 
+Rakdos Trumpeter               | {1}{B}               | 2.0   | Creature - Human Shaman                  | Common     | 
+Spawn of Mayhem                | {2}{B}{B}            | 4.0   | Creature - Demon                         | Mythic     | 
+Spire Mangler                  | {2}{B}               | 3.0   | Creature - Insect                        | Uncommon   | 
+Thirsting Shade                | {B}                  | 1.0   | Creature - Shade                         | Common     | 
+Undercity Scavenger            | {3}{B}               | 4.0   | Creature - Ogre Warrior                  | Common     | 
+Undercity's Embrace            | {2}{B}               | 3.0   | Instant                                  | Common     | 
+Vindictive Vampire             | {3}{B}               | 4.0   | Creature - Vampire                       | Uncommon   | 
+Act of Treason                 | {2}{R}               | 3.0   | Sorcery                                  | Common     | 
+Amplifire                      | {2}{R}{R}            | 4.0   | Creature - Elemental                     | Rare       | 
+Burn Bright                    | {2}{R}               | 3.0   | Instant                                  | Common     | 
+Burning-Tree Vandal            | {2}{R}               | 3.0   | Creature - Human Rogue                   | Common     | 
+Cavalcade of Calamity          | {1}{R}               | 2.0   | Enchantment                              | Uncommon   | 
+Clamor Shaman                  | {2}{R}               | 3.0   | Creature - Goblin Shaman                 | Uncommon   | 
+Dagger Caster                  | {3}{R}               | 4.0   | Creature - Viashino Rogue                | Uncommon   | 
+Deface                         | {R}                  | 1.0   | Sorcery                                  | Common     | 
+Electrodominance               | {X}{R}{R}            | 2.0   | Instant                                  | Rare       | 
+Feral Maaka                    | {1}{R}               | 2.0   | Creature - Cat                           | Common     | 
+Flames of the Raze-Boar        | {5}{R}               | 6.0   | Instant                                  | Uncommon   | 
+Gates Ablaze                   | {2}{R}               | 3.0   | Sorcery                                  | Uncommon   | 
+Ghor-Clan Wrecker              | {3}{R}               | 4.0   | Creature - Human Warrior                 | Common     | 
+Goblin Gathering               | {2}{R}               | 3.0   | Sorcery                                  | Common     | 
+Gravel-Hide Goblin             | {1}{R}               | 2.0   | Creature - Goblin Shaman                 | Common     | 
+Immolation Shaman              | {1}{R}               | 2.0   | Creature - Viashino Shaman               | Rare       | 
+Light Up the Stage             | {2}{R}               | 3.0   | Sorcery                                  | Uncommon   | 
+Mirror March                   | {5}{R}               | 6.0   | Enchantment                              | Rare       | 
+Rix Maadi Reveler              | {1}{R}               | 2.0   | Creature - Human Shaman                  | Rare       | 
+Rubble Reading                 | {3}{R}               | 4.0   | Sorcery                                  | Common     | 
+Rubblebelt Recluse             | {4}{R}               | 5.0   | Creature - Ogre Berserker                | Common     | 
+Rumbling Ruin                  | {5}{R}               | 6.0   | Creature - Elemental                     | Uncommon   | 
+Scorchmark                     | {1}{R}               | 2.0   | Instant                                  | Common     | 
+Skarrgan Hellkite              | {3}{R}{R}            | 5.0   | Creature - Dragon                        | Mythic     | 
+Skewer the Critics             | {2}{R}               | 3.0   | Sorcery                                  | Common     | 
+Smelt-Ward Ignus               | {1}{R}               | 2.0   | Creature - Elemental                     | Uncommon   | 
+Spear Spewer                   | {R}                  | 1.0   | Creature - Goblin Warrior                | Common     | 
+Spikewheel Acrobat             | {3}{R}               | 4.0   | Creature - Human Rogue                   | Common     | 
+Storm Strike                   | {R}                  | 1.0   | Instant                                  | Common     | 
+Tin Street Dodger              | {R}                  | 1.0   | Creature - Goblin Rogue                  | Uncommon   | 
+Axebane Beast                  | {3}{G}               | 4.0   | Creature - Beast                         | Common     | 
+Biogenic Ooze                  | {3}{G}{G}            | 5.0   | Creature - Ooze                          | Mythic     | 
+Biogenic Upgrade               | {4}{G}{G}            | 6.0   | Sorcery                                  | Uncommon   | 
+End-Raze Forerunners           | {5}{G}{G}{G}         | 8.0   | Creature - Boar                          | Rare       | 
+Enraged Ceratok                | {2}{G}{G}            | 4.0   | Creature - Rhino                         | Uncommon   | 
+Gatebreaker Ram                | {2}{G}               | 3.0   | Creature - Sheep                         | Uncommon   | 
+Gift of Strength               | {1}{G}               | 2.0   | Instant                                  | Common     | 
+Growth-Chamber Guardian        | {1}{G}               | 2.0   | Creature - Elf Crab Warrior              | Rare       | 
+Gruul Beastmaster              | {3}{G}               | 4.0   | Creature - Human Shaman                  | Uncommon   | 
+Guardian Project               | {3}{G}               | 4.0   | Enchantment                              | Rare       | 
+Incubation Druid               | {1}{G}               | 2.0   | Creature - Elf Druid                     | Rare       | 
+Mammoth Spider                 | {4}{G}               | 5.0   | Creature - Spider                        | Common     | 
+Open the Gates                 | {G}                  | 1.0   | Sorcery                                  | Common     | 
+Rampage of the Clans           | {3}{G}               | 4.0   | Instant                                  | Rare       | 
+Rampaging Rendhorn             | {4}{G}               | 5.0   | Creature - Beast                         | Common     | 
+Regenesis                      | {3}{G}{G}            | 5.0   | Instant                                  | Uncommon   | 
+Root Snare                     | {1}{G}               | 2.0   | Instant                                  | Common     | 
+Sagittars' Volley              | {2}{G}               | 3.0   | Instant                                  | Common     | 
+Saruli Caretaker               | {G}                  | 1.0   | Creature - Dryad                         | Common     | 
+Sauroform Hybrid               | {1}{G}               | 2.0   | Creature - Human Lizard Warrior          | Common     | 
+Silhana Wayfinder              | {1}{G}               | 2.0   | Creature - Elf Scout                     | Uncommon   | 
+Steeple Creeper                | {2}{G}               | 3.0   | Creature - Frog Snake                    | Common     | 
+Stony Strength                 | {G}                  | 1.0   | Instant                                  | Common     | 
+Sylvan Brushstrider            | {2}{G}               | 3.0   | Creature - Beast                         | Common     | 
+Territorial Boar               | {1}{G}               | 2.0   | Creature - Boar                          | Common     | 
+Titanic Brawl                  | {1}{G}               | 2.0   | Instant                                  | Common     | 
+Tower Defense                  | {1}{G}               | 2.0   | Instant                                  | Uncommon   | 
+Trollbred Guardian             | {4}{G}               | 5.0   | Creature - Troll Frog Warrior            | Uncommon   | 
+Wilderness Reclamation         | {3}{G}               | 4.0   | Enchantment                              | Uncommon   | 
+Wrecking Beast                 | {5}{G}{G}            | 7.0   | Creature - Beast                         | Common     | 
+Absorb                         | {W}{U}{U}            | 3.0   | Instant                                  | Rare       | 
+Aeromunculus                   | {1}{G}{U}            | 3.0   | Creature - Homunculus Mutant             | Common     | 
+Applied Biomancy               | {G}{U}               | 2.0   | Instant                                  | Common     | 
+Azorius Knight-Arbiter         | {3}{W}{U}            | 5.0   | Creature - Human Knight                  | Common     | 
+Azorius Skyguard               | {4}{W}{U}            | 6.0   | Creature - Human Knight                  | Uncommon   | 
+Basilica Bell-Haunt            | {W}{W}{B}{B}         | 4.0   | Creature - Spirit                        | Uncommon   | 
+Bedevil                        | {B}{B}{R}            | 3.0   | Instant                                  | Rare       | 
+Biomancer's Familiar           | {G}{U}               | 2.0   | Creature - Mutant                        | Rare       | 
+Bolrac-Clan Crusher            | {3}{R}{G}            | 5.0   | Creature - Ogre Warrior                  | Uncommon   | 
+Captive Audience               | {5}{B}{R}            | 7.0   | Enchantment                              | Mythic     | 
+Cindervines                    | {R}{G}               | 2.0   | Enchantment                              | Rare       | 
+Clan Guildmage                 | {R}{G}               | 2.0   | Creature - Human Shaman                  | Uncommon   | 
+Combine Guildmage              | {G}{U}               | 2.0   | Creature - Merfolk Wizard                | Uncommon   | 
+Cult Guildmage                 | {B}{R}               | 2.0   | Creature - Human Shaman                  | Uncommon   | 
+Deputy of Detention            | {1}{W}{U}            | 3.0   | Creature - Vedalken Wizard               | Rare       | 
+Domri, Chaos Bringer           | {2}{R}{G}            | 4.0   | Legendary Planeswalker - Domri           | Mythic     | 
+Dovin, Grand Arbiter           | {1}{W}{U}            | 3.0   | Legendary Planeswalker - Dovin           | Mythic     | 
+Dovin's Acuity                 | {1}{W}{U}            | 3.0   | Enchantment                              | Uncommon   | 
+Emergency Powers               | {5}{W}{U}            | 7.0   | Instant                                  | Mythic     | 
+Ethereal Absolution            | {4}{W}{B}            | 6.0   | Enchantment                              | Rare       | 
+Final Payment                  | {W}{B}               | 2.0   | Instant                                  | Common     | 
+Fireblade Artist               | {B}{R}               | 2.0   | Creature - Human Shaman                  | Uncommon   | 
+Frenzied Arynx                 | {2}{R}{G}            | 4.0   | Creature - Cat Beast                     | Common     | 
+Frilled Mystic                 | {G}{G}{U}{U}         | 4.0   | Creature - Elf Lizard Wizard             | Uncommon   | 
+Galloping Lizrog               | {3}{G}{U}            | 5.0   | Creature - Frog Lizard                   | Uncommon   | 
+Get the Point                  | {3}{B}{R}            | 5.0   | Instant                                  | Common     | 
+Grasping Thrull                | {3}{W}{B}            | 5.0   | Creature - Thrull                        | Common     | 
+Growth Spiral                  | {G}{U}               | 2.0   | Instant                                  | Common     | 
+Gruul Spellbreaker             | {1}{R}{G}            | 3.0   | Creature - Ogre Warrior                  | Rare       | 
+Gyre Engineer                  | {1}{G}{U}            | 3.0   | Creature - Vedalken Wizard               | Uncommon   | 
+Hackrobat                      | {1}{B}{R}            | 3.0   | Creature - Human Rogue                   | Uncommon   | 
+High Alert                     | {1}{W}{U}            | 3.0   | Enchantment                              | Uncommon   | 
+Hydroid Krasis                 | {X}{G}{U}            | 2.0   | Creature - Jellyfish Hydra Beast         | Mythic     | 
+Imperious Oligarch             | {W}{B}               | 2.0   | Creature - Human Cleric                  | Common     | 
+Judith, the Scourge Diva       | {1}{B}{R}            | 3.0   | Legendary Creature - Human Shaman        | Rare       | 
+Kaya, Orzhov Usurper           | {1}{W}{B}            | 3.0   | Legendary Planeswalker - Kaya            | Mythic     | 
+Kaya's Wrath                   | {W}{W}{B}{B}         | 4.0   | Sorcery                                  | Rare       | 
+Knight of the Last Breath      | {5}{W}{B}            | 7.0   | Creature - Giant Knight                  | Uncommon   | 
+Lavinia, Azorius Renegade      | {W}{U}               | 2.0   | Legendary Creature - Human Soldier       | Rare       | 
+Lawmage's Binding              | {1}{W}{U}            | 3.0   | Enchantment - Aura                       | Common     | 
+Macabre Mockery                | {2}{B}{R}            | 4.0   | Instant                                  | Uncommon   | 
+Mortify                        | {1}{W}{B}            | 3.0   | Instant                                  | Uncommon   | 
+Nikya of the Old Ways          | {3}{R}{G}            | 5.0   | Legendary Creature - Centaur Druid       | Rare       | 
+Pitiless Pontiff               | {W}{B}               | 2.0   | Creature - Vampire Cleric                | Uncommon   | 
+Prime Speaker Vannifar         | {2}{G}{U}            | 4.0   | Legendary Creature - Elf Ooze Wizard     | Mythic     | 
+Rafter Demon                   | {2}{B}{R}            | 4.0   | Creature - Demon                         | Common     | 
+Rakdos Firewheeler             | {B}{B}{R}{R}         | 4.0   | Creature - Human Rogue                   | Uncommon   | 
+Rakdos Roustabout              | {1}{B}{R}            | 3.0   | Creature - Ogre Warrior                  | Common     | 
+Rakdos, the Showstopper        | {4}{B}{R}            | 6.0   | Legendary Creature - Demon               | Mythic     | 
+Ravager Wurm                   | {3}{R}{G}{G}         | 6.0   | Creature - Wurm                          | Mythic     | 
+Rhythm of the Wild             | {1}{R}{G}            | 3.0   | Enchantment                              | Uncommon   | 
+Rubblebelt Runner              | {1}{R}{G}            | 3.0   | Creature - Viashino Warrior              | Common     | 
+Savage Smash                   | {1}{R}{G}            | 3.0   | Sorcery                                  | Common     | 
+Senate Guildmage               | {W}{U}               | 2.0   | Creature - Human Wizard                  | Uncommon   | 
+Seraph of the Scales           | {2}{W}{B}            | 4.0   | Creature - Angel                         | Mythic     | 
+Sharktocrab                    | {2}{G}{U}            | 4.0   | Creature - Fish Octopus Crab             | Uncommon   | 
+Simic Ascendancy               | {G}{U}               | 2.0   | Enchantment                              | Rare       | 
+Sphinx of New Prahv            | {W}{W}{U}{U}         | 4.0   | Creature - Sphinx                        | Uncommon   | 
+Sphinx's Insight               | {2}{W}{U}            | 4.0   | Instant                                  | Common     | 
+Sunder Shaman                  | {R}{R}{G}{G}         | 4.0   | Creature - Giant Shaman                  | Uncommon   | 
+Syndicate Guildmage            | {W}{B}               | 2.0   | Creature - Human Cleric                  | Uncommon   | 
+Teysa Karlov                   | {2}{W}{B}            | 4.0   | Legendary Creature - Human Advisor       | Rare       | 
+Theater of Horrors             | {1}{B}{R}            | 3.0   | Enchantment                              | Rare       | 
+Zegana, Utopian Speaker        | {2}{G}{U}            | 4.0   | Legendary Creature - Merfolk Wizard      | Rare       | 
+Zhur-Taa Goblin                | {R}{G}               | 2.0   | Creature - Goblin Berserker              | Uncommon   | 
+Footlight Fiend                | {B/R}                | 1.0   | Creature - Devil                         | Common     | 
+Rubble Slinger                 | {2}{R/G}             | 3.0   | Creature - Human Warrior                 | Common     | 
+Scuttlegator                   | {4}{G/U}{G/U}        | 6.0   | Creature - Crab Turtle Crocodile         | Common     | 
+Senate Griffin                 | {2}{W/U}{W/U}        | 4.0   | Creature - Griffin                       | Common     | 
+Vizkopa Vampire                | {2}{W/B}             | 3.0   | Creature - Vampire                       | Common     | 
+Bedazzle                       | {4}{B}{R}            | 8.0   | Instant                                  | Rare       | 
+Bedeck                         | {B/R}{B/R}           | 8.0   | Instant                                  | Rare       | 
+Carnage                        | {2}{B}{R}            | 5.0   | Sorcery                                  | Uncommon   | 
+Carnival                       | {B/R}                | 5.0   | Instant                                  | Uncommon   | 
+Colossus                       | {R}{G}               | 4.0   | Instant                                  | Uncommon   | 
+Collision                      | {1}{R/G}             | 4.0   | Instant                                  | Uncommon   | 
+Consume                        | {2}{W}{B}            | 6.0   | Sorcery                                  | Uncommon   | 
+Consecrate                     | {1}{W/B}             | 6.0   | Instant                                  | Uncommon   | 
+Deploy                         | {2}{W}{U}            | 6.0   | Instant                                  | Uncommon   | 
+Depose                         | {1}{W/U}             | 6.0   | Instant                                  | Uncommon   | 
+Incongruity                    | {1}{G}{U}            | 4.0   | Instant                                  | Uncommon   | 
+Incubation                     | {G/U}                | 4.0   | Sorcery                                  | Uncommon   | 
+Replicate                      | {1}{G}{U}            | 5.0   | Sorcery                                  | Rare       | 
+Repudiate                      | {G/U}{G/U}           | 5.0   | Instant                                  | Rare       | 
+Revenge                        | {4}{W}{B}            | 8.0   | Sorcery                                  | Rare       | 
+Revival                        | {W/B}{W/B}           | 8.0   | Sorcery                                  | Rare       | 
+Threat                         | {2}{R}{G}            | 6.0   | Sorcery                                  | Rare       | 
+Thrash                         | {R/G}{R/G}           | 6.0   | Instant                                  | Rare       | 
+Warden                         | {3}{W}{U}            | 7.0   | Sorcery                                  | Rare       | 
+Warrant                        | {W/U}{W/U}           | 7.0   | Instant                                  | Rare       | 
+Azorius Locket                 | {3}                  | 3.0   | Artifact                                 | Common     | 
+Gate Colossus                  | {8}                  | 8.0   | Artifact Creature - Construct            | Uncommon   | 
+Glass of the Guildpact         | {2}                  | 2.0   | Artifact                                 | Rare       | 
+Gruul Locket                   | {3}                  | 3.0   | Artifact                                 | Common     | 
+Junktroller                    | {4}                  | 4.0   | Artifact Creature - Golem                | Uncommon   | 
+Orzhov Locket                  | {3}                  | 3.0   | Artifact                                 | Common     | 
+Rakdos Locket                  | {3}                  | 3.0   | Artifact                                 | Common     | 
+Scrabbling Claws               | {1}                  | 1.0   | Artifact                                 | Uncommon   | 
+Screaming Shield               | {1}                  | 1.0   | Artifact - Equipment                     | Uncommon   | 
+Simic Locket                   | {3}                  | 3.0   | Artifact                                 | Common     | 
+Sphinx of the Guildpact        | {7}                  | 7.0   | Artifact Creature - Sphinx               | Uncommon   | 
+Tome of the Guildpact          | {5}                  | 5.0   | Artifact                                 | Rare       | 
+Azorius Guildgate              |                      | 0.0   | Land - Gate                              | Common     | 
+Azorius Guildgate              |                      | 0.0   | Land - Gate                              | Common     | 
+Blood Crypt                    |                      | 0.0   | Land - Swamp Mountain                    | Rare       | 
+Breeding Pool                  |                      | 0.0   | Land - Forest Island                     | Rare       | 
+Gateway Plaza                  |                      | 0.0   | Land - Gate                              | Common     | 
+Godless Shrine                 |                      | 0.0   | Land - Plains Swamp                      | Rare       | 
+Gruul Guildgate                |                      | 0.0   | Land - Gate                              | Common     | 
+Gruul Guildgate                |                      | 0.0   | Land - Gate                              | Common     | 
+Hallowed Fountain              |                      | 0.0   | Land - Plains Island                     | Rare       | 
+Orzhov Guildgate               |                      | 0.0   | Land - Gate                              | Common     | 
+Orzhov Guildgate               |                      | 0.0   | Land - Gate                              | Common     | 
+Plaza of Harmony               |                      | 0.0   | Land                                     | Rare       | 
+Rakdos Guildgate               |                      | 0.0   | Land - Gate                              | Common     | 
+Rakdos Guildgate               |                      | 0.0   | Land - Gate                              | Common     | 
+Simic Guildgate                |                      | 0.0   | Land - Gate                              | Common     | 
+Simic Guildgate                |                      | 0.0   | Land - Gate                              | Common     | 
+Stomping Ground                |                      | 0.0   | Land - Mountain Forest                   | Rare       | 

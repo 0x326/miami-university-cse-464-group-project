@@ -1,5 +1,4 @@
-player(us).
-player(them).
+player(us; them).
 
 set("RNA").
 

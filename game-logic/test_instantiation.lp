@@ -1,3 +1,5 @@
+#program base.
+
 player(us; them).
 
 set("RNA").

@@ -51,8 +51,9 @@
 
 %%%% Card pile predicates %%%%
 
-% deck(PlayerId, TurnId, TurnPhase, CardInstanceId, Quantity).
-% graveyard(PlayerId, TurnId, TurnPhase, CardInstanceId, Quantity).
+% hand(TurnId, TurnPhase, PlayerId, CardInstanceId).
+% deck(TurnId, TurnPhase, PlayerId, CardInstanceId).
+% graveyard(TurnId, TurnPhase, PlayerId, CardInstanceId).
 
 %%%% Player action predicates %%%%
 
@@ -134,13 +135,6 @@ life_count(TurnId, beginning, PlayerId, LifeCount) :-
     turn(TurnId, _, PreviousTurnId),
     life_count(PreviousTurnId, ending, PlayerId, LifeCount).
 
--card_tapped(TurnId, beginning, CardInstanceId) :-
-    turn_phase(TurnId, beginning),
-    turn(TurnId, ActivePlayerId, _),
-    card_present(TurnId, beginning, CardInstanceId),
-    card_instance(CardInstanceId, OwnerPlayerId),
-    ActivePlayerId = OwnerPlayerId.
-
 % An untapped card from the end of the previous turn is untapped at the start of the next turn
 % (Persistence property of untapped cards)
 -card_tapped(TurnId, beginning, CardInstanceId) :-
@@ -190,3 +184,131 @@ card_tapped(TurnId, NextTurnPhase, CardInstanceId) :-
 summoning_sickness(TurnId, NextTurnPhase, CardInstanceId) :-
     summoning_sickness(TurnId, PreviousTurnPhase, CardInstanceId),
     turn_phase_order(PreviousTurnPhase, NextTurnPhase).
+
+% Cards on the board during the previous turn phase stay on the board during the next,
+% unless derived otherwise
+card_present(TurnId, NextTurnPhase, CardInstanceId) :-
+    card_present(TurnId, PreviousTurnPhase, CardInstanceId),
+    turn_phase_order(PreviousTurnPhase, NextTurnPhase),
+    not -card_present(TurnId, NextTurnPhase, CardInstanceId).
+
+% Cards off the board during the previous turn phase stay off the board during the next,
+% unless derived otherwise
+-card_present(TurnId, NextTurnPhase, CardInstanceId) :-
+    -card_present(TurnId, PreviousTurnPhase, CardInstanceId),
+    turn_phase_order(PreviousTurnPhase, NextTurnPhase),
+    not card_present(TurnId, NextTurnPhase, CardInstanceId).
+
+% Cards in a player's hand stay in his hand from phase to phase,
+% unless derived otherwise
+hand(TurnId, NextTurnPhase, PlayerId, CardInstanceId) :-
+    hand(TurnId, PreviousTurnId, PlayerId, CardInstanceId),
+    turn_phase_order(PreviousTurnPhase, NextTurnPhase),
+    not -hand(TurnId, NextTurnPhase, PlayerId, CardInstanceId).
+
+%%%% Book keeping: combat %%%%
+
+% A blocking creature receives damage equal to the difference of
+% his toughness to the attacker's power
+combat_damage(TurnId, TurnPhase, CardInstanceId, Damage) :-
+    declare_attacker(TurnId, TurnPhase, _, TargetId, AttackerCardInstanceId),
+    declare_blocker(TurnId, TurnPhase, _, CardInstanceId),
+    card_instance(AttackerCardInstanceId, AttackerCardId, _),
+    card_instance(CardInstanceId, CardId, _),
+    creature(AttackerCardId, Power, _),
+    creature(CardId, _, Toughness),
+    Damage = Toughness - Power.
+
+% An attacking creature receives damage equal to the difference of
+% his toughness to the blocker's power
+combat_damage(TurnId, TurnPhase, CardInstanceId, Damage) :-
+    declare_attacker(TurnId, TurnPhase, _, TargetId, CardInstanceId),
+    declare_blocker(TurnId, TurnPhase, _, BlockerCardInstanceId),
+    card_instance(CardInstanceId, CardId, _),
+    card_instance(BlockerCardInstanceId, BlockerCardId, _),
+    creature(BlockerCardId, Power, _),
+    creature(CardId, _, Toughness),
+    Damage = Toughness - Power.
+
+% A creature dies when its combat damage is at least its toughness
+card_dies(TurnId, TurnPhase, CardInstanceId) :-
+    combat_damage(TurnId, TurnPhase, CardInstanceId, Damage),
+    card_instance(CardInstanceId, CardId, _),
+    creature(CardId, _, Toughness),
+    Damage >= Toughness.
+
+% When a card dies, it leaves the board in the next turn phase
+-card_present(TurnId, NextTurnPhase, CardInstanceId) :-
+    card_dies(TurnId, PreviousTurnPhase, CardInstanceId),
+    turn_phase_order(PreviousTurnPhase, NextTurnPhase).
+
+% When a card dies, it enters the graveyard in the next turn phase
+graveyard(TurnId, NextTurnPhase, OwnerPlayerId, CardInstanceId) :-
+    card_dies(TurnId, PreviousTurnPhase, CardInstanceId),
+    card_instance(CardInstanceId, _, OwnerPlayerId),
+    turn_phase_order(PreviousTurnPhase, NextTurnPhase).
+
+%%%% Player action %%%%
+
+% Players' "draw" action adds the card to their hand
+hand(TurnId, TurnPhase, PlayerId, CardInstanceId) :-
+    draw(TurnId, TurnPhase, PlayerId, CardInstanceId).
+
+% Players' "draw" action removes the card from their deck
+-deck(TurnId, TurnPhase, PlayerId, CardInstanceId) :-
+    draw(TurnId, TurnPhase, PlayerId, CardInstanceId).
+
+% Players' "play_card" action removes the card from their hand
+-hand(TurnId, TurnPhase, PlayerId, CardInstanceId) :-
+    play_card(TurnId, TurnPhase, PlayerId, CardInstanceId).
+
+% Players' "play_card" action adds the card to the board, if it is a permanent
+card_present(TurnId, TurnPhase, CardInstanceId) :-
+    card_instance(CardInstanceId, CardId, _),
+    permanent(CardId),
+    play_card(TurnId, TurnPhase, _, CardInstanceId).
+
+% Players' "tap" action taps the card
+card_tapped(TurnId, TurnPhase, CardInstanceId) :-
+    tap_card(TurnId, TurnPhase, _, CardInstanceId).
+
+% Players' "untap" action untaps the card
+-card_tapped(TurnId, TurnPhase, CardInstanceId) :-
+    untap_card(TurnId, TurnPhase, _, CardInstanceId).
+
+% Players' "discard_card" action removes the card from his hand
+-hand(TurnId, TurnPhase, CardInstanceId) :-
+    discard_card(TurnId, TurnPhase, CardInstanceId).
+
+% Players' "discard_card" action adds the card to his graveyard
+graveyard(TurnId, TurnPhase, PlayerId, CardInstanceId) :-
+    discard_card(TurnId, TurnPhase, CardInstanceId).
+
+
+
+% Every player untaps all of his cards at the beginning of his turn
+% TODO: Make sure this rule only untaps tapable cards (such as lands and creatures)
+untap_card(TurnId, beginning, PlayerId, CardInstanceId) :-
+    turn_phase(TurnId, beginning),
+    turn(TurnId, ActivePlayerId, _),
+    card_present(TurnId, beginning, CardInstanceId),
+    card_instance(CardInstanceId, OwnerPlayerId)
+    ActivePlayerId = OwnerPlayerId,
+    PlayerId = ActivePlayerId.
+
+%%%% Integrity constraints %%%%
+
+% A card cannot be in both a player's hand and deck at the same time
+:-
+    hand(TurnId, TurnPhase, _, CardInstanceId),
+    deck(TurnId, TurnPhase, _, CardInstanceId).
+
+% A card cannot be in both a player's hand and graveyard at the same time
+:-
+    hand(TurnId, TurnPhase, _, CardInstanceId),
+    graveyard(TurnId, TurnPhase, _, CardInstanceId).
+
+% A card cannot be in both a player's deck and graveyard at the same time
+:-
+    deck(TurnId, TurnPhase, _, CardInstanceId),
+    graveyard(TurnId, TurnPhase, _, CardInstanceId).

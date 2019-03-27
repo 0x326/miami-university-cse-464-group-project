@@ -62,6 +62,7 @@
 - Everything except a Sorcery and an instant is a permanent
 - Rules apply unless there is an exception
 - Tapped creatures cannot block
+- The first player does not draw on his first turn
 
 - Turn phases:
 
@@ -98,3 +99,10 @@
 
       - Discard cards until hand is 7
       - Damage heals
+
+- Creature abilities:
+
+  - Flying: If creature B blocks flying creature A, then B must also have flying or reach
+  - Reach: (See above)
+  - Haste: Doesn't get summoning sickness
+  - Vigilance: If attacking, creature un-taps after combat phase

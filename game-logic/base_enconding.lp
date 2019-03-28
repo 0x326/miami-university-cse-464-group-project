@@ -264,13 +264,6 @@ graveyard(TurnNumber, NextTurnPhase, OwnerPlayerId, CardInstanceId) :-
     card_instance(CardInstanceId, _, OwnerPlayerId),
     turn_phase_order(PreviousTurnPhase, NextTurnPhase).
 
-%%%% Book keeping: next turn %%%%
-
-% The next turn is played by the player who is after the previous player
-turn(PreviousTurnNumber + 1, NextPlayerId) :-
-    turn(PreviousTurnNumber, PreviousPlayerId),
-    turn_order(PreviousPlayerId, NextPlayerId).
-
 %%%% Book keeping: player action %%%%
 
 % Players' "draw" action adds the card to their hand
@@ -306,6 +299,13 @@ card_tapped(TurnNumber, TurnPhase, CardInstanceId) :-
 % Players' "discard_card" action adds the card to his graveyard
 graveyard(TurnNumber, TurnPhase, PlayerId, CardInstanceId) :-
     discard_card(TurnNumber, TurnPhase, PlayerId, CardInstanceId).
+
+%%%% Book keeping: next turn %%%%
+
+% The next turn is played by the player who is after the previous player
+turn(PreviousTurnNumber + 1, NextPlayerId) :-
+    turn(PreviousTurnNumber, PreviousPlayerId),
+    turn_order(PreviousPlayerId, NextPlayerId).
 
 %%%% Player action %%%%
 

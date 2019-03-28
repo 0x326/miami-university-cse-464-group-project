@@ -40,11 +40,12 @@
 %%%% Book keeping predicates (board state) %%%%
 
 % life_count(TurnNumber, TurnPhase, PlayerId, LifeCount).
+% planeswalker_loyalty(TurnNumber, TurnPhase, CardInstanceId, Loyalty).
 
 % card_instance(CardInstanceId, CardId, OwnerPlayerId).
 % card_present(TurnNumber, TurnPhase, CardInstanceId).
 % card_controller(TurnNumber, TurnPhase, CardInstanceId, ControllerPlayerId)
-% summoning_sickness(TurnNumber, TurnPhse, CardInstanceId).
+% summoning_sickness(TurnNumber, TurnPhase, CardInstanceId).
 % card_tapped(TurnNumber, TurnPhase, CardInstanceId).
 % card_attacking(TurnNumber, TurnPhase, CardInstanceId).
 % card_blocking(TurnNumber, TurnPhase, CardInstanceId).

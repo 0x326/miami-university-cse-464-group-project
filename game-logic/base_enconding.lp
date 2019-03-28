@@ -44,6 +44,7 @@
 
 % card_instance(CardInstanceId, CardId, OwnerPlayerId).
 % card_present(TurnId, TurnPhase, CardInstanceId).
+% card_controller(TurnId, TurnPhase, CardInstanceId, ControllerPlayerId)
 % summoning_sickness(TurnId, TurnPhse, CardInstanceId).
 % card_tapped(TurnId, TurnPhase, CardInstanceId).
 % card_attacking(TurnId, TurnPhase, CardInstanceId).
@@ -151,13 +152,14 @@ card_tapped(TurnId, beginning, CardInstanceId) :-
     card_tapped(PreviousTurnId, ending, CardInstanceId),
     not -card_tapped(TurnId, beginning, CardInstanceId).
 
-% Creatures recover from summoning sickness during the beginning phase of their owner's turn
+% Creatures recover from summoning sickness during the beginning phase of their controller's turn
 -summoning_sickness(TurnId, beginning, CardInstanceId) :-
     card_present(TurnId, beginning, CardInstanceId),
-    card_instance(CardInstanceId, CardId, OwnerPlayerId),
+    card_controller(TurnId, beginning, CardInstanceId, ControllerPlayerId),
+    card_instance(CardInstanceId, CardId, _),
     creature(CardId, _, _),
     turn(TurnId, ActivePlayerId, _),
-    ActivePlayerId = OwnerPlayerId.
+    ActivePlayerId = ControllerPlayerId.
 
 %%%% Book keeping: Phase-to-phase %%%%
 
@@ -292,8 +294,8 @@ untap_card(TurnId, beginning, PlayerId, CardInstanceId) :-
     turn_phase(TurnId, beginning),
     turn(TurnId, ActivePlayerId, _),
     card_present(TurnId, beginning, CardInstanceId),
-    card_instance(CardInstanceId, OwnerPlayerId)
-    ActivePlayerId = OwnerPlayerId,
+    card_controller(TurnId, beginning, CardInstanceId, ControllerPlayerId),
+    ActivePlayerId = ControllerPlayerId,
     PlayerId = ActivePlayerId.
 
 %%%% Integrity constraints %%%%

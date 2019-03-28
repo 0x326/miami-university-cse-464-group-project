@@ -68,8 +68,14 @@
 % discard_card(TurnNumber, TurnPhase, PlayerId, CardInstanceId).
 
 %%%% Combat phase predicates %%%%
+
 % combat_damage(TurnNumber, TurnPhase, CardInstanceId, Damage).
 % card_dies(TurnNumber, TurnPhase, CardInstanceId).
+
+%%%% Win condition predicates %%%%
+
+% win(TurnNumber, TurnPhase, PlayerId).
+% loss(TurnNumber, TurnPhase, PlayerId).
 
 #program base.
 
@@ -257,7 +263,7 @@ turn(PreviousTurnNumber + 1, NextPlayerId) :-
     turn(PreviousTurnNumber, PreviousPlayerId),
     turn_order(PreviousPlayerId, NextPlayerId).
 
-%%%% Player action %%%%
+%%%% Book keeping: player action %%%%
 
 % Players' "draw" action adds the card to their hand
 hand(TurnNumber, TurnPhase, PlayerId, CardInstanceId) :-
@@ -293,7 +299,7 @@ card_tapped(TurnNumber, TurnPhase, CardInstanceId) :-
 graveyard(TurnNumber, TurnPhase, PlayerId, CardInstanceId) :-
     discard_card(TurnNumber, TurnPhase, PlayerId, CardInstanceId).
 
-
+%%%% Player action %%%%
 
 % Every player untaps all of his cards at the beginning of his turn
 % TODO: Make sure this rule only untaps tapable cards (such as lands and creatures)
@@ -304,6 +310,19 @@ untap_card(TurnNumber, beginning, PlayerId, CardInstanceId) :-
     card_controller(TurnNumber, beginning, CardInstanceId, ControllerPlayerId),
     ActivePlayerId = ControllerPlayerId,
     PlayerId = ActivePlayerId.
+
+% A player draws a card from this deck during the beginning phase of his turn
+1 { draw(TurnNumber, beginning, ActivePlayerId, CardInstanceId) :
+        deck(TurnNumber, beginning, ActivePlayerId, CardInstanceId) } 1 :-
+    turn_phase(TurnNumber, beginning),
+    turn(TurnNumber, ActivePlayerId).
+
+%%%% Win conditions %%%%
+
+% A player losses if he does not have any cards to draw at the beginning of his turn
+loss(TurnNumber, beginning, ActivePlayerId) :-
+    turn(TurnNumber, ActivePlayerId),
+    not deck(TurnNumber, beginning, _).
 
 %%%% Integrity constraints %%%%
 

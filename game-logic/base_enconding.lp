@@ -7,8 +7,8 @@
 % card_mana_cost(CardId, ManaColor, ManaCount).
 % card_mana_cost_variable(CardId, ManaColor, VariableName).
 % card_rule_exception(CardId, RuleNumber).
+% tappable(CardId).
 
-% Card types
 % land(CardId, Color).
 % enchantment(CardId, TargetType).
 % artifact(CardId).
@@ -19,7 +19,6 @@
 % socery(CardId).
 % instant(CardId).
 
-% Card archetypes
 % card_archetype(CardId, Archetype).
 
 % starting_deck(PlayerId, CardId, Quantity).
@@ -121,6 +120,14 @@ permanent(CardId) :-
 -permanent(CardId) :-
     card(CardId, _, _),
     instant(CardId).
+
+% Lands are tappable
+tappable(CardId) :-
+    land(CardId, _).
+
+% Creatures are tappable
+tappable(CardId) :-
+    creature(CardId, _, _).
 
 %%%% Time tracking %%%%
 

@@ -144,6 +144,10 @@ turn_phase_order(post_combat, ending).
 
 %%%% Book keeping: Beginning of turn %%%%
 
+% Every player starts with 20 life
+life_count(1, beginning, PlayerId, 20) :-
+    player(PlayerId).
+
 % Every player's life count at the beginning of a turn is the same as it was at the end of the previous turn
 % (Persistence property of life counts)
 life_count(TurnNumber, beginning, PlayerId, LifeCount) :-
@@ -184,10 +188,20 @@ life_count(TurnNumber, NextTurnPhase, PlayerId, LifeCount) :-
     not life_count(TurnNumber, NextTurnPhase, PlayerId, _).
 
 % Tapped cards from the previous phase are still tapped in the next phase
+% Exception: combat phase
 % TODO: Allow for exceptions
 card_tapped(TurnNumber, NextTurnPhase, CardInstanceId) :-
     card_tapped(TurnNumber, PreviousTurnPhase, CardInstanceId),
-    turn_phase_order(PreviousTurnPhase, NextTurnPhase).
+    turn_phase_order(PreviousTurnPhase, NextTurnPhase),
+    PreviousTurnPhase != combat.
+
+% Tapped cards from the combat phase are still tapped in the next phase
+% Exception: creatures with vigilance
+card_tapped(TurnNumber, NextTurnPhase, CardInstanceId) :-
+    card_tapped(TurnNumber, combat, CardInstanceId),
+    turn_phase_order(combat, NextTurnPhase),
+    card_instance(CardInstanceId, CardId, _),
+    not creature_ability(CardId, vigilance).
 
 % Untapped cards from the previous phase are still untapped in the next phase,
 % unless derived otherwise
@@ -223,6 +237,10 @@ hand(TurnNumber, NextTurnPhase, PlayerId, CardInstanceId) :-
     not -hand(TurnNumber, NextTurnPhase, PlayerId, CardInstanceId).
 
 %%%% Book keeping: combat %%%%
+
+% A card is tapped when it is declared as an attacker
+card_tapped(TurnNumber, TurnPhase, CardInstanceId) :-
+    declare_attacker(TurnNumber, TurnPhase, _, _, CardInstanceId).
 
 % A blocking creature receives damage equal to the difference of
 % his toughness to the attacker's power
@@ -283,6 +301,14 @@ card_present(TurnNumber, TurnPhase, CardInstanceId) :-
     card_instance(CardInstanceId, CardId, _),
     permanent(CardId),
     play_card(TurnNumber, TurnPhase, _, CardInstanceId).
+
+% Creatures have summoning sickness when they are played,
+% unless they have haste
+summoning_sickness(TurnNumber, TurnPhase, CardInstanceId) :-
+    play_card(TurnNumber, TurnPhase, _, CardInstanceId),
+    card_instance(CardInstanceId, CardId, _),
+    creature(CardId, _, _),
+    not creature_ability(CardId, haste).
 
 % Players' "tap" action taps the card
 card_tapped(TurnNumber, TurnPhase, CardInstanceId) :-

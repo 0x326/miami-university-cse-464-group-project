@@ -325,6 +325,49 @@ untap_card(TurnNumber, beginning, PlayerId, CardInstanceId) :-
     turn_phase(TurnNumber, beginning),
     turn(TurnNumber, ActivePlayerId).
 
+% A player may play cards from his hand during the pre_combat phase of his turn
+% or the post_combat phase of his turn
+{ play_card(TurnNumber, TurnPhase, ActivePlayerId, CardInstanceId) :
+        hand(TurnNumber, TurnPhase, ActivePlayerId, CardInstanceId) } :-
+    turn_phase(TurnNumber, TurnPhase),
+    TurnPhase = (pre_combat; post_combat),
+    turn(TurnNumber, ActivePlayerId).
+
+% TODO: A player may play an enchantment card from his hand during the pre_combat phase of his turn
+
+% TODO: A player may utilize planswalkers under his control during the pre_combat phase of his turn
+
+% A player selects creatures to attack another player during the combat phase of his turn
+{ declare_attacker(TurnNumber, combat, ActivePlayerId, TargetId, CardInstanceId) :
+        player(TargetId),
+        TargetId != ActivePlayerId,
+        card_present(TurnNumber, combat, CardInstanceId),
+        card_controller(TurnNumber, combat, CardInstanceId, ActivePlayerId),
+        card_instance(CardInstanceId, CardId, _),
+        creature(CardId, _, _) } :-
+    turn_phase(TurnNumber, combat),
+    turn(TurnNumber, ActivePlayerId).
+
+% A player can select creatures to block when attacked by another player during their turn
+{ declare_blocker(TurnNumber, TurnPhase, BlockerPlayerId, CardInstanceId) :
+        card_present(TurnNumber, TurnPhase, CardInstanceId),
+        -card_tapped(TurnNumber, TurnPhase, CardInstanceId),
+        card_controller(TurnNumber, TurnPhase, CardInstanceId, BlockerPlayerId),
+        card_instance(CardInstanceId, CardId, _),
+        creature(CardId, _, _) } :-
+    declare_attacker(TurnNumber, TurnPhase, ActivePlayerId, _),
+    BlockerPlayerId != ActivePlayerId.
+
+% A player discards any excess of seven cards from his hand during the ending phase of his turn
+ExcessCards { discard_card(TurnNumber, ending, PlayerId, CardInstanceId) :
+        hand(TurnNumber, ending, PlayerId, CardInstanceId) } ExcessCards :-
+    turn_phase(TurnNumber, ending),
+    turn(TurnNumber, PlayerId),
+    TotalCards = #count { 1, CardInstanceId :
+        hand(TurnNumber, ending, PlayerId, CardInstanceId) },
+    ExcessCards = TotalCards - 7,
+    ExcessCards > 0.
+
 %%%% Win conditions %%%%
 
 % A player losses if he does not have any cards to draw at the beginning of his turn

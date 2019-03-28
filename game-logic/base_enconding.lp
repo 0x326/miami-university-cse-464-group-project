@@ -12,7 +12,7 @@
 % land(CardId, Color).
 % enchantment(CardId, TargetType).
 % artifact(CardId).
-% planeswalker(CardId, Loyalty).
+% planeswalker(CardId, StartingLoyalty).
 % planeswalker_action(CardId, LoyaltyEffect).
 % creature(CardId, Power, Toughness).
 % creature_ability(CardId, Ability).  % Such as flying, etc.

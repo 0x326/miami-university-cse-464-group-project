@@ -64,7 +64,7 @@
 % tap_card(TurnId, TurnPhase, PlayerId, CardInstanceId).
 % declare_attacker(TurnId, TurnPhase, PlayerId, TargetId, CardInstanceId).
 % declare_blocker(TurnId, TurnPhase, PlayerId, CardInstanceId).
-% discard_card(TurnId, TurnPhase, CardInstanceId).
+% discard_card(TurnId, TurnPhase, PlayerId, CardInstanceId).
 
 %%%% Combat phase predicates %%%%
 % combat_damage(TurnId, TurnPhase, CardInstanceId, Damage).
@@ -282,7 +282,7 @@ card_tapped(TurnId, TurnPhase, CardInstanceId) :-
 
 % Players' "discard_card" action adds the card to his graveyard
 graveyard(TurnId, TurnPhase, PlayerId, CardInstanceId) :-
-    discard_card(TurnId, TurnPhase, CardInstanceId).
+    discard_card(TurnId, TurnPhase, PlayerId, CardInstanceId).
 
 
 

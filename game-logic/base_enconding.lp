@@ -1,7 +1,7 @@
 %%%% Input Predicates %%%%
 
-% Card database data
 % player(PlayerId).
+% turn_order(PreviousPlayerId, NextPlayerId).
 % set(SetId).
 % card(CardId, SetId, Rarity).
 % card_mana_cost(CardId, ManaColor, ManaCount).
@@ -249,6 +249,13 @@ graveyard(TurnNumber, NextTurnPhase, OwnerPlayerId, CardInstanceId) :-
     card_dies(TurnNumber, PreviousTurnPhase, CardInstanceId),
     card_instance(CardInstanceId, _, OwnerPlayerId),
     turn_phase_order(PreviousTurnPhase, NextTurnPhase).
+
+%%%% Book keeping: next turn %%%%
+
+% The next turn is played by the player who is after the previous player
+turn(PreviousTurnNumber + 1, NextPlayerId) :-
+    turn(PreviousTurnNumber, PreviousPlayerId),
+    turn_order(PreviousPlayerId, NextPlayerId).
 
 %%%% Player action %%%%
 

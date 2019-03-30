@@ -106,3 +106,25 @@
   - Reach: (See above)
   - Haste: Doesn't get summoning sickness
   - Vigilance: If attacking, creature un-taps after combat phase
+
+## Considerations for the objective function
+
+Objective 1: Number of cards
+
+- Ideal: n = 40 cards
+- Penalty (quadratic): f(n) = ( c * |40 - n| ) ** 2
+
+Objective 2: Mana curve (probability distribution of converted mana cost)
+
+- Ideal: (decreasing)
+- Penalty:
+
+Objective 3: Ratio of lands to non-lands
+
+- Ideal: r = (16 lands) / (24 non-lands)
+- Penalty (linear): f(r) = c | 16/24 - r |
+
+Objective 4: Probability distribution of mana cost color
+
+- Ideal: (fewer colors)
+- Penalty (linear): (For each additional "splash" over 2 cards)

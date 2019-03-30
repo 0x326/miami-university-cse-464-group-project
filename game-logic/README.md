@@ -128,3 +128,11 @@ Objective 4: Probability distribution of mana cost color
 
 - Ideal: (fewer colors)
 - Penalty (linear): (For each additional "splash" over 2 cards)
+
+Objective 5: Count of card archetypes
+
+- Ideal:
+
+  - 2 or more bomb cards
+
+- Penalty: f(b) = c b, b < 2

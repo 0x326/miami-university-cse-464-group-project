@@ -105,7 +105,7 @@
   - Flying: If creature B blocks flying creature A, then B must also have flying or reach
   - Reach: (See above)
   - Haste: Doesn't get summoning sickness
-  - Vigilance: If attacking, creature un-taps after combat phase
+  - Vigilance: If attacking, creature does not tap while attacking
 
 ## Considerations for the objective function
 

@@ -109,27 +109,40 @@
 
 ## Considerations for the objective function
 
-Objective 1: Number of cards
+Objective 1 (XX%): Number of cards
 
 - Ideal: n = 40 cards
-- Penalty (quadratic): f(n) = ( c * |40 - n| ) ** 2
+- Penalty (quadratic): f(n) = c ( 40 - n ) ** 2
 
-Objective 2: Mana curve (probability distribution of converted mana cost)
+Objective 2 (XX%): Mana curve (probability distribution of converted mana cost)
 
-- Ideal: (decreasing)
+- Ideal:
+
+  - Mode: 3.5 converted mana cost
+  - Median: 4.5 converted mana cost
+  - Mean: 4 converted mana cost?
+
 - Penalty:
 
-Objective 3: Ratio of lands to non-lands
+  - Compute mode, median, etc. and take difference
 
-- Ideal: r = (16 lands) / (24 non-lands)
-- Penalty (linear): f(r) = c | 16/24 - r |
+Objective 3 (XX%): Percentage of lands
 
-Objective 4: Probability distribution of mana cost color
+- Ideal: r = (16 lands) / (40 cards)
+- Penalty (linear): f(r) = 0, 16/40 <= r <= 18/40
+  c | 17/40 - r |, otherwise
 
-- Ideal: (fewer colors)
-- Penalty (linear): (For each additional "splash" over 2 cards)
+Objective 3a (XX%): Mana ratio between lands
 
-Objective 5: Count of card archetypes
+- Ideal: Ratio of mana symbols on cards should correspond to ratio of lands for each color
+- Penalty (linear): | r' - r | + | u' - u | + ...
+
+Objective 4 (XX%): Deck color
+
+- Ideal: One or two dominant colors
+- Penalty (linear): c1 * | 2 - dominants | + c2 * splashes
+
+Objective 5 (XX%): Count of card archetypes
 
 - Ideal:
 

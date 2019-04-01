@@ -1,0 +1,277 @@
+\documentclass[12pt, letterpaper]{article}
+
+\title{Problem Definition}
+\date{March 4}
+\author{Jacob Freedman, Scott Harris, Bryan Hayes, John Meyer}
+
+\usepackage[autostyle, english=american]{csquotes}
+\usepackage{mathtools}
+\usepackage{amssymb}
+\usepackage{setspace}
+
+\doublespacing
+
+\begin{document}
+
+\maketitle
+
+\section{Introduction}
+
+Magic the Gathering is a popular card game that has withstood the test of time,
+boasting of twenty million players as of 2015.
+Its sustained interest over the years has lead to organized tournaments
+and has even attracted the interest of academic research and scholarly articles.
+The game hinges on both strategy and uncertainty.
+In a tournament style known as \enquote{limited, sealed-deck,}
+players must pre-select 40 or more cards from a set of 90 cards given to them.
+Players must consider the strengths and weaknesses of each card,
+the synergies that may exist between them,
+and forecast their utility during gameplay,
+given that their opponent is doing the same.
+We propose to help these participants by authoring an objective function for this
+domain to score potential card combinations according to its strategic utility
+as illuminated by common play-styles and professional strategies.
+We also plan to implement an optimization algorithm to maximize this function
+so that players can play with the most effective deck.
+This algorithm could help professionals as well as novices to have better odds of success
+and a more enjoyable experience.
+Given Magic the Gathering’s large audience,
+this algorithm would solve a practical problem common to players of the game
+and could even see widespread use.
+
+\section{Definition}
+
+Magic the Gathering consists of a finite set $ C $ of distinct cards.
+$ C $ can be partitioned into sets $ S_1, S_2, ..., S_n $, each called a Magic the Gathering \enquote{set}.
+$ C $ can also be partitioned into two sets $ L $ and $ L_0 $, where $ L $ are \enquote{basic lands} and $ L_0 $ are not.
+
+Recall: A \enquote{multiset} $ M $ is a 2-tuple $ (A, m) $
+where $ A $ is a set and $ m: A \rightarrow \{x \in \mathbb{N} \mid x \ge 1 \} $.
+$ A $ is called the \enquote{support} of $ M $ and
+a set $ U $ is a \enquote{universe} of $ M $ if and only if $ A \subseteq U $.
+The \enquote{sum} of multisets $ M_1 $ and $ M_2 $ is defined as
+$ (A_1 \cup A_2, \{ x \in (A_1 \cup A_2) \mid (x, m_1(x) + m_2(x)) \} $.
+
+Let $ P $ denote probability.
+
+In a limited, sealed-deck tournament style, a partition $ S $ is chosen and used for play.
+Each participant is provided a multiset $ B $ of cards whose universe is $ S $
+as well as a multiset $ B_L $ whose universe is $ L $.
+$ B $ is constrained to contain $ 90 $ cards
+whereas $ B_L $ contains an infinite amount of cards.
+
+Given participants must select a multiset $ D, \ |D| \ge 40 $ from the sum of $ B $ and $ B_L $,
+we want to choose $ D $ such that we maximize $ P(\text{game success} \mid D) $.
+
+\section{Literature Review}
+
+\subsection{Scott Harris}
+
+\subsubsection{\enquote{Ensemble Determinization in Monte Carlo Tree Search for the Imperfect Information Card Game Magic: The Gathering.}}
+
+This article discusses how the Monte Carlo Tree Search (MCTS) algorithm has been applied to create AI’s for games in the
+past and how it can be applied with the game Magic: the Gathering. Due to Magic’s core element of having incomplete
+information while playing the game due to the fact that both players have hidden hands of cards that were drawn from
+shuffled decks makes the Monte Carlo Tree Search approach quite effective. In addition, since each player gets to
+create their own deck to play in the manner of their choice, this adds further hidden information as well as an
+interesting challenge to the game. Other key elements of Magic: the Gathering such as the ability of a player to
+interrupt another player during their turn, interact with other player’s resources, and predicting how an opponent
+react to different plays makes this game an interesting field of study. The MCTS algorithm provides the advantage over
+other algorithms since it is not required for a terminal game state to be reached for a result to be calculated but
+instead can be stopped at any point to evaluate the current state. This paper details all of the core rules of Magic
+such that they compare the advantages of the MCTS algorithm over a strictly rule based approach. By pruning different
+kinds of moves to be added to the tree, the ability to formulate the best move is much more efficient. By using multiple
+trees, the authors compensate for incomplete information allowing for the ideal course of action based on the known
+information.
+
+\subsubsection{\enquote{Rarity and Power: Balance in Collectible Object Games.}}
+
+Mr. Ham details the issues that come along with the collectable card game format. The main issue involves the game both
+being fun as well as balanced. In the game Magic: the Gathering, there were 9 cards within the first sets that were
+significantly more powerful than their counterparts. The game designers did not intend for these cards to so
+significantly impact the game that each player would own and use two or so copies of these cards in roughly every deck.
+By these cards being so overpowered, the balancing of the game was completely out of whack. Other games such as Sanctum
+have tried their hardest to not create cards that were so good that they could individually break the gameplay of
+Sanctum, especially if the reason they were so good is that they were hard to obtain. These applications also apply to
+trading baseball card games. In the game you can play with baseball cards, all of the baseball players all can be
+reduced to a statistical value. This allows for many different strategies such that a player can accomplish the same
+goals with many different strategies/collections of cards. With this versatility Suitcase players are not put at as much
+of an advantage in the baseball card game as they are in games such as Magic: the Gathering.
+
+\subsection{Jacob Freedman}
+
+\subsubsection{\enquote{BOA: Bayesian Optimization Algorithm.}}
+
+This paper describes how a bayesian optimization algorithm can be used to increase the efficiency of genetic algorithms.
+It describes how genetic algorithms are optimization programs based on artificial selection and genetic recombination
+operators and how the two most important factors to a genetic algorithms success, proper growth and mixing, are often
+not achieved. The paper describes how a bayesian algorithm functions. It selects the best options from a population
+using any searching method. Than the new options are added to the old population, replacing some of the old options.
+This generates a bayesian network, where each node is one variable. This method could be helpful for creating our
+optimization algorithm because it is fast. As shown in the paper, the algorithm runs in close to linear time. This
+method could also be useful because it selects the best from a network, which would be an optimal way of selecting the
+best cards for the deck.
+
+\subsubsection{\enquote{Surprising strategies obtained by stochastic optimization in partially observable games.}}
+
+This paper takes a different approach to optimization. The authors use a evolutionary algorithm and a stochastic
+optimization algorithm to find optimal outputs for partially observable games. They use 5 different algorithms, one
+naïve evolutionary algorithm, two coevolutionary algorithms, a iterative evolutionary algorithm, and a seed method.
+These algorithms are tested by playing multiple different games, batawaf, war, cheat, battleship and guess who. The
+results found that these algorithms found strategies for games that seem entirely luck based. This type of algorithm
+could be useful for finding the optimal deck against different styles of play.
+
+\subsection{John Meyer}
+
+\subsubsection{\enquote{Active Set Methods with Reoptimization for Convex Quadratic Integer Programming}}
+
+\enquote{Active Set Methods with Reoptimization for Convex Quadratic Integer Programming}
+proposes a new algorithm to solve \enquote{unconstrained convex quadratic integer}
+problems with linear constraints.
+The algorithm they propose is a generalized branch-and-bound approach,
+which is the most effective method to solve problems of this type (quadratic integer programming problems),
+and it has wide application as many real-world problems can be represented in this fashion.
+It consists of a preprocessing phase and an iterative main phase,
+which uses an optimization known as a \enquote{warmstart.}
+For this optimization,
+each iteration of the main phase uses knowledge of the previous iteration to inform its next guess.
+If the number of constraints are held constant,
+the algorithm runs in linear time with respect to the problem size.
+It was tested with 200 random problem instances and it was found to outperform IBM CPLEX by a moderate measure.
+
+\subsubsection{\enquote{Approximating the k-Set Packing Problem by Local Improvements}}
+
+\enquote{Approximating the k-Set Packing Problem by Local Improvements}
+proposes a more efficient variant of many algorithms already created to solve the k-set packing problem.
+The k-set packing problem, given a universe $ U $ and a collection $ S \subset U $ with $ |S| \le k $,
+seeks to find the maximum number of sets $ \subset S $ which are mutually disjoint.
+Prior work has improved solving this problem from $ \frac{k}{2} $ to $ \frac{k + 2}{3} $
+then $ \frac{k + 1}{3} + \epsilon $ and $ \frac{1}{\epsilon} $.
+The changes they propose further reduce it to $ \frac{1}{\epsilon^2} $.
+They suggest that their contribution is possibly the best improvement that can be made for the problem,
+since it matches a theoretical lower bound.
+They use a local search strategy,
+which is the most widely used approach for this problem.
+Their algorithm, which they call \enquote{Algorithm CITC,}
+uses a color-coding technique to make a logarithmic-time improvement with a polynomial-time algorithm.
+They construct a \enquote{bipartite conflict graph}
+and search it for what they call \enquote{colorful tail changes} for every $ 3 \ge $ degree vertex.
+For each one they find,
+they build a multigraph and continue computation.
+To conclude, they use various strategies to squeeze out better performance from an already efficient solution
+and do so perhaps for the last time.
+
+\subsection{Bryan Hayes}
+
+\subsubsection{\enquote{Magic: The Gathering, A Literary Text.}}
+
+This reading starts off by talking about Magic: The Gathering and a bit of its history.
+It compares the card game to the popular role-playing game
+Dungeons \& Dragons in terms of its lore and overall aesthetic,
+then goes on to talk about its impact on pop culture.
+After this, the reading explains some of the rules of Magic,
+and some of the different ways the game is played such as arranging the deck based on color of the card or
+limiting the total size of the deck.
+The main argument of this article is then presented;
+that Magic is a form of literary work.
+The author is arguing that,
+while each card on its own presents little context,
+the cards together paint a picture of a world filled with rich lore.
+The author backs this up using the fact that works of interactive fiction,
+such as graphic novels or motion comics,
+are themselves considered works of literature by today’s standards.
+It is argued that Magic can be viewed as a form of interactive fiction.
+In addition to this, the point is brought up that the Magic: The Gathering website
+has a large collection of written pieces about the characters and lore of the Magic mythos.
+All of these arguments, and the fact that Magic is a wildly popular and acclaimed game,
+lead the author to claim that the card game is a \enquote{dynamic literary text.}
+
+\subsubsection{\enquote{The Complexity of Deciding Legality of a Single Step of Magic: The Gathering.}}
+
+The reading begins with a short introduction on Magic: The Gathering,
+where it explains the general circumstances and goals of the game.
+It then moves on to discuss the purpose of the reading;
+deciding the complexity of the legality of a single move in Magic.
+The general rules and types of cards and what do they are then explained in detail.
+The concepts of the deck, the player’s hand, the stack, the battlefield,
+and the graveyard are briefly discussed, and the types of cards included are instants/sorceries,
+artifacts/enchantments, planeswalkers, creatures, and lands.
+Some of the variants of the game are discussed,
+including one of the single player variants known as Goldfish.
+It then moves on to discuss the mathematical implications of
+deciding the time complexity of the legality of a single move.
+The reading discusses the ideas of min-cost flow,
+the base case of having no requirements or restrictions on a move,
+and the types of possible restrictions.
+These restrictions include local restrictions, local counting restrictions,
+global counting restrictions, blocker capacity restrictions, and attack capacity restrictions.
+The complexity of the base case is then discussed,
+as well as the complexities of special cases.
+The reading concludes with a more in depth analysis of restriction one, the local restriction.
+
+\subsection{Literary Analysis Conclusion}
+
+In these scholarly readings regarding the game Magic: The Gathering and optimization algorithms, we have gained a
+greater understanding of both how the game functions as well as how we can accomplish our goal of optimizing the creation
+of competitive decks based on a set of randomly generated cards. Some possible strategies that we have read about include
+using a Monte Carlo Search Tree approach, genetic programming, as well as active set methods.
+
+\begin{thebibliography}{9}
+
+% Scott's
+
+\bibitem{Cowling2012}
+Peter I. Cowling, Colin D. Ward, and Edward J. Powley. 2012.
+\enquote{Ensemble Determinization in Monte Carlo Tree Search for the Imperfect Information Card Game Magic: The
+Gathering.}
+(June 2012). Retrieved March 4, 2019 from https://ieeexplore.ieee.org/document/6218176/
+
+\bibitem{Ham2010}
+Ethan Ham. 2010. (April 2010).
+\enquote{Rarity and Power: Balance in Collectible Object Games.}
+Retrieved March 4, 2019 from http://gamestudies.org/1001/articles/ham
+
+% Jacob's
+
+\bibitem{Pelikan1999}
+Martin Pelikan, David Goldburg, Erick Cantú-Paz. 1999. BOA: Bayesian Optimization Algorithm. Illinois Genetic Algorithms
+Laboratory. University of Illinois at Urbana-Champaign,Urbana IL.
+
+\bibitem{Saint-Etienne2018}
+Marie-Liesse Cauwet Mines Saint-Etienne, Olivier Teytaud. 2018. Surprising strategies obtained by stochastic
+optimization in partially observable games. Univ Clermont Auvergne, CNRS, UMR 6158 LIMOS, Institut Henri Fayol,
+Departement GMI, France
+
+% John's:
+
+\bibitem{Buchheim2014}
+% ACM citation style
+Christoph Buchheim and Long Trieu. 2014.
+Active Set Methods with Reoptimization for Convex Quadratic Integer Programming.
+In \textit{Combinatorial Optimization: Third International Symposium,
+ISCO 2014 Lisbon, Portugal, March 5–7, 2014 Revised Selected Papers}.
+Springer International Publishing Switzerland.
+DOI: 10.1007/978-3-319-09174-7.
+
+\bibitem{Furer2014}
+% ACM citation style
+Martin Fürer and Huiwen Yu. 2014.
+Approximating the k-Set Packing Problem by Local Improvements.
+In \textit{Combinatorial Optimization: Third International Symposium,
+ISCO 2014 Lisbon, Portugal, March 5–7, 2014 Revised Selected Papers}.
+Springer International Publishing Switzerland.
+DOI: 10.1007/978-3-319-09174-7.
+
+% Bryan's:
+
+\bibitem{Chatterjee}
+Krishnendu Chatterjee and Rasmus Ibsen-Jensen.
+The Complexity of Deciding Legality of a Single Step of Magic: The Gathering.
+
+\bibitem{Crutcher2017}
+Paul A. Crutcher. 2017. Magic: The Gathering, A Literary Text.
+\textit{Americana: The Journal of American Popular Culture} 16, 1 (2017).
+
+\end{thebibliography}
+
+\end{document}

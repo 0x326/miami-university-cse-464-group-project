@@ -285,73 +285,146 @@ Some of the specified penalty values have not yet been fully tested and may chan
 \subsubsubsection{SO4: Color Identity}
 
 \subsubsubsection{SO5: Card Archetypes}
-    In the card game Magic: The Gathering there are many “archetypes” of cards that are important to keep in mind when
-creating a sealed deck. The acronym BREAD is used to describe some of these archetypes. This acronym stands for Bombs,
-Removal, Evasion, Aggro, and Duds. In addition to the archetypes described in I believe that other archetypes such as
+
+In the card game Magic: The Gathering there are many “archetypes” of cards that are
+important to keep in mind when creating a sealed deck.
+The acronym BREAD is used to describe some of these archetypes.
+This acronym stands for Bombs, Removal, Evasion, Aggro, and Duds.
+In addition to the archetypes described in I believe that other archetypes such as
 mana-fixing and combat tricks are both very key in creating a successful sealed Magic: The Gathering deck.
-Bombs refer to cards with such powerful effects or strength that they can potentially turn the tide of the game in your
-favor just by playing them. In a general context we would ideally have one or more bombs, so in calculating the score of
-the deck if the deck contains a bomb, no deduction will be made for the bomb category, otherwise there will be a deduction
-of $10$. The penalty for bombs can be represented as $b(bombs) = 0 if bombs \ge 1, 10 otherwise$ where 'bombs' denotes the
-number of bombs present within the deck.
+Bombs refer to cards with such powerful effects or strength that they can potentially turn
+the tide of the game in your favor just by playing them.
+In a general context we would ideally have one or more bombs,
+so in calculating the score of the deck if the deck contains a bomb,
+no deduction will be made for the bomb category, otherwise there will be a deduction of $ 10 $.
+The penalty for bombs can be represented as:
 
-    In the context of Magic The Gathering removal is defined as cards that remove cards that your opponent plays through
-damage, destruction, removal from the game, or preventing your opponent from even playing the threat. In the context of
-a limited format such as sealed, removal spells are those that generally deal damage to creatures as access to good
-artifacts, enchantments, and planeswalkers tend to be very few and far between. As this category is a very key element in
-many successful limited decks, we would want at least $2$ removal spells to stop our opponent from progressing their board
-state. The penalty for removal can be represented as $r(removal) = 0 if removal \ge 2, c(2-removal) otherwise$ where
-'removal' denotes the number of removal spells present within the deck and c denoting a constant to weigh the result.
+$$
+b(bombs) = \begin{cases}
+    0 & bombs \ge 1 \\
+    10 & otherwise
+\end{cases}
+$$
 
-    If a creature has evasion or is evasive, that means that it is more difficult for an opponent to block them unless they
-use a removal spell or have creatures that meet a specific criterion. Some examples of evasive creatures are creatures
-with flying or creatures that are unblockable by other means. Evasion is important as it allows for damage that an
-opponent usually does not have the ability to deal with. Since evasive creatures do not always come in every color, if a
-deck’s color combination has access to these evasive, there are evasive creatures within the card pool, and the deck fails
-to meet $2$ evasive creatures, then they will receive a deduction based on the difference of $2$ and the number of evasive
-creatures they have in their deck. The penalty for removal can be represented as $e(evasive) = 0 if evasive \ge 2 OR the
-deck's colors do not contain valuable evasive creatures, c(2-evasive) otherwise$ where 'evasive' denotes the number of
-evasive creatures present within the deck and c denoting a constant to weigh the result.
+where 'bombs' denotes the number of bombs present within the deck.
 
-    Aggro is the archetype describing aggressive creatures or spells, which limited decks tend to be primarily comprised of.
-This creatures and spell allow for constant pressure to be placed upon opponents and potentially win you the game. These
-cards do not have the sheer strength or board presence of a bomb but instead act as constant smaller nuisances that your
-opponent has to deal with or risk losing the game because of them. As this is a good portion of limited decks, the
-quantity of these types of cards will likely be greater than those of other archetypes.
+In the context of Magic The Gathering \enquote{removal} is defined as
+cards that remove cards that your opponent plays through
+damage, destruction, removal from the game, or preventing your opponent from even playing the threat.
+In the context of a limited format such as sealed,
+removal spells are those that generally deal damage to creatures as access to good
+artifacts, enchantments, and planeswalkers tend to be very few and far between.
+As this category is a very key element in many successful limited decks,
+we would want at least $ 2 $ removal spells to stop our opponent from progressing their board state.
+The penalty for removal can be represented as
 
-    When creating a sealed deck, there will ultimately be cards that are in the pool of cards that can be potentially put
-into a deck that will be near unusable due to multiple reasons. Some of these reasons include cards of different colors or
-cards that are simply just too bad to utilize. These cards are of the final letter in the BREAD acronym called duds. In a
-sealed deck, card quality is very important to the success of the deck so we want to prioritize the better cards to
-increase the quality of the deck. Decks containing these “duds” will receive a penalty of $5$ per clearly terrible cards
-that are virtually unplayable. The penalty for including duds within a deck can be represented as $d(duds) = 5 * duds$
+$$
+r(removal) = \begin{cases}
+    0 & removal \ge 2 \\
+    c(2-removal) & otherwise
+\end{cases}
+$$
+
+where 'removal' denotes the number of removal spells present within the deck
+and $ c $ denoting a constant to weigh the result.
+
+If a creature has evasion or is evasive,
+that means that it is more difficult for an opponent to block them
+unless they use a removal spell or have creatures that meet a specific criterion.
+Some examples of evasive creatures are creatures
+with flying or creatures that are unblockable by other means.
+Evasion is important as it allows for damage that an
+opponent usually does not have the ability to deal with.
+Since evasive creatures do not always come in every color,
+if a deck’s color combination has access to these evasive,
+there are evasive creatures within the card pool, and the deck fails to meet $ 2 $ evasive creatures,
+then they will receive a deduction based on the difference of $ 2 $
+and the number of evasive creatures they have in their deck.
+The penalty for removal can be represented as
+
+$$
+e(evasive) = \begin{cases}
+    0 & evasive \ge 2 \lor evasive = 0 \\
+    c(2-evasive) & otherwise
+\end{cases}
+$$
+
+where 'evasive' denotes the number of evasive creatures present within the deck
+and $ c $ denoting a constant to weigh the result.
+
+Aggro is the archetype describing aggressive creatures or spells,
+which limited decks tend to be primarily comprised of.
+This creatures and spell allow for constant pressure to be placed upon opponents and potentially win you the game.
+These cards do not have the sheer strength or board presence of a bomb
+but instead act as constant smaller nuisances that your opponent
+has to deal with or risk losing the game because of them.
+As this is a good portion of limited decks,
+the quantity of these types of cards will likely be greater than those of other archetypes.
+
+When creating a sealed deck,
+there will ultimately be cards that are in the pool of cards
+that can be potentially put into a deck that will be near unusable due to multiple reasons.
+Some of these reasons include cards of different colors or
+cards that are simply just too bad to utilize.
+These cards are of the final letter in the BREAD acronym called duds.
+In a sealed deck,
+card quality is very important to the success of the deck
+so we want to prioritize the better cards to increase the quality of the deck.
+Decks containing these “duds” will receive a penalty of $5$ per clearly terrible cards
+that are virtually unplayable.
+The penalty for including duds within a deck can be represented as $ d(duds) = 5 * duds $
 where duds denotes the number of dud cards within the deck.
 
-    In a game of Magic: The Gathering, in order to cast a spell one needs access to certain colors of mana to pay for the
-cost of each spell. Since there are 5 different colors of mana the more colors that one chooses for their deck to contain
-then the harder it will be to obtain all of the mana in the right color combinations in order for them to cast their spells.
-Mana-fixing cards allow for one to usually choose one of multiple colors of mana to allow for flexibility in how they play
-their spells. If a deck is running multiple colors it is highly recommended to use cards that allow for you to fix your
-mana supply with the colors that you need. In the case that a play decides to play more than two colors, they almost need
-to have mana fixing otherwise in some games they will just sit there hoping they get the land to provide them with the
-mana they need to do anything, putting them at a severe disadvantage. If a deck is playing 2 colors then usually only 1
-mana-fixer is needed but any more than two colors and you definitely want two or three. The deduction due to mana-fixing
-would be if a three or more color deck has less than $2$ mana-fixers then the deduction would be based on the difference of
-2 and the number of mana-fixers that reside within the deck. The mana-fixing deduction can be represented as $m(mana) = 0
-if x \ge 2, c(2 - mana) otherwise$ where mana denotes the number of mana-fixers within the deck and c being a constant to
-weight the results.
+In a game of Magic: The Gathering,
+in order to cast a spell one needs access to certain colors of mana to pay for the cost of each spell.
+Since there are 5 different colors of mana,
+the more colors that one chooses for their deck to contain
+then the harder it will be to obtain all of the mana in the right color combinations
+in order for them to cast their spells.
+Mana-fixing cards allow for one to usually choose one of multiple colors of mana
+to allow for flexibility in how they play their spells.
+If a deck is running multiple colors
+it is highly recommended to use cards that allow for you to fix your
+mana supply with the colors that you need.
+In the case that a play decides to play more than two colors,
+they almost need to have mana fixing
+otherwise in some games they will just sit there hoping
+they get the land to provide them with the
+mana they need to do anything, putting them at a severe disadvantage.
+If a deck is playing 2 colors then usually only 1
+mana-fixer is needed but any more than two colors and you definitely want two or three.
+The deduction due to mana-fixing would be if a three or more color deck
+has less than $ 2 $ mana-fixers then the deduction would be based on the difference of
+2 and the number of mana-fixers that reside within the deck.
+The mana-fixing deduction can be represented as
 
-    During combat in Magic: The Gathering the active player chooses which of their creatures to attack with and then the
-defending player decides how they would like to block the attacking creatures with their creatures. Then the attacking
-creatures deal damage to the blocking creatures and vice-versa. By a creature reaching 0 toughness or due to another
-ability, creatures die and enter the graveyard where they usually lie until the end of the game. By killing off your
-opponent’s creatures, you usually are given an advantage and one way of accomplishing this is by using combat tricks.
-Since your opponent does not know the cards in your hand, they are unaware of what your plans are. Combat tricks are cards
-or abilities that allow for interaction with the attacking or blocking creatures. This leads to you messing up your
-opponent’s plans in your advantage.
+$$ m(mana) = \begin{cases}
+    0 & x \ge 2 \\
+    c(2 - mana) & otherwise
+\end{cases}
+$$
 
-    To calculate the complete value of penalties within this subsection, we take the sum of all of the deductions made,
-represented by $TP(deck) = b(bombs) + r(removal) + e(evasive) + d(duds) + m(mana)$
+where mana denotes the number of mana-fixers within the deck
+and $ c $ being a constant to weight the results.
+
+During combat in Magic: The Gathering
+the active player chooses which of their creatures to attack with
+and then the defending player decides how they would like to block the attacking creatures
+with their creatures.
+Then the attacking creatures deal damage to the blocking creatures and vice-versa.
+By a creature reaching 0 toughness or due to another ability,
+creatures die and enter the graveyard where they usually lie until the end of the game.
+By killing off your opponent’s creatures,
+you usually are given an advantage and one way of accomplishing this is by using combat tricks.
+Since your opponent does not know the cards in your hand,
+they are unaware of what your plans are.
+Combat tricks are cards or abilities that allow for interaction
+with the attacking or blocking creatures.
+This leads to you messing up your opponent’s plans in your advantage.
+
+To calculate the complete value of penalties within this subsection,
+we take the sum of all of the deductions made,
+represented by $ TP(deck) = b(bombs) + r(removal) + e(evasive) + d(duds) + m(mana) $.
 
 \begin{thebibliography}{9}
 

@@ -279,20 +279,28 @@ Some of the specified penalty values have not yet been fully tested and may chan
 
 \subsubsubsection{SO1: Deck Size}
 
-In the sealed format of Magic: The Gathering, players are given 6 booster packs, each containing 15 cards,
-and are able to build a deck out of whichever cards they get out of the packs.  The player can also add as
-many basic lands as they desire, which are used to activate and play other cards.  When it is all said and
-done, the ideal number of cards to have in a deck is 40.  This is also the minimum number of cards that can
-be in a deck, however there is no maximum deck size.  The reasoning behind 40 cards being the ideal number
-is that when drawing a card, having a smaller deck size will increase odds of the player drawing a useful
-card.  The larger the deck is, the more likely it is filled with \quoted{bloat} cards, or cards that are not very
-useful.  We will calculate the penalty for having more than 40 cards using a quadratic function:
+In the sealed format of Magic: The Gathering,
+players are given 6 booster packs, each containing 15 cards,
+and are able to build a deck out of whichever cards they get out of the packs.
+The player can also add as many basic lands as they desire,
+which are used to activate and play other cards.
+When it is all said and done,
+the ideal number of cards to have in a deck is 40.
+This is also the minimum number of cards that can be in a deck,
+however there is no maximum deck size.
+The reasoning behind 40 cards being the ideal number is that when drawing a card,
+having a smaller deck size will increase odds of the player drawing a useful card.
+The larger the deck is,
+the more likely it is filled with \quoted{bloat} cards,
+or cards that are not very useful.
+We will calculate the penalty for having more than 40 cards using a quadratic function:
 
-$f(n) = (c * |40 - n|) ^ 2$
+$$
+f(n) = c (40 - n) ^ 2
+$$
 
-...with c being a constant which is used to weigh the penalty and n being the actual number of cards
-in a constructed deck.
-
+with $ c $ being a constant which is used to weigh the penalty
+and $ n $ being the actual number of cards in a constructed deck.
 
 \subsubsubsection{SO2: Mana Curve}
 
@@ -426,40 +434,51 @@ $ penalty(F') \approx 2.00 $.
 
 \subsubsubsection{SO3: Land Percentage}
 
-In Magic: The Gathering, cards are activated using mana cards known as lands.  Each of these lands has a
-color that it is associated with which dictates what type of mana it supplies.  We have already
-established that the optimal number of cards in a deck is 40, and with this size the ideal ratio of lands
-to non-lands is 17 lands to 23 non-lands, or about 42.5\% lands.  We want this ratio to be below 50\%
-since if it were 50\%, then there would be a 50/50 chance every time the player draws a card that that
-card would be a land.  A ratio higher than 50\% would yield even more lands.  This many lands is not
-practical in-game, so we want the ratio to be lower. We will calculate the penalty for having a higher
-or lower ratio of lands to non-lands with the following function;
+In Magic: The Gathering, cards are activated using mana cards known as lands.
+Each of these lands has a color that it is associated with which dictates
+what type of mana it supplies.
+We have already established that the optimal number of cards in a deck is 40,
+and with this size the ideal ratio of lands to non-lands is 17 lands to 23 non-lands,
+or about 42.5\% lands.
+We want this ratio to be below 50\% since if it were 50\%,
+then there would be a 50/50 chance every time the player draws a card that the card would be a land.
+A ratio higher than 50\% would yield even more lands.
+This many lands is not practical in-game,
+so we want the ratio to be lower.
+We will calculate the penalty for having a higher
+or lower ratio of lands to non-lands with the following function:
 
 $$
 f(r) = \begin{cases}
-    0 & 16/40 <= r <= 18/40 \\
-    c | 17/40 - r | & otherwise
+    0 & \frac{16}{40} <= r <= \frac{18}{40} \\
+    c \abs{\frac{17}{40} - r} & otherwise
 \end{cases}
 $$
 
-...with r being our ratio of lands to non-lands and c being a constant used to weight the penalty.
-
+with $ r $ being our ratio of lands to non-lands
+and $ c $ being a constant used to weight the penalty.
 
 \subsubsubsection{SO3a: Land Color Percentage}
 
-Most cards in Magic: The Gathering require mana in order to be played.  Mana is collected from
-cards known as lands, and each land has a color associated with it.  Cards cannot be played with
-any color of mana, they require one, sometimes two or more specific colors in order to be played.
-At the top of each card is the mana cost it requires. This requirement consists of one or more
-specific types of mana that the card needs, referred to as mana symbols, and then another number
-of generic mana that is required.  This generic number can be fulfilled by any color of mana.
+Most cards in Magic: The Gathering require mana in order to be played.
+Mana is collected from cards known as lands,
+and each land has a color associated with it.
+Cards cannot be played with any color of mana,
+they require one, sometimes two or more specific colors in order to be played.
+At the top of each card is the mana cost it requires.
+This requirement consists of one or more specific types of mana that the card needs,
+referred to as mana symbols, and then another number of generic mana that is required.
+This generic number can be fulfilled by any color of mana.
 We want to keep a color ratio of lands that is proportional to what kinds of cards are in our deck.
-For example, if we take all of the red cards in our deck and add up the red mana symbols on them,
-say that number is 19 and the total number of black mana symbols is 16. By dividing the quantity
-of one color by the total number of colored mana symbols we know what proportion of our lands
-should produce that color. Lets say that in this example we want to have 16 lands, since the ratio
-of our red mana symbols to the total number of colored mana symbols is 19/35 or about 54\%, we
-would want about 9 of our lands to produce red mana.
+For example,
+if we take all of the red cards in our deck and add up the red mana symbols on them,
+say that number is 19 and the total number of black mana symbols is 16.
+By dividing the quantity of one color by the total number of colored mana symbols
+we know what proportion of our lands should produce that color.
+Lets say that in this example we want to have 16 lands,
+since the ratio of our red mana symbols to the total number of colored mana symbols
+is $ \frac{19}{35} $ or about 54\%,
+we would want about 9 of our lands to produce red mana.
 
 \subsubsubsection{SO4: Color Identity}
 

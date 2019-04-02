@@ -42,10 +42,18 @@ bad.mana.curve <- c(
     5, 5, 5, 5, 5, 5,
     6, 6,
     7, 7,
-    8, 8, 8, 8, 8, 8
-)
+    8, 8, 8, 8, 8, 8)
 
 costs <- c(1:8)
+
+#### Plots ####
+# Relative Frequency Histogram
+hist(ideal.mana.curve, right = FALSE, prob = TRUE,
+     main = "Ideal Mana Curve: Relative Frequency")
+
+# Density plot
+plot(density(ideal.mana.curve),
+     main = "Ideal Mana Curve: Density Plot")
 
 #### Idea: Relative frequency ####
 

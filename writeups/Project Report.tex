@@ -8,6 +8,9 @@
 \usepackage{mathtools}
 \usepackage{amssymb}
 \usepackage{setspace}
+\usepackage{listings}
+\usepackage{commath}
+\usepackage{amsmath}
 
 \doublespacing
 
@@ -292,6 +295,134 @@ in a constructed deck.
 
 
 \subsubsubsection{SO2: Mana Curve}
+
+Magic: The Gathering cards require certain amounts of \enquote{mana} in order to be played.
+This mana cost is denoted on the top-right corner of every card.
+Ignoring the specific mana \enquote{color} required,
+each card can be categorized by the amount of mana required to play it.
+For example, a card with \{1\}\{R\} would have an overall cost of 2 mana
+where as a card with just \{R\} would have an overall cost of 1.
+This overall cost is known as the \enquote{converted mana cost} (CMC).
+
+Looking at the converted mana cost can be particularly useful in evaluating a deck.
+A card’s strength is generally directly correlated to its converted mana cost.
+So, 8-CMC cards tend to be very powerful
+whereas 1-CMC cards tend to be not as strong.
+However, since a player's mana pool only slowly increases throughout the game,
+someone who stocks up on the more-powerful cards may not be able to play them until late in the game.
+On the flip side, if a deck is primarily filled with weaker 1-CMC cards,
+then he can be very active in the beginning of the game
+but may lack the more-powerful cards needed for the end-game.
+So there exists a fine balance between how many cards of each CMC a deck should have.
+This balance is what players refer to as an ideal \enquote{mana curve}.
+
+If one were to count the converted mana cost of each card in the deck and store it in a vector,
+the relative frequency graph of that vector is the \enquote{mana curve}.
+Specifically, in R, the ideal mana curve can be represented as:
+
+\begin{lstlisting}[language=R, frame=single]
+
+ideal.mana.curve <- c(
+    1,
+    2, 2, 2, 2, 2,
+    3, 3, 3, 3,
+    4, 4, 4, 4,
+    5, 5, 5,
+    6, 6)
+relative.frequency <- table(ideal.mana.curve) / length(ideal.mana.curve)
+
+\end{lstlisting}
+
+To differentiate an optimal mana curve from a suboptimal one,
+let us first recall cumulative distribution functions (CDFs) from statistics.
+Given a discrete random variable $ X $ and a probability mass function $ f $,
+a CDF $ F $ is defined as:
+
+$$
+F(x) = P(X \le x) = \sum_{t \le x} f(t).
+$$
+
+We can use the CDF to describe our mana curve as follows:
+
+\begin{tabular}{|l|l|}
+\hline
+
+$ F(1) $ & $ \frac{1}{19} $ \\ \hline
+$ F(2) $ & $ (\frac{1}{19}) + \frac{5}{19} = \frac{6}{19} $ \\ \hline
+$ F(3) $ & $ (\frac{6}{19}) + \frac{4}{19} = \frac{10}{19} $ \\ \hline
+$ F(4) $ & $ (\frac{10}{19}) + \frac{4}{19} = \frac{14}{19} $ \\ \hline
+$ F(5) $ & $ (\frac{14}{19}) + \frac{3}{19} = \frac{17}{19} $ \\ \hline
+$ F(6) $ & $ (\frac{17}{19}) + \frac{2}{19} = \frac{19}{19} $ \\ \hline
+$ F(7) $ & $ (\frac{19}{19}) + \frac{0}{19} = \frac{19}{19} $ \\ \hline
+$ F(8) $ & $ (\frac{19}{19}) + \frac{0}{19} = \frac{19}{19} $ \\ \hline
+
+\end{tabular}
+
+Now that we have a definition of the ideal mana curve,
+let us contrast it to a suboptimal mana curve
+so we can develop a quantitative measure for how the two differ.
+Take the following mana curve:
+
+\begin{lstlisting}[language=R, frame=single]
+
+bad.mana.curve <- c(
+    1,
+    2,
+    3,
+    4, 4, 4, 4,
+    5, 5, 5, 5, 5, 5,
+    6, 6,
+    7, 7,
+    8, 8, 8, 8, 8, 8)
+
+bad.relative.frequency <- table(bad.mana.curve) / length(bad.mana.curve)
+
+\end{lstlisting}
+
+Using its CDF $ F' $, we can describe this mana curve with the following table:
+
+\begin{tabular}{|l|l|}
+\hline
+
+$ F'(1) $ & $ \frac{1}{23} $ \\ \hline
+$ F'(2) $ & $ (\frac{1}{23}) + \frac{1}{23} = \frac{2}{23} $ \\ \hline
+$ F'(3) $ & $ (\frac{2}{23}) + \frac{1}{23} = \frac{3}{23} $ \\ \hline
+$ F'(4) $ & $ (\frac{3}{23}) + \frac{4}{23} = \frac{7}{23} $ \\ \hline
+$ F'(5) $ & $ (\frac{7}{23}) + \frac{6}{23} = \frac{13}{23} $ \\ \hline
+$ F'(6) $ & $ (\frac{13}{23}) + \frac{2}{23} = \frac{15}{23} $ \\ \hline
+$ F'(7) $ & $ (\frac{15}{23}) + \frac{2}{23} = \frac{17}{23} $ \\ \hline
+$ F'(8) $ & $ (\frac{17}{23}) + \frac{6}{23} = \frac{23}{23} $ \\ \hline
+
+\end{tabular}
+
+We can define the difference between the two mana curves in the following manner:
+
+\begin{tabular}{|l|l|}
+\hline
+
+$ \abs{F(1) - F'(1)} $ & $ \abs{(\frac{1}{19}) - (\frac{1}{23})} = \frac{4}{437} \approx 0.92\% $ \\ \hline
+$ \abs{F(2) - F'(2)} $ & $ \abs{(\frac{6}{19}) - (\frac{2}{23})} = \frac{100}{437} \approx 23\% $ \\ \hline
+$ \abs{F(3) - F'(3)} $ & $ \abs{(\frac{10}{19}) - (\frac{3}{23})} = \frac{173}{437} \approx 40\% $ \\ \hline
+$ \abs{F(4) - F'(4)} $ & $ \abs{(\frac{14}{19}) - (\frac{7}{23})} = \frac{189}{437} \approx 43\% $ \\ \hline
+$ \abs{F(5) - F'(5)} $ & $ \abs{(\frac{17}{19}) - (\frac{13}{23})} = \frac{144}{437} \approx 33\% $ \\ \hline
+$ \abs{F(6) - F'(6)} $ & $ \abs{(\frac{19}{19}) - (\frac{15}{23})} = \frac{8}{23} \approx 35\% $ \\ \hline
+$ \abs{F(7) - F'(7)} $ & $ \abs{(\frac{19}{19}) - (\frac{17}{23})} = \frac{6}{23} \approx 26\% $ \\ \hline
+$ \abs{F(8) - F'(8)} $ & $ \abs{(\frac{19}{19}) - (\frac{23}{23})} = 0\% $ \\ \hline
+
+\end{tabular}
+
+Using this approach,
+we can define a penalty for being different from our ideal mana curve.
+Namely,
+
+$$
+penalty(F') = \abs{5\% - F'(1)} + \abs{31\% - F'(2)} + \abs{52\% - F'(3)}
+    + \abs{73\% - F'(4)} + \abs{89\% - F'(5)} + \abs{100\% - F'(6)}
+    + \abs{100\% - F'(7)} + \abs{100\% - F'(8)}
+$$
+
+Using this function, the penalty for the suboptimal mana curve would be
+$ penalty(F') \approx 2.00 $.
 
 \subsubsubsection{SO3: Land Percentage}
 

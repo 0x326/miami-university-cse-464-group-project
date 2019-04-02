@@ -270,7 +270,7 @@ mana-fixing and combat tricks are both very key in creating a successful sealed 
 Bombs refer to cards with such powerful effects or strength that they can potentially turn the tide of the game in your
 favor just by playing them. In a general context we would ideally have one or more bombs, so in calculating the score of
 the deck if the deck contains a bomb, no deduction will be made for the bomb category, otherwise there will be a deduction
-of $10$. The penalty for bombs can be represented as $b(bombs) = 0 if bombs \ge 1, 10 otherwise$ where 'bombs' denotes the
+of $10$. The penalty for bombs can be represented as $b(bombs) = 0$ IF $bombs \ge 1, 10$ otherwise where 'bombs' denotes the
 number of bombs present within the deck.
 
     In the context of Magic The Gathering removal is defined as cards that remove cards that your opponent plays through
@@ -278,7 +278,7 @@ damage, destruction, removal from the game, or preventing your opponent from eve
 a limited format such as sealed, removal spells are those that generally deal damage to creatures as access to good
 artifacts, enchantments, and planeswalkers tend to be very few and far between. As this category is a very key element in
 many successful limited decks, we would want at least $2$ removal spells to stop our opponent from progressing their board
-state. The penalty for removal can be represented as $r(removal) = 0 if removal \ge 2, c(2-removal) otherwise$ where
+state. The penalty for removal can be represented as $r(removal) = 0$ IF $removal \ge 2, c(2-removal)$ otherwise where
 'removal' denotes the number of removal spells present within the deck and c denoting a constant to weigh the result.
 
     If a creature has evasion or is evasive, that means that it is more difficult for an opponent to block them unless they
@@ -287,8 +287,8 @@ with flying or creatures that are unblockable by other means. Evasion is importa
 opponent usually does not have the ability to deal with. Since evasive creatures do not always come in every color, if a
 deck’s color combination has access to these evasive, there are evasive creatures within the card pool, and the deck fails
 to meet $2$ evasive creatures, then they will receive a deduction based on the difference of $2$ and the number of evasive
-creatures they have in their deck. The penalty for removal can be represented as $e(evasive) = 0 if evasive \ge 2 OR the
-deck's colors do not contain valuable evasive creatures, c(2-evasive) otherwise$ where 'evasive' denotes the number of
+creatures they have in their deck. The penalty for removal can be represented as $e(evasive) = 0$ IF $evasive \ge 2$ OR the
+deck's colors do not contain valuable evasive creatures$, c(2-evasive)$ otherwise where 'evasive' denotes the number of
 evasive creatures present within the deck and c denoting a constant to weigh the result.
 
     Aggro is the archetype describing aggressive creatures or spells, which limited decks tend to be primarily comprised of.
@@ -315,8 +315,8 @@ to have mana fixing otherwise in some games they will just sit there hoping they
 mana they need to do anything, putting them at a severe disadvantage. If a deck is playing 2 colors then usually only 1
 mana-fixer is needed but any more than two colors and you definitely want two or three. The deduction due to mana-fixing
 would be if a three or more color deck has less than $2$ mana-fixers then the deduction would be based on the difference of
-2 and the number of mana-fixers that reside within the deck. The mana-fixing deduction can be represented as $m(mana) = 0
-if x \ge 2, c(2 - mana) otherwise$ where mana denotes the number of mana-fixers within the deck and c being a constant to
+2 and the number of mana-fixers that reside within the deck. The mana-fixing deduction can be represented as $m(mana) = 0$
+IF $x \ge 2, c(2 - mana)$ otherwise where mana denotes the number of mana-fixers within the deck and c being a constant to
 weight the results.
 
     During combat in Magic: The Gathering the active player chooses which of their creatures to attack with and then the

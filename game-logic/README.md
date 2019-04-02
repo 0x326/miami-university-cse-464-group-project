@@ -109,6 +109,10 @@
 
 ## Considerations for the objective function
 
+Let positive(x)
+  - x, x >= 0
+  - 0, otherwise
+
 Objective 1 (XX%): Number of cards
 
 - Ideal: n = 40 cards
@@ -116,15 +120,15 @@ Objective 1 (XX%): Number of cards
 
 Objective 2 (XX%): Mana curve (probability distribution of converted mana cost)
 
-- Ideal:
+- Ideal (Cumulative distribution function):
 
-  - Mode: 3.5 converted mana cost
-  - Median: 4.5 converted mana cost
-  - Mean: 4 converted mana cost?
+  - <= 1 CMC: 5% ± 5%
+  - <= 2 CMC: 31% ± 5%
+  - <= 3 CMC: 52% ± 5%
+  - <= 4 CMC: 73% ± 5%
+  - <= 5 CMC: 89% ± 5%
 
-- Penalty:
-
-  - Compute mode, median, etc. and take difference
+- Penalty (linear): | 5% - cdf(1) | + | 31% - cdf(2) | + | 52% - cdf(3) | + | 73% - cdf(4) | + | 89% - cdf(5) |
 
 Objective 3 (XX%): Percentage of lands
 

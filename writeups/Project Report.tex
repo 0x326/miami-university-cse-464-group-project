@@ -282,7 +282,7 @@ many basic lands as they desire, which are used to activate and play other cards
 done, the ideal number of cards to have in a deck is 40.  This is also the minimum number of cards that can
 be in a deck, however there is no maximum deck size.  The reasoning behind 40 cards being the ideal number
 is that when drawing a card, having a smaller deck size will increase odds of the player drawing a useful
-card.  The larger the deck is, the more likely it is filled with \quoted{bloat} cards, or cards that are not very
+card.  The larger the deck is, the more likely it is filled with \enquote{bloat} cards, or cards that are not very
 useful.  We will calculate the penalty for having more than 40 cards using a quadratic function:
 
 $f(n) = (c * |40 - n|) ^ 2$
@@ -331,6 +331,19 @@ of our red mana symbols to the total number of colored mana symbols is 19/35 or 
 would want about 9 of our lands to produce red mana.
 
 \subsubsubsection{SO4: Color Identity}
+
+The ideal deck can have one or two colors, with a strong preference towards duel colored decks.
+Beyond that, color \enquote{splashes} are allowed. A color is considered to be a splash when it is present
+in a certain percentage of cards, but not enough to be considered a dominant color. In our case,
+if a color is below 10 percent, then we will consider it a splash. The best case scenario is a deck
+that is solely two color deck. Our function will penalize any additional colors addition over two.
+It will also make sure that if a splash does occur, it only occurs once. The penalty would be
+determined by a linear function such as
+
+$f(colors,splashes)= c1 * |2-colors| + c2 *splashes$
+
+where `colors' denotes the number of dominant colors, `splashes' denotes the number of splashed colors, and
+c1 \& c2 are separate values to weight the results.
 
 \subsubsubsection{SO5: Card Archetypes}
 

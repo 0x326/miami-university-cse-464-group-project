@@ -59,7 +59,7 @@ We also plan to implement an optimization algorithm to maximize this function
 so that players can play with the most effective deck.
 This algorithm could help professionals as well as novices to have better odds of success
 and a more enjoyable experience.
-Given Magic the Gathering’s large audience,
+Given Magic the Gathering's large audience,
 this algorithm would solve a practical problem common to players of the game
 and could even see widespread use.
 
@@ -94,7 +94,7 @@ we want to choose $ D $ such that we maximize $ P(\text{game success} \mid D) $.
 \subsubsection{\enquote{Ensemble Determinization in Monte Carlo Tree Search for the Imperfect Information Card Game Magic: The Gathering.}}
 
 This article discusses how the Monte Carlo Tree Search (MCTS) algorithm
-has been applied to create AI’s for games in the
+has been applied to create AI's for games in the
 past and how it can be applied with the game Magic: the Gathering.
 Due to Magic's core element of having incomplete information while playing the game
 due to the fact that both players have hidden hands of cards that were drawn from
@@ -104,7 +104,7 @@ since each player gets to create their own deck to play in the manner of their c
 this adds further hidden information as well as an interesting challenge to the game.
 Other key elements of Magic: the Gathering such as the ability of a player to
 interrupt another player during their turn,
-interact with other player’s resources, and predicting how an opponent
+interact with other player's resources, and predicting how an opponent
 react to different plays makes this game an interesting field of study.
 The MCTS algorithm provides the advantage over
 other algorithms since it is not required for a terminal game state to be reached for a result to be calculated
@@ -221,7 +221,7 @@ while each card on its own presents little context,
 the cards together paint a picture of a world filled with rich lore.
 The author backs this up using the fact that works of interactive fiction,
 such as graphic novels or motion comics,
-are themselves considered works of literature by today’s standards.
+are themselves considered works of literature by today's standards.
 It is argued that Magic can be viewed as a form of interactive fiction.
 In addition to this, the point is brought up that the Magic: The Gathering website
 has a large collection of written pieces about the characters and lore of the Magic mythos.
@@ -235,7 +235,7 @@ where it explains the general circumstances and goals of the game.
 It then moves on to discuss the purpose of the reading;
 deciding the complexity of the legality of a single move in Magic.
 The general rules and types of cards and what do they are then explained in detail.
-The concepts of the deck, the player’s hand, the stack, the battlefield,
+The concepts of the deck, the player's hand, the stack, the battlefield,
 and the graveyard are briefly discussed, and the types of cards included are instants/sorceries,
 artifacts/enchantments, planeswalkers, creatures, and lands.
 Some of the variants of the game are discussed,
@@ -313,7 +313,7 @@ where as a card with just \{R\} would have an overall cost of 1.
 This overall cost is known as the \enquote{converted mana cost} (CMC).
 
 Looking at the converted mana cost can be particularly useful in evaluating a deck.
-A card’s strength is generally directly correlated to its converted mana cost.
+A card's strength is generally directly correlated to its converted mana cost.
 So, 8-CMC cards tend to be very powerful
 whereas 1-CMC cards tend to be not as strong.
 However, since a player's mana pool only slowly increases throughout the game,
@@ -534,7 +534,7 @@ with flying or creatures that are unblockable by other means.
 Evasion is important as it allows for damage that an
 opponent usually does not have the ability to deal with.
 Since evasive creatures do not always come in every color,
-if a deck’s color combination has access to these evasive,
+if a deck's color combination has access to these evasive,
 there are evasive creatures within the card pool, and the deck fails to meet $ 2 $ evasive creatures,
 then they will receive a deduction based on the difference of $ 2 $
 and the number of evasive creatures they have in their deck.
@@ -612,13 +612,13 @@ with their creatures.
 Then the attacking creatures deal damage to the blocking creatures and vice-versa.
 By a creature reaching 0 toughness or due to another ability,
 creatures die and enter the graveyard where they usually lie until the end of the game.
-By killing off your opponent’s creatures,
+By killing off your opponent's creatures,
 you usually are given an advantage and one way of accomplishing this is by using combat tricks.
 Since your opponent does not know the cards in your hand,
 they are unaware of what your plans are.
 Combat tricks are cards or abilities that allow for interaction
 with the attacking or blocking creatures.
-This leads to you messing up your opponent’s plans in your advantage.
+This leads to you messing up your opponent's plans in your advantage.
 
 To calculate the complete value of penalties within this subsection,
 we take the sum of all of the deductions made,

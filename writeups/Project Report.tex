@@ -584,15 +584,21 @@ the quantity of these types of cards will likely be greater than those of other 
 When creating a sealed deck,
 there will ultimately be cards that are in the pool of cards
 that can be potentially put into a deck that will be near unusable due to multiple reasons.
+there can be cards that are nearly unusable for multiple reasons.
 Some of these reasons include cards of different colors or
 cards that are simply just too bad to utilize.
-These cards are of the final letter in the BREAD acronym called duds.
+These cards are of the final letter in the BREAD acronym called \enquote{duds}.
 In a sealed deck,
-card quality is very important to the success of the deck
-so we want to prioritize the better cards to increase the quality of the deck.
-Decks containing these \enquote{duds} will receive a penalty of $5$ per clearly terrible cards
-that are virtually unplayable.
-The penalty for including duds within a deck can be represented as $ d(duds) = 5 * duds $
+card quality is very important to the success of the deck,
+so we want to prioritize the better cards to increase its quality.
+Decks containing these \enquote{duds} will receive a penalty of $ 5 $ per dud card
+as they are virtually unplayable.
+The penalty for including duds within a deck can be represented as
+
+$$
+d(duds) = 5 * duds
+$$
+
 where `duds' denotes the number of dud cards within the deck.
 
 In a game of Magic: The Gathering,
@@ -630,22 +636,26 @@ and $ c $ being a constant to weight the results.
 
 During combat in Magic: The Gathering
 the active player chooses which of their creatures to attack with
-and then the defending player decides how they would like to block the attacking creatures
-with their creatures.
+and then the defending player decides how they would like to block the attacking creatures.
 Then the attacking creatures deal damage to the blocking creatures and vice-versa.
 By a creature reaching 0 toughness or due to another ability,
 creatures die and enter the graveyard where they usually lie until the end of the game.
 By killing off your opponent's creatures,
-you usually are given an advantage and one way of accomplishing this is by using combat tricks.
+you usually are given an advantage.
+One way of accomplishing this is by using \enquote{combat tricks}.
 Since your opponent does not know the cards in your hand,
 they are unaware of what your plans are.
 Combat tricks are cards or abilities that allow for interaction
 with the attacking or blocking creatures.
-This leads to you messing up your opponent's plans in your advantage.
+This allows you to mess up your opponent's plans in your favor.
 
 To calculate the complete value of penalties within this subsection,
 we take the sum of all of the deductions made,
-represented by $ TP(deck) = b(bombs) + r(removal) + e(evasive) + d(duds) + m(mana) $.
+represented by:
+
+$$
+TP(deck) = b(bombs) + r(removal) + e(evasive) + d(duds) + m(mana)
+$$
 
 \subsection{Optimization}
 
@@ -655,19 +665,20 @@ These are ant colony optimization and particle swarm optimization.
 
 Ant colony optimization is based off of the way ants move around.
 When an ant finds a path leading to food,
-they release a pheromone to attract other ants and tell they are headed the right way.
+they release a pheromone to attract other ants to tell they are headed the right way.
 In this optimization algorithm, artificial `ants' move through a tree
 containing all possible solutions to locate the optimal ones.
 The ants record their positions and the quality of the solution to direct each other.
-Since each card has a value of how good it is, the use of this algorithm
+Since we can evaluate how good each card with the objective function described above,
+the use of this algorithm
 would allow us to find the best cards to use from the pool.
 
 The other optimization algorithm we are considering is particle swarm optimization.
 This method simulates birds flocking to food.
-This works by having all particles follow the two \enquote{best} values.
+It works by having all particles follow the two \enquote{best} values.
 These two bests are the local best and the global best.
 After each iteration the velocities of each particle is updated.
-While this for of optimization may not be the best in its normal state,
+While this form of optimization may not be the best in its normal state,
 if we can modify it, this method would be preferable.
 This is because we would be able to account for card synergies.
 This would allow for the best deck to be selected given the cards

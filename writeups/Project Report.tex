@@ -471,7 +471,16 @@ Lets say that in this example we want to have 16 lands total.
 Given this ratio,
 we would want $ \frac{19}{35} * 16 \approx 9 $ of our lands to be red lands.
 
-% TODO: Discuss penalty
+By comparing the deck being analyzed's ratio of each land and the total number of lands
+to the ratio of mana symbols of the color that land would produce and the total number of mana symbols,
+we can analyze how ideal our landbase is. For each color of mana symbol used within the deck,
+we apply this function to calculate the penalty for the incorrectness of the manabase
+
+$f(w,u,b,r,g)=|w'-w|+|u'-u|+|b'-b|+|r'-r|+|g'-g|$
+
+where w, u, b, r, and g denote the land color ratio for each color within the deck
+while their prime counterparts represent the mana symbol ratio for the deck.
+
 
 \subsubsection{Color Identity}
 

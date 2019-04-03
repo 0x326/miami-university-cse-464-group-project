@@ -89,9 +89,7 @@ we want to choose $ D $ such that we maximize $ P(\text{game success} \mid D) $.
 
 \section{Literature Review}
 
-\subsection{Scott Harris}
-
-\subsubsection{\enquote{Ensemble Determinization in Monte Carlo Tree Search for the Imperfect Information Card Game Magic: The Gathering.}}
+\subsection{\enquote{Ensemble Determinization in Monte Carlo Tree Search for the Imperfect Information Card Game Magic: The Gathering.}}
 
 This article discusses how the Monte Carlo Tree Search (MCTS) algorithm
 has been applied to create AI's for games in the
@@ -116,7 +114,7 @@ the ability to formulate the best move is much more efficient.
 By using multiple trees,
 the authors compensate for incomplete information allowing for the ideal course of action based on the known information.
 
-\subsubsection{\enquote{Rarity and Power: Balance in Collectible Object Games.}}
+\subsection{\enquote{Rarity and Power: Balance in Collectible Object Games.}}
 
 Mr. Ham details the issues that come along with the collectable card game format.
 The main issue involves the game both being fun as well as balanced.
@@ -135,9 +133,7 @@ goals with many different strategies/collections of cards.
 With this versatility Suitcase players are not put at as much
 of an advantage in the baseball card game as they are in games such as Magic: the Gathering.
 
-\subsection{Jacob Freedman}
-
-\subsubsection{\enquote{BOA: Bayesian Optimization Algorithm.}}
+\subsection{\enquote{BOA: Bayesian Optimization Algorithm.}}
 
 This paper describes how a bayesian optimization algorithm can be used to increase the efficiency of genetic algorithms.
 It describes how genetic algorithms are optimization programs
@@ -152,7 +148,7 @@ As shown in the paper, the algorithm runs in close to linear time.
 This method could also be useful because it selects the best from a network,
 which would be an optimal way of selecting the best cards for the deck.
 
-\subsubsection{\enquote{Surprising strategies obtained by stochastic optimization in partially observable games.}}
+\subsection{\enquote{Surprising strategies obtained by stochastic optimization in partially observable games.}}
 
 This paper takes a different approach to optimization.
 The authors use a evolutionary algorithm and a stochastic optimization algorithm
@@ -163,9 +159,7 @@ These algorithms are tested by playing multiple different games, batawaf, war, c
 The results found that these algorithms found strategies for games that seem entirely luck based.
 This type of algorithm could be useful for finding the optimal deck against different styles of play.
 
-\subsection{John Meyer}
-
-\subsubsection{\enquote{Active Set Methods with Reoptimization for Convex Quadratic Integer Programming}}
+\subsection{\enquote{Active Set Methods with Reoptimization for Convex Quadratic Integer Programming}}
 
 \enquote{Active Set Methods with Reoptimization for Convex Quadratic Integer Programming}
 proposes a new algorithm to solve \enquote{unconstrained convex quadratic integer}
@@ -181,7 +175,7 @@ If the number of constraints are held constant,
 the algorithm runs in linear time with respect to the problem size.
 It was tested with 200 random problem instances and it was found to outperform IBM CPLEX by a moderate measure.
 
-\subsubsection{\enquote{Approximating the k-Set Packing Problem by Local Improvements}}
+\subsection{\enquote{Approximating the k-Set Packing Problem by Local Improvements}}
 
 \enquote{Approximating the k-Set Packing Problem by Local Improvements}
 proposes a more efficient variant of many algorithms already created to solve the k-set packing problem.
@@ -203,9 +197,7 @@ they build a multigraph and continue computation.
 To conclude, they use various strategies to squeeze out better performance from an already efficient solution
 and do so perhaps for the last time.
 
-\subsection{Bryan Hayes}
-
-\subsubsection{\enquote{Magic: The Gathering, A Literary Text.}}
+\subsection{\enquote{Magic: The Gathering, A Literary Text.}}
 
 This reading starts off by talking about Magic: The Gathering and a bit of its history.
 It compares the card game to the popular role-playing game
@@ -228,7 +220,7 @@ has a large collection of written pieces about the characters and lore of the Ma
 All of these arguments, and the fact that Magic is a wildly popular and acclaimed game,
 lead the author to claim that the card game is a \enquote{dynamic literary text.}
 
-\subsubsection{\enquote{The Complexity of Deciding Legality of a Single Step of Magic: The Gathering.}}
+\subsection{\enquote{The Complexity of Deciding Legality of a Single Step of Magic: The Gathering.}}
 
 The reading begins with a short introduction on Magic: The Gathering,
 where it explains the general circumstances and goals of the game.
@@ -642,6 +634,55 @@ This leads to you messing up your opponent's plans in your advantage.
 To calculate the complete value of penalties within this subsection,
 we take the sum of all of the deductions made,
 represented by $ TP(deck) = b(bombs) + r(removal) + e(evasive) + d(duds) + m(mana) $.
+
+\subsection{Optimization}
+
+Through our research, we have found two possible optimization algorithms
+that we could use to select the cards for our objective function to grade.
+These are ant colony optimization and particle swarm optimization.
+
+Ant colony optimization is based off of the way ants move around.
+When an ant finds a path leading to food,
+they release a pheromone to attract other ants and tell they are headed the right way.
+In this optimization algorithm, artificial `ants' move through a tree
+containing all possible solutions to locate the optimal ones.
+The ants record their positions and the quality of the solution to direct each other.
+Since each card has a value of how good it is, the use of this algorithm
+would allow us to find the best cards to use from the pool.
+
+The other optimization algorithm we are considering is particle swarm optimization.
+This method simulates birds flocking to food.
+This works by having all particles follow the two \enquote{best} values.
+These two bests are the local best and the global best.
+After each iteration the velocities of each particle is updated.
+While this for of optimization may not be the best in its normal state,
+if we can modify it, this method would be preferable.
+This is because we would be able to account for card synergies.
+This would allow for the best deck to be selected given the cards
+in the pool based off of more situational factors.
+
+\section{Contributions}
+
+\begin{itemize}
+
+\item[Scott Harris]
+    \item Literary Review Sections 3.1 \& 3.2
+    \item Archetypes Sub-objective
+    \item Contribution \%: 30\%
+\item[John Meyer]
+    \item Literary Review Sections 3.5 \& 3.6
+    \item Mana-Curve Sub-objective
+    \item Contribution \%: 40\%
+\item[Bryan Hayes]
+    \item Literary Review Sections 3.7 \& 3.8
+    \item Deck-size \& Land Ratio Sub-Objectives
+    \item Contribution \%: 15\%
+\item[Jacob Freedman]
+    \item Literary Review Sections 3.3 \& 3.4
+    \item Color Identity Sub-objective
+    \item Contribution \%: 15\%
+
+\end{itemize}
 
 \begin{thebibliography}{9}
 

@@ -506,12 +506,16 @@ The acronym BREAD is used to describe some of these archetypes.
 This acronym stands for Bombs, Removal, Evasion, Aggro, and Duds.
 In addition to the archetypes described,
 I believe that there are other archetypes such as
-mana-fixing and combat tricks are both very key in creating a successful sealed Magic: The Gathering deck.
+mana-fixing and combat tricks,
+which are also key in creating a successful sealed Magic: The Gathering deck.
+
 Bombs refer to cards with such powerful effects or strength that they can potentially turn
 the tide of the game in your favor just by playing them.
-In a general context we would ideally have one or more bombs,
-so in calculating the score of the deck if the deck contains a bomb,
-no deduction will be made for the bomb category, otherwise there will be a deduction of $ 10 $.
+In a general context, we would ideally have one or more bombs.
+So, in calculating the score of the deck,
+if the deck contains a bomb
+then no deduction will be made in this regard.
+Otherwise, there will be a deduction of $ 10 $.
 The penalty for bombs can be represented as:
 
 $$
@@ -523,14 +527,15 @@ $$
 
 where `bombs' denotes the number of bombs present within the deck.
 
-In the context of Magic The Gathering \enquote{removal} is defined as
-cards that remove cards that your opponent plays through
+\enquote{Removals} are
+cards that remove your opponent's cards through mechanisms such as
 damage, destruction, removal from the game, or preventing your opponent from even playing the threat.
-In the context of a limited format such as sealed,
-removal spells are those that generally deal damage to creatures as access to good
+In the context of our chosen tournament type,
+removals are those that generally deal damage to creatures,
+as access to good
 artifacts, enchantments, and planeswalkers tend to be very few and far between.
-As this category is a very key element in many successful limited decks,
-we would want at least $ 2 $ removal spells to stop our opponent from progressing their board state.
+As this category is a key element in many successful limited decks,
+we want at least $ 2 $ removal spells to stop our opponent from progressing their own board state.
 The penalty for removal can be represented as
 
 $$
@@ -543,36 +548,36 @@ $$
 where `removal' denotes the number of removal spells present within the deck
 and $ c $ denoting a constant to weigh the result.
 
-If a creature has evasion or is evasive,
-that means that it is more difficult for an opponent to block them
-unless they use a removal spell or have creatures that meet a specific criterion.
-Some examples of evasive creatures are creatures
-with flying or creatures that are unblockable by other means.
-Evasion is important as it allows for damage that an
-opponent usually does not have the ability to deal with.
-Since evasive creatures do not always come in every color,
-if a deck's color combination has access to these evasive,
-there are evasive creatures within the card pool, and the deck fails to meet $ 2 $ evasive creatures,
-then they will receive a deduction based on the difference of $ 2 $
-and the number of evasive creatures they have in their deck.
+\enquote{Evasive} cards are
+more difficult for an opponent to block.
+They require the opponent to use a removal spell or have creatures that meet a specific criterion.
+Some examples of evasive cards are creatures
+with flying or that are unblockable by other means.
+Evasion is important as it allows you to damage an opponent
+in a fashion that he would otherwise not have to deal with.
+Since evasive creatures do not always present in every color,
+we will only penalize decks whose dominant colors contain the possibility for an evasive.
+Only if an evasive card in one of those colors is provided as an option,
+will we penalize the deck if it does not include at least $ 2 $ of them.
 The penalty for removal can be represented as
 
 $$
 e(evasive) = \begin{cases}
-    0 & evasive \ge 2 \lor evasive = 0 \\
-    c(2-evasive) & otherwise
+    c(2 - evasive) & evasive < 2 \land \text{evasive is an option in the deck's dominant colors}
+    0 & otherwise \\
 \end{cases}
 $$
 
 where `evasive' denotes the number of evasive creatures present within the deck
 and $ c $ denoting a constant to weigh the result.
 
-Aggro is the archetype describing aggressive creatures or spells,
+\enquote{Aggro} is the archetype describing aggressive creatures or spells,
 which limited decks tend to be primarily comprised of.
-This creatures and spell allow for constant pressure to be placed upon opponents and potentially win you the game.
-These cards do not have the sheer strength or board presence of a bomb
-but instead act as constant smaller nuisances that your opponent
-has to deal with or risk losing the game because of them.
+These cards allow for constant pressure to be placed upon opponents
+and potentially allow you to win the game.
+They do not have the sheer strength or board presence of a bomb
+but instead act as smaller, yet constant, nuisances that your opponent
+has to handle or risk losing the game.
 As this is a good portion of limited decks,
 the quantity of these types of cards will likely be greater than those of other archetypes.
 

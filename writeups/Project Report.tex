@@ -635,22 +635,52 @@ To calculate the complete value of penalties within this subsection,
 we take the sum of all of the deductions made,
 represented by $ TP(deck) = b(bombs) + r(removal) + e(evasive) + d(duds) + m(mana) $.
 
+\subsection{Optimization}
+
+Through our research, we have found two possible optimization algorithms
+that we could use to select the cards for our objective function to grade.
+These are ant colony optimization and particle swarm optimization.
+
+Ant colony optimization is based off of the way ants move around.
+When an ant finds a path leading to food,
+they release a pheromone to attract other ants and tell they are headed the right way.
+In this optimization algorithm, artificial `ants' move through a tree
+containing all possible solutions to locate the optimal ones.
+The ants record their positions and the quality of the solution to direct each other.
+Since each card has a value of how good it is, the use of this algorithm
+would allow us to find the best cards to use from the pool.
+
+The other optimization algorithm we are considering is particle swarm optimization.
+This method simulates birds flocking to food.
+This works by having all particles follow the two \enquote{best} values.
+These two bests are the local best and the global best.
+After each iteration the velocities of each particle is updated.
+While this for of optimization may not be the best in its normal state,
+if we can modify it, this method would be preferable.
+This is because we would be able to account for card synergies.
+This would allow for the best deck to be selected given the cards
+in the pool based off of more situational factors.
+
 \section{Contributions}
 
 \begin{itemize}
 
 \item[Scott Harris]
-    \item[Scott Harris] Literary Review Parts
-    \item[Scott Harris] Archetypes Sub-objective
+    \item Literary Review Sections 3.1 \& 3.2
+    \item Archetypes Sub-objective
+    \item Contribution \%: 30\%
 \item[John Meyer]
-    \item Literary Review Parts
+    \item Literary Review Sections 3.5 \& 3.6
     \item Mana-Curve Sub-objective
+    \item Contribution \%: 40\%
 \item[Bryan Hayes]
-    \item Literary Review Parts
+    \item Literary Review Sections 3.7 \& 3.8
     \item Deck-size \& Land Ratio Sub-Objectives
+    \item Contribution \%: 15\%
 \item[Jacob Freedman]
-    \item Literary Review Parts
+    \item Literary Review Sections 3.3 \& 3.4
     \item Color Identity Sub-objective
+    \item Contribution \%: 15\%
 
 \end{itemize}
 

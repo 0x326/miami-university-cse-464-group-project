@@ -8,6 +8,9 @@
 \usepackage{mathtools}
 \usepackage{amssymb}
 \usepackage{setspace}
+\usepackage{listings}
+\usepackage{commath}
+\usepackage{amsmath}
 
 \doublespacing
 
@@ -56,7 +59,7 @@ We also plan to implement an optimization algorithm to maximize this function
 so that players can play with the most effective deck.
 This algorithm could help professionals as well as novices to have better odds of success
 and a more enjoyable experience.
-Given Magic the Gathering’s large audience,
+Given Magic the Gathering's large audience,
 this algorithm would solve a practical problem common to players of the game
 and could even see widespread use.
 
@@ -91,7 +94,7 @@ we want to choose $ D $ such that we maximize $ P(\text{game success} \mid D) $.
 \subsubsection{\enquote{Ensemble Determinization in Monte Carlo Tree Search for the Imperfect Information Card Game Magic: The Gathering.}}
 
 This article discusses how the Monte Carlo Tree Search (MCTS) algorithm
-has been applied to create AI’s for games in the
+has been applied to create AI's for games in the
 past and how it can be applied with the game Magic: the Gathering.
 Due to Magic's core element of having incomplete information while playing the game
 due to the fact that both players have hidden hands of cards that were drawn from
@@ -101,7 +104,7 @@ since each player gets to create their own deck to play in the manner of their c
 this adds further hidden information as well as an interesting challenge to the game.
 Other key elements of Magic: the Gathering such as the ability of a player to
 interrupt another player during their turn,
-interact with other player’s resources, and predicting how an opponent
+interact with other player's resources, and predicting how an opponent
 react to different plays makes this game an interesting field of study.
 The MCTS algorithm provides the advantage over
 other algorithms since it is not required for a terminal game state to be reached for a result to be calculated
@@ -218,7 +221,7 @@ while each card on its own presents little context,
 the cards together paint a picture of a world filled with rich lore.
 The author backs this up using the fact that works of interactive fiction,
 such as graphic novels or motion comics,
-are themselves considered works of literature by today’s standards.
+are themselves considered works of literature by today's standards.
 It is argued that Magic can be viewed as a form of interactive fiction.
 In addition to this, the point is brought up that the Magic: The Gathering website
 has a large collection of written pieces about the characters and lore of the Magic mythos.
@@ -232,7 +235,7 @@ where it explains the general circumstances and goals of the game.
 It then moves on to discuss the purpose of the reading;
 deciding the complexity of the legality of a single move in Magic.
 The general rules and types of cards and what do they are then explained in detail.
-The concepts of the deck, the player’s hand, the stack, the battlefield,
+The concepts of the deck, the player's hand, the stack, the battlefield,
 and the graveyard are briefly discussed, and the types of cards included are instants/sorceries,
 artifacts/enchantments, planeswalkers, creatures, and lands.
 Some of the variants of the game are discussed,
@@ -276,6 +279,7 @@ Some of the specified penalty values have not yet been fully tested and may chan
 
 \subsubsubsection{SO1: Deck Size}
 
+<<<<<<< HEAD
 In the sealed format of Magic: The Gathering, players are given 6 booster packs, each containing 15 cards,
 and are able to build a deck out of whichever cards they get out of the packs.  The player can also add as
 many basic lands as they desire, which are used to activate and play other cards.  When it is all said and
@@ -284,51 +288,209 @@ be in a deck, however there is no maximum deck size.  The reasoning behind 40 ca
 is that when drawing a card, having a smaller deck size will increase odds of the player drawing a useful
 card.  The larger the deck is, the more likely it is filled with \enquote{bloat} cards, or cards that are not very
 useful.  We will calculate the penalty for having more than 40 cards using a quadratic function:
+=======
+In the sealed format of Magic: The Gathering,
+players are given 6 booster packs, each containing 15 cards,
+and are able to build a deck out of whichever cards they get out of the packs.
+The player can also add as many basic lands as they desire,
+which are used to activate and play other cards.
+When it is all said and done,
+the ideal number of cards to have in a deck is 40.
+This is also the minimum number of cards that can be in a deck,
+however there is no maximum deck size.
+The reasoning behind 40 cards being the ideal number is that when drawing a card,
+having a smaller deck size will increase odds of the player drawing a useful card.
+The larger the deck is,
+the more likely it is filled with \enquote{bloat} cards,
+or cards that are not very useful.
+We will calculate the penalty for having more than 40 cards using a quadratic function:
+>>>>>>> 61df4108a794201e6786502fb63cb635b5ebce6d
 
-$f(n) = (c * |40 - n|) ^ 2$
+$$
+f(n) = c (40 - n) ^ 2
+$$
 
-...with c being a constant which is used to weigh the penalty and n being the actual number of cards
-in a constructed deck.
-
+with $ c $ being a constant which is used to weigh the penalty
+and $ n $ being the actual number of cards in a constructed deck.
 
 \subsubsubsection{SO2: Mana Curve}
 
+Magic: The Gathering cards require certain amounts of \enquote{mana} in order to be played.
+This mana cost is denoted on the top-right corner of every card.
+Ignoring the specific mana \enquote{color} required,
+each card can be categorized by the amount of mana required to play it.
+For example, a card with \{1\}\{R\} would have an overall cost of 2 mana
+where as a card with just \{R\} would have an overall cost of 1.
+This overall cost is known as the \enquote{converted mana cost} (CMC).
+
+Looking at the converted mana cost can be particularly useful in evaluating a deck.
+A card's strength is generally directly correlated to its converted mana cost.
+So, 8-CMC cards tend to be very powerful
+whereas 1-CMC cards tend to be not as strong.
+However, since a player's mana pool only slowly increases throughout the game,
+someone who stocks up on the more-powerful cards may not be able to play them until late in the game.
+On the flip side, if a deck is primarily filled with weaker 1-CMC cards,
+then he can be very active in the beginning of the game
+but may lack the more-powerful cards needed for the end-game.
+So there exists a fine balance between how many cards of each CMC a deck should have.
+This balance is what players refer to as an ideal \enquote{mana curve}.
+
+If one were to count the converted mana cost of each card in the deck and store it in a vector,
+the relative frequency graph of that vector is the \enquote{mana curve}.
+Specifically, in R, the ideal mana curve can be represented as:
+
+\begin{lstlisting}[language=R, frame=single]
+
+ideal.mana.curve <- c(
+    1,
+    2, 2, 2, 2, 2,
+    3, 3, 3, 3,
+    4, 4, 4, 4,
+    5, 5, 5,
+    6, 6)
+relative.frequency <- table(ideal.mana.curve) / length(ideal.mana.curve)
+
+\end{lstlisting}
+
+To differentiate an optimal mana curve from a suboptimal one,
+let us first recall cumulative distribution functions (CDFs) from statistics.
+Given a discrete random variable $ X $ and a probability mass function $ f $,
+a CDF $ F $ is defined as:
+
+$$
+F(x) = P(X \le x) = \sum_{t \le x} f(t).
+$$
+
+We can use the CDF to describe our mana curve as follows:
+
+\begin{tabular}{|l|l|}
+\hline
+
+$ F(1) $ & $ \frac{1}{19} $ \\ \hline
+$ F(2) $ & $ (\frac{1}{19}) + \frac{5}{19} = \frac{6}{19} $ \\ \hline
+$ F(3) $ & $ (\frac{6}{19}) + \frac{4}{19} = \frac{10}{19} $ \\ \hline
+$ F(4) $ & $ (\frac{10}{19}) + \frac{4}{19} = \frac{14}{19} $ \\ \hline
+$ F(5) $ & $ (\frac{14}{19}) + \frac{3}{19} = \frac{17}{19} $ \\ \hline
+$ F(6) $ & $ (\frac{17}{19}) + \frac{2}{19} = \frac{19}{19} $ \\ \hline
+$ F(7) $ & $ (\frac{19}{19}) + \frac{0}{19} = \frac{19}{19} $ \\ \hline
+$ F(8) $ & $ (\frac{19}{19}) + \frac{0}{19} = \frac{19}{19} $ \\ \hline
+
+\end{tabular}
+
+Now that we have a definition of the ideal mana curve,
+let us contrast it to a suboptimal mana curve
+so we can develop a quantitative measure for how the two differ.
+Take the following mana curve:
+
+\begin{lstlisting}[language=R, frame=single]
+
+bad.mana.curve <- c(
+    1,
+    2,
+    3,
+    4, 4, 4, 4,
+    5, 5, 5, 5, 5, 5,
+    6, 6,
+    7, 7,
+    8, 8, 8, 8, 8, 8
+)
+
+bad.relative.frequency <- table(bad.mana.curve) / length(bad.mana.curve)
+
+\end{lstlisting}
+
+Using its CDF $ F' $, we can describe this mana curve with the following table:
+
+\begin{tabular}{|l|l|}
+\hline
+
+$ F'(1) $ & $ \frac{1}{23} $ \\ \hline
+$ F'(2) $ & $ (\frac{1}{23}) + \frac{1}{23} = \frac{2}{23} $ \\ \hline
+$ F'(3) $ & $ (\frac{2}{23}) + \frac{1}{23} = \frac{3}{23} $ \\ \hline
+$ F'(4) $ & $ (\frac{3}{23}) + \frac{4}{23} = \frac{7}{23} $ \\ \hline
+$ F'(5) $ & $ (\frac{7}{23}) + \frac{6}{23} = \frac{13}{23} $ \\ \hline
+$ F'(6) $ & $ (\frac{13}{23}) + \frac{2}{23} = \frac{15}{23} $ \\ \hline
+$ F'(7) $ & $ (\frac{15}{23}) + \frac{2}{23} = \frac{17}{23} $ \\ \hline
+$ F'(8) $ & $ (\frac{17}{23}) + \frac{6}{23} = \frac{23}{23} $ \\ \hline
+
+\end{tabular}
+
+We can define the difference between the two mana curves in the following manner:
+
+\begin{tabular}{|l|l|}
+\hline
+
+$ \abs{F(1) - F'(1)} $ & $ \abs{(\frac{1}{19}) - (\frac{1}{23})} = \frac{4}{437} \approx 0.92\% $ \\ \hline
+$ \abs{F(2) - F'(2)} $ & $ \abs{(\frac{6}{19}) - (\frac{2}{23})} = \frac{100}{437} \approx 23\% $ \\ \hline
+$ \abs{F(3) - F'(3)} $ & $ \abs{(\frac{10}{19}) - (\frac{3}{23})} = \frac{173}{437} \approx 40\% $ \\ \hline
+$ \abs{F(4) - F'(4)} $ & $ \abs{(\frac{14}{19}) - (\frac{7}{23})} = \frac{189}{437} \approx 43\% $ \\ \hline
+$ \abs{F(5) - F'(5)} $ & $ \abs{(\frac{17}{19}) - (\frac{13}{23})} = \frac{144}{437} \approx 33\% $ \\ \hline
+$ \abs{F(6) - F'(6)} $ & $ \abs{(\frac{19}{19}) - (\frac{15}{23})} = \frac{8}{23} \approx 35\% $ \\ \hline
+$ \abs{F(7) - F'(7)} $ & $ \abs{(\frac{19}{19}) - (\frac{17}{23})} = \frac{6}{23} \approx 26\% $ \\ \hline
+$ \abs{F(8) - F'(8)} $ & $ \abs{(\frac{19}{19}) - (\frac{23}{23})} = 0\% $ \\ \hline
+
+\end{tabular}
+
+Using this approach,
+we can define a penalty for being different from our ideal mana curve.
+Namely,
+
+$$
+penalty(F') = \abs{5\% - F'(1)} + \abs{31\% - F'(2)} + \abs{52\% - F'(3)}
+    + \abs{73\% - F'(4)} + \abs{89\% - F'(5)} + \abs{100\% - F'(6)}
+    + \abs{100\% - F'(7)} + \abs{100\% - F'(8)}
+$$
+
+Using this function, the penalty for the suboptimal mana curve would be
+$ penalty(F') \approx 2.00 $.
+
 \subsubsubsection{SO3: Land Percentage}
 
-In Magic: The Gathering, cards are activated using mana cards known as lands.  Each of these lands has a
-color that it is associated with which dictates what type of mana it supplies.  We have already
-established that the optimal number of cards in a deck is 40, and with this size the ideal ratio of lands
-to non-lands is 17 lands to 23 non-lands, or about 42.5\% lands.  We want this ratio to be below 50\%
-since if it were 50\%, then there would be a 50/50 chance every time the player draws a card that that
-card would be a land.  A ratio higher than 50\% would yield even more lands.  This many lands is not
-practical in-game, so we want the ratio to be lower. We will calculate the penalty for having a higher
-or lower ratio of lands to non-lands with the following function;
+In Magic: The Gathering, cards are activated using mana cards known as lands.
+Each of these lands has a color that it is associated with which dictates
+what type of mana it supplies.
+We have already established that the optimal number of cards in a deck is 40,
+and with this size the ideal ratio of lands to non-lands is 17 lands to 23 non-lands,
+or about 42.5\% lands.
+We want this ratio to be below 50\% since if it were 50\%,
+then there would be a 50/50 chance every time the player draws a card that the card would be a land.
+A ratio higher than 50\% would yield even more lands.
+This many lands is not practical in-game,
+so we want the ratio to be lower.
+We will calculate the penalty for having a higher
+or lower ratio of lands to non-lands with the following function:
 
 $$
 f(r) = \begin{cases}
-    0 & 16/40 <= r <= 18/40 \\
-    c | 17/40 - r | & otherwise
+    0 & \frac{16}{40} <= r <= \frac{18}{40} \\
+    c \abs{\frac{17}{40} - r} & otherwise
 \end{cases}
 $$
 
-...with r being our ratio of lands to non-lands and c being a constant used to weight the penalty.
-
+with $ r $ being our ratio of lands to non-lands
+and $ c $ being a constant used to weight the penalty.
 
 \subsubsubsection{SO3a: Land Color Percentage}
 
-Most cards in Magic: The Gathering require mana in order to be played.  Mana is collected from
-cards known as lands, and each land has a color associated with it.  Cards cannot be played with
-any color of mana, they require one, sometimes two or more specific colors in order to be played.
-At the top of each card is the mana cost it requires. This requirement consists of one or more
-specific types of mana that the card needs, referred to as mana symbols, and then another number
-of generic mana that is required.  This generic number can be fulfilled by any color of mana.
+Most cards in Magic: The Gathering require mana in order to be played.
+Mana is collected from cards known as lands,
+and each land has a color associated with it.
+Cards cannot be played with any color of mana,
+they require one, sometimes two or more specific colors in order to be played.
+At the top of each card is the mana cost it requires.
+This requirement consists of one or more specific types of mana that the card needs,
+referred to as mana symbols, and then another number of generic mana that is required.
+This generic number can be fulfilled by any color of mana.
 We want to keep a color ratio of lands that is proportional to what kinds of cards are in our deck.
-For example, if we take all of the red cards in our deck and add up the red mana symbols on them,
-say that number is 19 and the total number of black mana symbols is 16. By dividing the quantity
-of one color by the total number of colored mana symbols we know what proportion of our lands
-should produce that color. Lets say that in this example we want to have 16 lands, since the ratio
-of our red mana symbols to the total number of colored mana symbols is 19/35 or about 54\%, we
-would want about 9 of our lands to produce red mana.
+For example,
+if we take all of the red cards in our deck and add up the red mana symbols on them,
+say that number is 19 and the total number of black mana symbols is 16.
+By dividing the quantity of one color by the total number of colored mana symbols
+we know what proportion of our lands should produce that color.
+Lets say that in this example we want to have 16 lands,
+since the ratio of our red mana symbols to the total number of colored mana symbols
+is $ \frac{19}{35} $ or about 54\%,
+we would want about 9 of our lands to produce red mana.
 
 \subsubsubsection{SO4: Color Identity}
 
@@ -397,7 +559,7 @@ with flying or creatures that are unblockable by other means.
 Evasion is important as it allows for damage that an
 opponent usually does not have the ability to deal with.
 Since evasive creatures do not always come in every color,
-if a deck’s color combination has access to these evasive,
+if a deck's color combination has access to these evasive,
 there are evasive creatures within the card pool, and the deck fails to meet $ 2 $ evasive creatures,
 then they will receive a deduction based on the difference of $ 2 $
 and the number of evasive creatures they have in their deck.
@@ -475,13 +637,13 @@ with their creatures.
 Then the attacking creatures deal damage to the blocking creatures and vice-versa.
 By a creature reaching 0 toughness or due to another ability,
 creatures die and enter the graveyard where they usually lie until the end of the game.
-By killing off your opponent’s creatures,
+By killing off your opponent's creatures,
 you usually are given an advantage and one way of accomplishing this is by using combat tricks.
 Since your opponent does not know the cards in your hand,
 they are unaware of what your plans are.
 Combat tricks are cards or abilities that allow for interaction
 with the attacking or blocking creatures.
-This leads to you messing up your opponent’s plans in your advantage.
+This leads to you messing up your opponent's plans in your advantage.
 
 To calculate the complete value of penalties within this subsection,
 we take the sum of all of the deductions made,

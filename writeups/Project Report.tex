@@ -275,9 +275,7 @@ we have identified 6 sub-objectives each evaluating a different
 important aspect of successful decks that we want to consider in our analysis.
 % Some of the specified penalty values have not yet been fully tested and may change in the future.
 
-\subsubsection{Sub-Objectives (SOs)}
-
-\subsubsubsection{Deck Size}
+\subsubsection{Deck Size}
 
 In the sealed format of Magic: The Gathering,
 players are given 6 booster packs, each containing 15 cards,
@@ -459,9 +457,9 @@ f(r) = \begin{cases}
 \end{cases}
 $$
 
-
-\subsubsubsection{Land Color Percentage}
 with $ r $ being our ratio of lands to non-lands.
+
+\subsubsection{Land Color Percentage}
 
 As mentioned previously,
 most cards in Magic: The Gathering require mana in order to be played
@@ -471,8 +469,6 @@ whereas others accept any color.
 We want to craft the color ratio of our lands such that it is equal to
 the ratio of the mana cost of the cards in our deck.
 For example,
-
-\subsubsubsection{Color Identity}
 if we take the cards in our deck and count all the red mana symbols on them,
 we can find the ratio of red mana symbols to the total number of mana symbols
 and we should strive to make ratio of our red lands to the total number of lands equal to it.
@@ -484,6 +480,8 @@ Given this ratio,
 we would want $ \frac{19}{35} * 16 \approx 9 $ of our lands to be red lands.
 
 % TODO: Discuss penalty
+
+\subsubsection{Color Identity}
 
 The ideal deck primarily consists of two mana colors.
 Any other color underneath a certain threshold is considered to be a \enquote{splash}.
@@ -501,7 +499,7 @@ where `colors' denotes the number of dominant colors,
 `splashes' denotes the number of splashed colors,
 and $ c_1 $ \& $ c_2 $ are separate values to weight the results.
 
-\subsubsubsection{Card Archetypes}
+\subsubsection{Card Archetypes}
 
 In the card game Magic: The Gathering there are many \enquote{archetypes} of cards that are
 important to keep in mind when creating a sealed deck.

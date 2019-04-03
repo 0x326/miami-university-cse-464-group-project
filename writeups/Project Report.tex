@@ -59,9 +59,6 @@ We also plan to implement an optimization algorithm to maximize this function
 so that players can play with the most effective deck.
 This algorithm could help professionals as well as novices to have better odds of success
 and a more enjoyable experience.
-Given Magic the Gathering's large audience,
-this algorithm would solve a practical problem common to players of the game
-and could even see widespread use.
 
 \section{Definition}
 
@@ -472,7 +469,16 @@ Lets say that in this example we want to have 16 lands total.
 Given this ratio,
 we would want $ \frac{19}{35} * 16 \approx 9 $ of our lands to be red lands.
 
-% TODO: Discuss penalty
+By comparing the deck being analyzed's ratio of each land and the total number of lands
+to the ratio of mana symbols of the color that land would produce and the total number of mana symbols,
+we can analyze how ideal our landbase is. For each color of mana symbol used within the deck,
+we apply this function to calculate the penalty for the incorrectness of the manabase
+
+$f(w,u,b,r,g)=|w'-w|+|u'-u|+|b'-b|+|r'-r|+|g'-g|$
+
+where w, u, b, r, and g denote the land color ratio for each color within the deck
+while their prime counterparts represent the corresponding mana symbol ratio for the deck.
+
 
 \subsubsection{Color Identity}
 
@@ -669,18 +675,23 @@ in the pool based off of more situational factors.
 \item[Scott Harris]
     \item Literary Review Sections 3.1 \& 3.2
     \item Archetypes Sub-objective
+    \item Magic: The Gathering Consultant/Researcher
     \item Contribution \%: 30\%
 \item[John Meyer]
     \item Literary Review Sections 3.5 \& 3.6
     \item Mana-Curve Sub-objective
+    \item Project Lead
     \item Contribution \%: 40\%
 \item[Bryan Hayes]
     \item Literary Review Sections 3.7 \& 3.8
     \item Deck-size \& Land Ratio Sub-Objectives
+    \item Ant Colony Optimization Paragraph
     \item Contribution \%: 15\%
 \item[Jacob Freedman]
     \item Literary Review Sections 3.3 \& 3.4
     \item Color Identity Sub-objective
+    \item Researched Optimization
+    \item Particle Swarm Optimization Paragraph
     \item Contribution \%: 15\%
 
 \end{itemize}

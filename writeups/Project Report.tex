@@ -277,7 +277,7 @@ Some of the specified penalty values have not yet been fully tested and may chan
 
 \subsubsection{Sub-Objectives (SOs)}
 
-\subsubsubsection{SO1: Deck Size}
+\subsubsubsection{Deck Size}
 
 In the sealed format of Magic: The Gathering,
 players are given 6 booster packs, each containing 15 cards,
@@ -432,7 +432,6 @@ $$
 Using this function, the penalty for the suboptimal mana curve would be
 $ penalty(F') \approx 2.00 $.
 
-\subsubsubsection{SO3: Land Percentage}
 
 In Magic: The Gathering, cards are activated using mana cards known as lands.
 Each of these lands has a color that it is associated with which dictates
@@ -441,6 +440,7 @@ We have already established that the optimal number of cards in a deck is 40,
 and with this size the ideal ratio of lands to non-lands is 17 lands to 23 non-lands,
 or about 42.5\% lands.
 We want this ratio to be below 50\% since if it were 50\%,
+\subsubsubsection{Land Percentage}
 then there would be a 50/50 chance every time the player draws a card that the card would be a land.
 A ratio higher than 50\% would yield even more lands.
 This many lands is not practical in-game,
@@ -458,7 +458,7 @@ $$
 with $ r $ being our ratio of lands to non-lands
 and $ c $ being a constant used to weight the penalty.
 
-\subsubsubsection{SO3a: Land Color Percentage}
+\subsubsubsection{Land Color Percentage}
 
 Most cards in Magic: The Gathering require mana in order to be played.
 Mana is collected from cards known as lands,
@@ -480,9 +480,9 @@ since the ratio of our red mana symbols to the total number of colored mana symb
 is $ \frac{19}{35} $ or about 54\%,
 we would want about 9 of our lands to produce red mana.
 
-\subsubsubsection{SO4: Color Identity}
+\subsubsubsection{Color Identity}
 
-\subsubsubsection{SO5: Card Archetypes}
+\subsubsubsection{Card Archetypes}
 
 In the card game Magic: The Gathering there are many \enquote{archetypes} of cards that are
 important to keep in mind when creating a sealed deck.

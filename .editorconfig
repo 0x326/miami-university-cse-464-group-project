@@ -8,10 +8,16 @@ trim_trailing_whitespace = true
 insert_final_newline = true
 end_of_line = lf
 
+[*.lp]
+indent_size = 4
+
 [*.rst]
 indent_size = 3
 
 [*.md]
+indent_size = 2
+
+[*.dia]
 indent_size = 2
 
 [Makefile]

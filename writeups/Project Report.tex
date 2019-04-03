@@ -483,17 +483,23 @@ we would want about 9 of our lands to produce red mana.
 \subsubsubsection{Color Identity}
 
 The ideal deck can have one or two colors, with a strong preference towards duel colored decks.
-Beyond that, color \enquote{splashes} are allowed. A color is considered to be a splash when it is present
-in a certain percentage of cards, but not enough to be considered a dominant color. In our case,
-if a color is below 10 percent, then we will consider it a splash. The best case scenario is a deck
-that is solely two color deck. Our function will penalize any additional colors addition over two.
-It will also make sure that if a splash does occur, it only occurs once. The penalty would be
-determined by a linear function such as
+Beyond that, color \enquote{splashes} are allowed.
+A color is considered to be a splash when it is present in a certain percentage of cards,
+but not enough to be considered a dominant color.
+In our case, if a color is below 10 percent,
+then we will consider it a splash.
+The best case scenario is a deck that is solely two color deck.
+Our function will penalize any additional colors addition over two.
+It will also make sure that if a splash does occur, it only occurs once.
+The penalty would be determined by a linear function such as:
 
-$f(colors,splashes)= c1 * |2-colors| + c2 *splashes$
+$$
+f(colors, splashes) = c_1 * \abs{2-colors} + c_2 * splashes
+$$
 
-where `colors' denotes the number of dominant colors, `splashes' denotes the number of splashed colors, and
-c1 \& c2 are separate values to weight the results.
+where `colors' denotes the number of dominant colors,
+`splashes' denotes the number of splashed colors,
+and $ c_1 $ \& $ c_2 $ are separate values to weight the results.
 
 \subsubsubsection{Card Archetypes}
 

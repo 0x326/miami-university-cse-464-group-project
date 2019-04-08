@@ -10,10 +10,10 @@ from mtgsdk import Card, Set, Type, Supertype, Subtype, Changelog
 
 grn = Card.where(set='rna').where(language="English").all()
 
-with open("RavnicaAllegience.txt", "w") as file_object:
+with open("RavnicaAllegienceURLs.txt", "w") as file_object:
 
     for card in grn:
 
         if card.name == "Plains":
             break
-        #file_object.write(f'{card.name:<30} | {(card.mana_cost if (card.mana_cost is not None) else ""):<20} | {card.cmc:<5} | {card.type.replace("—", "-"):<40} | {card.rarity:<10} | \n')
+        file_object.write(f'{card.image_url} \n')

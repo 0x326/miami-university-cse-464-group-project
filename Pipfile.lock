@@ -1,11 +1,11 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "415dfdcb118dd9bdfef17671cb7dcd78dbd69b6ae7d4f39e8b44e71d60ca72e7"
+            "sha256": "94217ca7370e5b0cff4760fcb4e1dd14e70c1b6e6c9e754d90adb491ae47358b"
         },
         "pipfile-spec": 6,
         "requires": {
-            "python_version": "3.6"
+            "python_version": "3"
         },
         "sources": [
             {
@@ -15,6 +15,15 @@
             }
         ]
     },
-    "default": {},
+    "default": {
+        "mtgsdk": {
+            "hashes": [
+                "sha256:3e7d2a6b5f49cbf75e0b4cbaf0424ac6130cab1d994f873ea4d186fa2e645b39",
+                "sha256:88b935af579484f7e62ca3097d5c828fbad7ce1aa232022b292e53ff373ae737"
+            ],
+            "index": "pypi",
+            "version": "==1.3.1"
+        }
+    },
     "develop": {}
 }

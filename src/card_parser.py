@@ -9,11 +9,12 @@ from mtgsdk import Card, Set, Type, Supertype, Subtype, Changelog
 # print(len(booster))
 
 grn = Card.where(set='rna').where(language="English").all()
-
-with open("RavnicaAllegienceURLs.txt", "w") as file_object:
+num: int = 1
+with open("RavnicaAllegienceCardIDs.txt", "w") as file_object:
 
     for card in grn:
 
         if card.name == "Plains":
             break
-        file_object.write(f'{card.image_url} \n')
+        file_object.write(f'{num} \n')
+        num += 1

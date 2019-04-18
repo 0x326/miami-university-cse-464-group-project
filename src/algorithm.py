@@ -8,7 +8,7 @@ K = TypeVar('K')
 V = TypeVar('V')
 
 
-def zip_dict(*dictionaries: Mapping[K, V]) -> Iterator[Iterator[Union[K, V]]]:
+def zip_dict(*dictionaries: Mapping[K, V]) -> Iterator[Sequence[Union[K, V]]]:
     """
     Like ``zip(*(dict_item.items() for dict_item in dict_list))``,
     except each iteration value is grouped by the same dict key

@@ -202,7 +202,7 @@ if __name__ == '__main__':
     import csv
 
     parser = argparse.ArgumentParser(description='Compute an optimal deck given a set of booster packs')
-    parser.add_argument('ratings-file', metavar='RATING', type=argparse.FileType('r'), required=True,
+    parser.add_argument('ratings-file', metavar='RATING', type=argparse.FileType('r'),
                         help='The ratings list as a CSV')
 
     args = parser.parse_args()

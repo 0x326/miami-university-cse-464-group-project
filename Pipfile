@@ -7,6 +7,7 @@ name = "pypi"
 mtgsdk = "*"
 
 [dev-packages]
+colorful = "*"
 
 [requires]
 python_version = "3"

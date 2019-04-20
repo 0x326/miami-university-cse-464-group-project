@@ -16,7 +16,7 @@
 % planeswalker_action(CardId, LoyaltyEffect).
 % creature(CardId, Power, Toughness).
 % creature_ability(CardId, Ability).  % Such as flying, etc.
-% socery(CardId).
+% sorcery(CardId).
 % instant(CardId).
 
 % card_archetype(CardId, Archetype).
@@ -116,7 +116,7 @@ permanent(CardId) :-
 
 -permanent(CardId) :-
     card(CardId, _, _),
-    socery(CardId).
+    sorcery(CardId).
 
 -permanent(CardId) :-
     card(CardId, _, _),

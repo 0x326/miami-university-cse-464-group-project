@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 from collections import Counter
 from enum import Enum, auto, unique, Flag
 from itertools import combinations, chain

@@ -336,12 +336,14 @@ turn(PreviousTurnNumber + 1, NextPlayerId) :-
 %%%% Player action %%%%
 
 % Every player untaps all of his cards at the beginning of his turn
-% TODO: Make sure this rule only untaps tapable cards (such as lands and creatures)
+% This rule only untaps tapable cards (such as lands and creatures)
 untap_card(TurnNumber, beginning, PlayerId, CardInstanceId) :-
     turn_phase(TurnNumber, beginning),
     turn(TurnNumber, ActivePlayerId),
     card_present(TurnNumber, beginning, CardInstanceId),
     card_controller(TurnNumber, beginning, CardInstanceId, ControllerPlayerId),
+    card_instance(CardInstanceId, CardId, _),
+    tappable(CardId),
     ActivePlayerId = ControllerPlayerId,
     PlayerId = ActivePlayerId.
 

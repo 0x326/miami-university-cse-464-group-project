@@ -206,6 +206,8 @@ if __name__ == '__main__':
     parser.add_argument('ratings-file', metavar='RATING', type=argparse.FileType('r'),
                         help='The ratings list as a CSV')
 
+    cards: Dict[CardId, Card] = {}
+
     args = parser.parse_args()
     with args.ratings_file as ratings_file:
         ratings: Iterator[List[str]] = csv.reader(ratings_file)
@@ -213,4 +215,5 @@ if __name__ == '__main__':
         for rating in ratings:
             card_id, card_name, mana_cost, cmc, card_type, rarity, guild, \
                 bomb, removal, combat_trick, evasive, counter, card_draw, mana_fixing, card_set, image_url = rating
-            # Card(name=card_name, mana_cost=mana_cost, converted_mana_cost=cmc, type=card_type)
+            # card = Card(name=card_name, mana_cost=mana_cost, converted_mana_cost=cmc, type=card_type)
+            # cards[card_id] = card

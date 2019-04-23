@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 
+import random
 from collections import Counter
 from enum import Enum, auto, unique, Flag
-from itertools import combinations, chain
+from itertools import chain
 from typing import *
 from urllib.parse import ParseResult
 
@@ -146,8 +147,10 @@ class Card(NamedTuple):
     archetypes: Archetype
 
 
-def generate_booster_packs(card_options: Deck, length: int = 90) -> Iterable[Deck]:
-    yield from combinations(card_options, length)
+def generate_booster_packs(card_options: Sequence[CardId], length: int = 90) -> Iterable[Deck]:
+    while True:
+        cards: List[CardId] = random.choices(card_options, k=length)
+        yield Counter(cards)
 
 
 def evaluate_deck(deck: Deck, set_info: Mapping[CardId, Card]) -> float:

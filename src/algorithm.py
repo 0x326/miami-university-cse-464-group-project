@@ -148,6 +148,16 @@ def generate_booster_packs(card_options: Sequence[CardId], length: int = 90) -> 
         yield Counter(cards)
 
 
+def count_archetypes(archetypes: Iterable[Archetype], deck: Deck, set_info: Mapping[CardId, Card]):
+    archetype_counts: DefaultDict[Archetype, int] = defaultdict(int)
+    for card_id, quantity in deck.items():
+        for archetype in archetypes:
+            if archetype in set_info[card_id].archetypes:
+                archetype_counts[archetype] += quantity
+
+    return archetype_counts
+
+
 def evaluate_deck(deck: Deck, set_info: Mapping[CardId, Card]) -> float:
     """
     :return: A penalty value which should be minimized
@@ -191,27 +201,22 @@ def evaluate_deck(deck: Deck, set_info: Mapping[CardId, Card]) -> float:
     deck_color_penalty = max(2 - len(dominant_mana_colors), 2) + len(splash_mana_colors)
 
     # Card archetypes
-    bomb_count = Counter(set_info[card_id].archetypes
-                         for card_id in deck_elements
-                         if set_info[card_id].archetypes.BOMB)
-    removal_count = Counter(set_info[card_id].archetypes
-                         for card_id in deck_elements
-                         if set_info[card_id].archetypes.REMOVAL)
-    evasive_count = Counter(set_info[card_id].archetypes
-                         for card_id in deck_elements
-                         if set_info[card_id].archetypes.EVASIVE)
-    duds_count = Counter(set_info[card_id].archetypes
-                         for card_id in deck_elements
-                         if set_info[card_id].rating <= 1)
-    manafix_count = Counter(set_info[card_id].archetypes
-                         for card_id in deck_elements
-                         if set_info[card_id].archetypes.MANA_FIXING)
+    archetype_counts = count_archetypes((Archetype.BOMB, Archetype.REMOVAL, Archetype.EVASIVE, Archetype.MANA_FIXING),
+                                        deck=deck, set_info=set_info)
+    duds_count = sum(quantity
+                     for card_id, quantity in deck.items()
+                     if set_info[card_id].rating <= 1)
 
-    archetype_penalties = 0
-    archetype_penalties += (0 if bomb_count >= 1 else 10) + (0 if removal_count >= 2 else 10 * (2 - removal_count))
+    archetype_penalty = 0
+    if archetype_counts[Archetype.BOMB] == 0:
+        archetype_penalty += 10
+    if archetype_counts[Archetype.REMOVAL] < 2:
+        distance_from_ideal = 2 - archetype_counts[Archetype.REMOVAL]
+        archetype_penalty += 10 * distance_from_ideal
 
     # Combine objectives
-    total_penalty = number_of_cards_penalty + land_ratio_penalty + mana_symbol_ratio_penalty + deck_color_penalty
+    total_penalty = number_of_cards_penalty + land_ratio_penalty + \
+        mana_symbol_ratio_penalty + deck_color_penalty + archetype_penalty
 
     return total_penalty
 

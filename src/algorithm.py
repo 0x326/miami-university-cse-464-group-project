@@ -203,8 +203,12 @@ def evaluate_deck(deck: Deck, set_info: Mapping[CardId, Card]) -> float:
     duds_count = Counter(set_info[card_id].archetypes
                          for card_id in deck_elements
                          if set_info[card_id].rating <= 1)
+    manafix_count = Counter(set_info[card_id].archetypes
+                         for card_id in deck_elements
+                         if set_info[card_id].archetypes.MANA_FIXING)
 
     archetype_penalties = 0
+    archetype_penalties += (0 if bomb_count >= 1 else 10) + (0 if removal_count >= 2 else 10 * (2 - removal_count))
 
     # Combine objectives
     total_penalty = number_of_cards_penalty + land_ratio_penalty + mana_symbol_ratio_penalty + deck_color_penalty

@@ -191,6 +191,20 @@ def evaluate_deck(deck: Deck, set_info: Mapping[CardId, Card]) -> float:
     deck_color_penalty = max(2 - len(dominant_mana_colors), 2) + len(splash_mana_colors)
 
     # Card archetypes
+    bomb_count = Counter(set_info[card_id].archetypes
+                         for card_id in deck_elements
+                         if set_info[card_id].archetypes.BOMB)
+    removal_count = Counter(set_info[card_id].archetypes
+                         for card_id in deck_elements
+                         if set_info[card_id].archetypes.REMOVAL)
+    evasive_count = Counter(set_info[card_id].archetypes
+                         for card_id in deck_elements
+                         if set_info[card_id].archetypes.EVASIVE)
+    duds_count = Counter(set_info[card_id].archetypes
+                         for card_id in deck_elements
+                         if set_info[card_id].rating <= 1)
+
+    archetype_penalties = 0
 
     # Combine objectives
     total_penalty = number_of_cards_penalty + land_ratio_penalty + mana_symbol_ratio_penalty + deck_color_penalty

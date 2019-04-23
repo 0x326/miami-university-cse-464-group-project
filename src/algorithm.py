@@ -48,7 +48,7 @@ class ManaColor(Enum):
 
 
 @unique
-class Keyword(Enum):
+class Keyword(Flag):
     DEATHTOUCH = auto()
     DEFENDER = auto()
     DOUBLE_STRIKE = auto()
@@ -78,11 +78,6 @@ class Archetype(Flag):
     COUNTER = auto()
     CARD_DRAW = auto()
     MANA_FIXING = auto()
-
-
-class ManaCost(NamedTuple):
-    color: ManaColor
-    quantity: int
 
 
 @unique
@@ -116,7 +111,7 @@ class Planeswalker(NamedTuple):
 class Creature(NamedTuple):
     power: int
     toughness: int
-    abilities: Sequence[Keyword]
+    keywords: Keyword
 
 
 class Sorcery(NamedTuple):
@@ -136,9 +131,9 @@ class Rarity(Enum):
 
 class Card(NamedTuple):
     name: str
-    mana_cost: Sequence[ManaCost]
+    mana_cost: Mapping[ManaColor, int]
     converted_mana_cost: int
-    type: Union[Land, Enchantment, Artifact, Planeswalker, Creature, Sorcery, Instant]
+    type_info: Union[Land, Enchantment, Artifact, Planeswalker, Creature, Sorcery, Instant]
     set: str
     rarity: Rarity
     rating: int
@@ -164,9 +159,9 @@ def evaluate_deck(deck: Deck, set_info: Mapping[CardId, Card]) -> float:
     # Mana curve
 
     # Land percentage
-    land_counts = Counter(set_info[card_id].type.color
+    land_counts = Counter(set_info[card_id].type_info.color
                           for card_id in deck_elements
-                          if isinstance(set_info[card_id].type, Land))
+                          if isinstance(set_info[card_id].type_info, Land))
     total_lands = sum(land_counts.values())
     land_ratios: Dict[ManaColor, float] = {color: count / total_lands
                                            for color, count in land_counts.items()}
@@ -175,10 +170,11 @@ def evaluate_deck(deck: Deck, set_info: Mapping[CardId, Card]) -> float:
     land_ratio_penalty = 0 if 16 / 40 <= total_land_ratio <= 18 / 40 else abs(17 / 40 - total_land_ratio)
 
     # Land color percentage
-    mana_costs: Iterator[ManaCost] = chain(*(set_info[card_id].mana_cost for card_id in deck_elements))
-    mana_symbol_counts = Counter(mana_cost.color
+    mana_costs: Iterator[Mapping[ManaColor, int]] = chain(*(set_info[card_id].mana_cost for card_id in deck_elements))
+    mana_symbol_counts = Counter(color
                                  for mana_cost in mana_costs
-                                 for _ in range(mana_cost.quantity))
+                                 for color, quantity in mana_cost.items()
+                                 for _ in range(quantity))
     total_mana_symbols = sum(mana_symbol_counts.values())
     mana_symbol_ratios: Dict[ManaColor, float] = {color: count / total_mana_symbols
                                                   for color, count in mana_symbol_counts.items()}

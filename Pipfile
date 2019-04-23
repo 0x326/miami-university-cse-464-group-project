@@ -9,6 +9,7 @@ mtgsdk = "*"
 [dev-packages]
 colorful = "*"
 hypothesis = "*"
+pycodestyle = "*"
 
 [requires]
 python_version = "3"

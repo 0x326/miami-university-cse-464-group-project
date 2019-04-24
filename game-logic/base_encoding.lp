@@ -7,7 +7,6 @@
 % card_mana_cost(CardId, ManaColor, ManaCount).
 % card_mana_cost_variable(CardId, ManaColor, VariableName).
 % card_rule_exception(CardId, RuleNumber).
-% tappable(CardId).
 
 % land(CardId, Color).
 % enchantment(CardId, TargetType).
@@ -30,6 +29,7 @@
 % ability(Ability).
 % archetype(Archetype).
 % permanent(CardId).
+% tappable(CardId).
 
 %%%% Time tracking predicates %%%%
 

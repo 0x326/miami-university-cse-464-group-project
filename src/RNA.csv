@@ -219,47 +219,37 @@ CardID,CardName,ManaCost,CMC,Type,Rarity,Rating,Guild,Bomb,Removal,CombatTrick,E
 218,Scuttlegator,{4}{G/U}{G/U},6,Creature - Crab Turtle Crocodile,Common,1.5,NULL,0,0,0,0,0,0,0,RNA,http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=457362&type=card
 219,Senate Griffin,{2}{W/U}{W/U},4,Creature - Griffin,Common,3,NULL,0,0,0,1,0,0,0,RNA,http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=457363&type=card
 220,Vizkopa Vampire,{2}{W/B},3,Creature - Vampire,Common,2,NULL,0,1,1,0,0,0,0,RNA,http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=457364&type=card
-221,Bedazzle,{4}{B}{R},8,Instant,Rare,3.5,NULL,0,1,1,0,0,0,0,RNA,http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=457365&type=card
-222,Bedeck,{B/R}{B/R},8,Instant,Rare,3.5,NULL,0,1,0,0,0,0,0,RNA,http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=457365&type=card
-223,Carnage,{2}{B}{R},5,Sorcery,Uncommon,3,NULL,0,1,0,0,0,0,0,RNA,http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=457366&type=card
-224,Carnival,{B/R},5,Instant,Uncommon,3,NULL,0,1,0,0,0,0,0,RNA,http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=457366&type=card
-225,Colossus,{R}{G},4,Instant,Uncommon,3.5,NULL,0,1,1,0,0,0,0,RNA,http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=457367&type=card
-226,Collision,{1}{R/G},4,Instant,Uncommon,3.5,NULL,0,1,1,0,0,0,0,RNA,http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=457367&type=card
-227,Consume,{2}{W}{B},6,Sorcery,Uncommon,3.5,NULL,0,0,0,0,0,0,0,RNA,http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=457368&type=card
-228,Consecrate,{1}{W/B},6,Instant,Uncommon,3.5,NULL,0,1,0,0,0,0,0,RNA,http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=457368&type=card
-229,Deploy,{2}{W}{U},6,Instant,Uncommon,3.5,NULL,0,1,1,0,0,0,0,RNA,http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=457369&type=card
-230,Depose,{1}{W/U},6,Instant,Uncommon,3.5,NULL,0,0,1,0,0,0,0,RNA,http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=457369&type=card
-231,Incongruity,{1}{G}{U},4,Instant,Uncommon,2.5,NULL,0,1,0,0,0,0,0,RNA,http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=457370&type=card
-232,Incubation,{G/U},4,Sorcery,Uncommon,2.5,NULL,0,1,0,0,0,0,0,RNA,http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=457370&type=card
-233,Replicate,{1}{G}{U},5,Sorcery,Rare,3,NULL,0,0,0,0,0,0,0,RNA,http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=457371&type=card
-234,Repudiate,{G/U}{G/U},5,Instant,Rare,3,NULL,0,0,0,0,0,0,0,RNA,http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=457371&type=card
-235,Revenge,{4}{W}{B},8,Sorcery,Rare,2.5,NULL,0,0,0,0,0,0,0,RNA,http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=457372&type=card
-236,Revival,{W/B}{W/B},8,Sorcery,Rare,2.5,NULL,0,0,0,0,0,0,0,RNA,http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=457372&type=card
-237,Threat,{2}{R}{G},6,Sorcery,Rare,4,NULL,0,1,0,0,0,0,0,RNA,http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=457373&type=card
-238,Thrash,{R/G}{R/G},6,Instant,Rare,4,NULL,0,1,0,0,0,0,0,RNA,http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=457373&type=card
-239,Warden,{3}{W}{U},7,Sorcery,Rare,4,NULL,0,0,1,0,0,0,0,RNA,http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=457374&type=card
-240,Warrant,{W/U}{W/U},7,Instant,Rare,4,NULL,0,0,1,0,0,0,0,RNA,http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=457374&type=card
-241,Azorius Locket,{3},3,Artifact,Common,2,NULL,0,0,0,0,0,1,1,RNA,http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=457375&type=card
-242,Gate Colossus,{8},8,Artifact Creature - Construct,Uncommon,1//3,NULL,0,0,0,0,0,0,0,RNA,http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=457376&type=card
-243,Glass of the Guildpact,{2},2,Artifact,Rare,2,NULL,0,0,0,0,0,0,0,RNA,http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=457377&type=card
-244,Gruul Locket,{3},3,Artifact,Common,1.5,NULL,0,0,0,0,0,1,1,RNA,http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=457378&type=card
-245,Junktroller,{4},4,Artifact Creature - Golem,Uncommon,1,NULL,0,0,0,0,0,0,0,RNA,http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=457379&type=card
-246,Orzhov Locket,{3},3,Artifact,Common,2,NULL,0,0,0,0,0,1,1,RNA,http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=457380&type=card
-247,Rakdos Locket,{3},3,Artifact,Common,1.5,NULL,0,0,0,0,0,1,1,RNA,http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=457381&type=card
-248,Scrabbling Claws,{1},1,Artifact,Uncommon,1,NULL,0,0,0,0,0,0,0,RNA,http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=457382&type=card
-249,Screaming Shield,{1},1,Artifact - Equipment,Uncommon,1,NULL,0,0,0,0,0,0,0,RNA,http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=457383&type=card
-250,Simic Locket,{3},3,Artifact,Common,2,NULL,0,0,0,0,0,1,1,RNA,http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=457384&type=card
-251,Sphinx of the Guildpact,{7},7,Artifact Creature - Sphinx,Uncommon,1.5,NULL,0,0,0,1,0,0,0,RNA,http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=457385&type=card
-252,Tome of the Guildpact,{5},5,Artifact,Rare,3.5,NULL,0,0,0,0,0,0,0,RNA,http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=457386&type=card
-253,Azorius Guildgate,,0,Land - Gate,Common,3,NULL,0,0,0,0,0,0,1,RNA,http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=457387&type=card
-254,Blood Crypt,,0,Land - Swamp Mountain,Rare,3,NULL,0,0,0,0,0,0,1,RNA,http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=457389&type=card
-255,Breeding Pool,,0,Land - Forest Island,Rare,3,NULL,0,0,0,0,0,0,1,RNA,http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=457390&type=card
-256,Gateway Plaza,,0,Land - Gate,Common,3,NULL,0,0,0,0,0,0,1,RNA,http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=457391&type=card
-257,Godless Shrine,,0,Land - Plains Swamp,Rare,3,NULL,0,0,0,0,0,0,1,RNA,http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=457392&type=card
-258,Gruul Guildgate,,0,Land - Gate,Common,3,NULL,0,0,0,0,0,0,1,RNA,http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=457393&type=card
-259,Hallowed Fountain,,0,Land - Plains Island,Rare,3,NULL,0,0,0,0,0,0,1,RNA,http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=457395&type=card
-260,Orzhov Guildgate,,0,Land - Gate,Common,3,NULL,0,0,0,0,0,0,1,RNA,http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=457396&type=card
-261,Plaza of Harmony,,0,Land,Rare,3,NULL,0,0,0,0,0,0,1,RNA,http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=457398&type=card
-262,Rakdos Guildgate,,0,Land - Gate,Common,3,NULL,0,0,0,0,0,0,1,RNA,http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=457399&type=card
-263,Simic Guildgate,,0,Land - Gate,Common,3,NULL,0,0,0,0,0,0,1,RNA,http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=457401&type=card
-264,Stomping Ground,,0,Land - Mountain Forest,Rare,3,NULL,0,0,0,0,0,0,1,RNA,http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=457403&type=card
+221,Bedeck // Bedazzle,{B/R}{B/R}//{4}{B}{R},8,Instant//Instant,Rare,3.5,NULL,0,1,1,0,0,0,0,RNA,http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=457365&type=card
+222,Carnival // Carnage,{B/R}//{2}{B}{R},5,Instant//Sorcery,Uncommon,3,NULL,0,1,0,0,0,0,0,RNA,http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=457366&type=card
+223,Collision // Colossus,{1}{R/G}//{R}{G},4,Instant//Instant,Uncommon,3.5,NULL,0,1,1,0,0,0,0,RNA,http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=457367&type=card
+224,Consecrate // Consume,{1}{W/B}//{2}{W}{B},6,Instant//Sorcery,Uncommon,3.5,NULL,0,1,0,0,0,0,0,RNA,http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=457368&type=card
+225,Depose // Deploy,{1}{W/U}//{2}{W}{U},6,Instant//Instant,Uncommon,3.5,NULL,0,1,1,0,0,0,0,RNA,http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=457369&type=card
+226,Incubation // Incongruity,{G/U}//{1}{G}{U},4,Sorcery//Instant,Uncommon,2.5,NULL,0,1,0,0,0,0,0,RNA,http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=457370&type=card
+227,Repudiate // Replicate,{G/U}{G/U}//{1}{G}{U},5,Instant//Sorcery,Rare,3,NULL,0,0,0,0,0,0,0,RNA,http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=457371&type=card
+228,Revival // Revenge,{W/B}{W/B}//{4}{W}{B},8,Sorcery//Sorcery,Rare,2.5,NULL,0,0,0,0,0,0,0,RNA,http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=457372&type=card
+229,Thrash // Threat,{R/G}{R/G}//{2}{R}{G},6,Instant//Sorcery,Rare,4,NULL,0,1,0,0,0,0,0,RNA,http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=457373&type=card
+230,Warrant // Warden,{W/U}{W/U}//{3}{W}{U},7,Instant//Sorcery,Rare,4,NULL,0,0,1,0,0,0,0,RNA,http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=457374&type=card
+231,Azorius Locket,{3},3,Artifact,Common,2,NULL,0,0,0,0,0,1,1,RNA,http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=457375&type=card
+232,Gate Colossus,{8},8,Artifact Creature - Construct,Uncommon,1//3,NULL,0,0,0,0,0,0,0,RNA,http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=457376&type=card
+233,Glass of the Guildpact,{2},2,Artifact,Rare,2,NULL,0,0,0,0,0,0,0,RNA,http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=457377&type=card
+234,Gruul Locket,{3},3,Artifact,Common,1.5,NULL,0,0,0,0,0,1,1,RNA,http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=457378&type=card
+235,Junktroller,{4},4,Artifact Creature - Golem,Uncommon,1,NULL,0,0,0,0,0,0,0,RNA,http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=457379&type=card
+236,Orzhov Locket,{3},3,Artifact,Common,2,NULL,0,0,0,0,0,1,1,RNA,http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=457380&type=card
+237,Rakdos Locket,{3},3,Artifact,Common,1.5,NULL,0,0,0,0,0,1,1,RNA,http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=457381&type=card
+238,Scrabbling Claws,{1},1,Artifact,Uncommon,1,NULL,0,0,0,0,0,0,0,RNA,http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=457382&type=card
+239,Screaming Shield,{1},1,Artifact - Equipment,Uncommon,1,NULL,0,0,0,0,0,0,0,RNA,http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=457383&type=card
+240,Simic Locket,{3},3,Artifact,Common,2,NULL,0,0,0,0,0,1,1,RNA,http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=457384&type=card
+241,Sphinx of the Guildpact,{7},7,Artifact Creature - Sphinx,Uncommon,1.5,NULL,0,0,0,1,0,0,0,RNA,http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=457385&type=card
+242,Tome of the Guildpact,{5},5,Artifact,Rare,3.5,NULL,0,0,0,0,0,0,0,RNA,http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=457386&type=card
+243,Azorius Guildgate,,0,Land - Gate,Common,3,NULL,0,0,0,0,0,0,1,RNA,http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=457387&type=card
+244,Blood Crypt,,0,Land - Swamp Mountain,Rare,3,NULL,0,0,0,0,0,0,1,RNA,http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=457389&type=card
+245,Breeding Pool,,0,Land - Forest Island,Rare,3,NULL,0,0,0,0,0,0,1,RNA,http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=457390&type=card
+246,Gateway Plaza,,0,Land - Gate,Common,3,NULL,0,0,0,0,0,0,1,RNA,http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=457391&type=card
+247,Godless Shrine,,0,Land - Plains Swamp,Rare,3,NULL,0,0,0,0,0,0,1,RNA,http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=457392&type=card
+248,Gruul Guildgate,,0,Land - Gate,Common,3,NULL,0,0,0,0,0,0,1,RNA,http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=457393&type=card
+249,Hallowed Fountain,,0,Land - Plains Island,Rare,3,NULL,0,0,0,0,0,0,1,RNA,http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=457395&type=card
+250,Orzhov Guildgate,,0,Land - Gate,Common,3,NULL,0,0,0,0,0,0,1,RNA,http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=457396&type=card
+251,Plaza of Harmony,,0,Land,Rare,3,NULL,0,0,0,0,0,0,1,RNA,http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=457398&type=card
+252,Rakdos Guildgate,,0,Land - Gate,Common,3,NULL,0,0,0,0,0,0,1,RNA,http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=457399&type=card
+253,Simic Guildgate,,0,Land - Gate,Common,3,NULL,0,0,0,0,0,0,1,RNA,http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=457401&type=card
+254,Stomping Ground,,0,Land - Mountain Forest,Rare,3,NULL,0,0,0,0,0,0,1,RNA,http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=457403&type=card

@@ -1,9 +1,8 @@
 #!/usr/bin/env python3
 
 import random
-from collections import Counter
-from enum import Enum, auto, unique, Flag
-from itertools import chain
+from collections import Counter, defaultdict
+from enum import Enum, auto, unique
 from typing import *
 from urllib.parse import ParseResult
 
@@ -11,7 +10,7 @@ K = TypeVar('K')
 V = TypeVar('V')
 
 
-def zip_dict(*dictionaries: Mapping[K, V]) -> Iterator[Sequence[Union[K, V]]]:
+def zip_dict(*dictionaries: Mapping[K, V]) -> Iterator[Tuple[K, Iterator[K, V]]]:
     """
     Like ``zip(*(dict_item.items() for dict_item in dict_list))``,
     except each iteration value is grouped by the same dict key
@@ -28,11 +27,11 @@ def zip_dict(*dictionaries: Mapping[K, V]) -> Iterator[Sequence[Union[K, V]]]:
         common_keys.intersection(*other_dicts)
 
         for common_key in common_keys:
-            yield (common_key, *(dict_item[common_key] for dict_item in dictionaries))
+            yield common_key, (dict_item[common_key] for dict_item in dictionaries)
 
 
 CardId = str
-Deck = Counter[CardId]
+Deck = Mapping[CardId, int]
 
 
 @unique
@@ -48,7 +47,7 @@ class ManaColor(Enum):
 
 
 @unique
-class Keyword(Flag):
+class Keyword(Enum):
     DEATHTOUCH = auto()
     DEFENDER = auto()
     DOUBLE_STRIKE = auto()
@@ -70,7 +69,7 @@ class Keyword(Flag):
 
 
 @unique
-class Archetype(Flag):
+class Archetype(Enum):
     BOMB = auto()
     REMOVAL = auto()
     COMBAT_TRICK = auto()
@@ -95,7 +94,7 @@ class Land(NamedTuple):
 
 
 class Enchantment(NamedTuple):
-    possible_target_types: FrozenSet[CardType]
+    possible_target_types: AbstractSet[CardType]
 
 
 class Artifact(NamedTuple):
@@ -111,7 +110,7 @@ class Planeswalker(NamedTuple):
 class Creature(NamedTuple):
     power: int
     toughness: int
-    keywords: Keyword
+    keywords: AbstractSet[Keyword]
 
 
 class Sorcery(NamedTuple):
@@ -123,23 +122,38 @@ class Instant(NamedTuple):
 
 
 class Rarity(Enum):
-    COMMON = BLACK = auto()
-    UNCOMMON = GRAY = auto()
-    RARE = YELLOW = auto()
-    MYTHIC_RARE = RED = auto()
+    COMMON = BLACK = 'Common'
+    UNCOMMON = GRAY = 'Uncommon'
+    RARE = YELLOW = 'Rare'
+    MYTHIC_RARE = RED = 'Mythic'
 
 
 class Card(NamedTuple):
     name: str
     mana_cost: Mapping[ManaColor, int]
     converted_mana_cost: int
-    type_info: Union[Land, Enchantment, Artifact, Planeswalker, Creature, Sorcery, Instant]
+    type: CardType
     set: str
     rarity: Rarity
     rating: int
     guild: Optional[str]
     image_url: ParseResult
-    archetypes: Archetype
+    archetypes: AbstractSet[Archetype]
+
+
+class CardTypes(NamedTuple):
+    lands: Mapping[CardId, Land]
+    enchantments: Mapping[CardId, Enchantment]
+    artifacts: Mapping[CardId, Artifact]
+    planeswalkers: Mapping[CardId, Planeswalker]
+    creatures: Mapping[CardId, Creature]
+    sorceries: Mapping[CardId, Sorcery]
+    instants: Mapping[CardId, Instant]
+
+
+class SetInfo(NamedTuple):
+    cards: Mapping[CardId, Card]
+    card_types: CardTypes
 
 
 def generate_booster_packs(card_options: Sequence[CardId], length: int = 90) -> Iterable[Deck]:
@@ -148,65 +162,76 @@ def generate_booster_packs(card_options: Sequence[CardId], length: int = 90) -> 
         yield Counter(cards)
 
 
-def count_archetypes(archetypes: Iterable[Archetype], deck: Deck, set_info: Mapping[CardId, Card]):
-    archetype_counts: DefaultDict[Archetype, int] = defaultdict(int)
-    for card_id, quantity in deck.items():
-        for archetype in archetypes:
-            if archetype in set_info[card_id].archetypes:
-                archetype_counts[archetype] += quantity
-
-    return archetype_counts
-
-
-def evaluate_deck(deck: Deck, set_info: Mapping[CardId, Card]) -> float:
+def evaluate_deck(deck: Deck, set_info: SetInfo) -> float:
     """
     :return: A penalty value which should be minimized
     """
-    # Deck size
-    deck_elements = tuple(deck.elements())
-    number_of_cards_penalty = (40 - len(deck_elements)) ** 2
+    cards = set_info.cards
+    lands = set_info.card_types.lands
 
-    # Mana curve
+    # Deck counts
+    total_cards: int = 0
+    land_counts: DefaultDict[ManaColor, int] = defaultdict(int)
+    mana_symbol_counts: DefaultDict[ManaColor, int] = defaultdict(int)
+    archetype_counts: DefaultDict[Archetype, int] = defaultdict(int)
+    duds_count: int = 0
 
-    # Land percentage
-    land_counts = Counter(set_info[card_id].type_info.color
-                          for card_id in deck_elements
-                          if isinstance(set_info[card_id].type_info, Land))
+    for card_id, card_quantity in deck.items():
+        card = cards[card_id]
+
+        # Total cards
+        total_cards += card_quantity
+
+        # Lands
+        try:
+            mana_color = lands[card_id].color
+        except KeyError:
+            pass
+        else:
+            land_counts[mana_color] += card_quantity
+
+        # Mana symbols
+        for mana_color, mana_quantity in card.mana_cost:
+            mana_symbol_counts[mana_color] += mana_quantity
+
+        # Archetypes
+        for archetype in card.archetypes:
+            archetype_counts[archetype] += card_quantity
+
+        # Duds
+        if card.rating <= 1:
+            duds_count += card_quantity
+
+    # Evaluate deck size
+    number_of_cards_penalty = (40 - total_cards) ** 2
+
+    # TODO: Evaluate mana curve
+
+    # Evaluate land percentage
     total_lands = sum(land_counts.values())
     land_ratios: Dict[ManaColor, float] = {color: count / total_lands
                                            for color, count in land_counts.items()}
 
-    total_land_ratio = total_lands / len(deck_elements)
+    total_land_ratio = total_lands / total_cards
     land_ratio_penalty = 0 if 16 / 40 <= total_land_ratio <= 18 / 40 else abs(17 / 40 - total_land_ratio)
 
-    # Land color percentage
-    mana_costs: Iterator[Mapping[ManaColor, int]] = chain(*(set_info[card_id].mana_cost for card_id in deck_elements))
-    mana_symbol_counts = Counter(color
-                                 for mana_cost in mana_costs
-                                 for color, quantity in mana_cost.items()
-                                 for _ in range(quantity))
+    # Evaluate land color percentage
     total_mana_symbols = sum(mana_symbol_counts.values())
     mana_symbol_ratios: Dict[ManaColor, float] = {color: count / total_mana_symbols
                                                   for color, count in mana_symbol_counts.items()}
 
     mana_symbol_ratio_penalty: float = sum(abs(mana_symbol_ratio - land_ratio)
-                                           for _, mana_symbol_ratio, land_ratio
+                                           for _, (mana_symbol_ratio, land_ratio)
                                            in zip_dict(mana_symbol_ratios, land_ratios))
 
-    # Color identity
+    # Evaluate color identity
     dominant_mana_colors: Set[ManaColor] = {mana_color
                                             for mana_color, ratio in mana_symbol_ratios.items()
                                             if ratio >= 0.05}
     splash_mana_colors = set(mana_symbol_ratios.keys()) - dominant_mana_colors
     deck_color_penalty = max(2 - len(dominant_mana_colors), 2) + len(splash_mana_colors)
 
-    # Card archetypes
-    archetype_counts = count_archetypes((Archetype.BOMB, Archetype.REMOVAL, Archetype.EVASIVE, Archetype.MANA_FIXING),
-                                        deck=deck, set_info=set_info)
-    duds_count = sum(quantity
-                     for card_id, quantity in deck.items()
-                     if set_info[card_id].rating <= 1)
-
+    # Evaluate card archetypes
     archetype_penalty = 0
     if archetype_counts[Archetype.BOMB] == 0:
         archetype_penalty += 10
@@ -243,6 +268,8 @@ if __name__ == '__main__':
                         help='The ratings list as a CSV')
 
     cards: Dict[CardId, Card] = {}
+    card_types = CardTypes(lands={}, enchantments={}, artifacts={}, planeswalkers={}, creatures={}, sorceries={},
+                           instants={})
 
     args = parser.parse_args()
     with args.ratings_file as ratings_file:

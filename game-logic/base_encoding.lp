@@ -44,7 +44,7 @@
 
 % card_instance(CardInstanceId, CardId, OwnerPlayerId).
 % card_present(TurnNumber, TurnPhase, CardInstanceId).
-% card_controller(TurnNumber, TurnPhase, CardInstanceId, ControllerPlayerId)
+% card_controller(TurnNumber, TurnPhase, CardInstanceId, ControllerPlayerId).
 % summoning_sickness(TurnNumber, TurnPhase, CardInstanceId).
 % card_tapped(TurnNumber, TurnPhase, CardInstanceId).
 % card_attacking(TurnNumber, TurnPhase, CardInstanceId).

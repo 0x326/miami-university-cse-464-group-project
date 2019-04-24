@@ -25,7 +25,7 @@ else:
 
 predicate_re = re.compile(r'([a-z]\S*)\((.+)\)')
 predicate_annotation_re = re.compile(r'^%\s*([a-z]\S*)\((.+)\)\.')
-predicate_argument_re = re.compile(r'(".*[^\\]"|".*\\"|\d+|\w+),?')
+predicate_argument_re = re.compile(r'(".*?[^\\]"|".*?\\"|\d+|\w+),?')
 
 
 class Predicate(NamedTuple):

@@ -31,6 +31,7 @@ def zip_dict(*dictionaries: Mapping[K, V]) -> Iterator[Tuple[K, Iterator[K, V]]]
 
 
 CardId = str
+CardFaceId = Tuple[CardId, int]
 Deck = Mapping[CardId, int]
 
 
@@ -128,11 +129,15 @@ class Rarity(Enum):
     MYTHIC_RARE = RED = 'Mythic'
 
 
-class Card(NamedTuple):
+class CardFace(NamedTuple):
     name: str
     mana_cost: Mapping[ManaColor, int]
     converted_mana_cost: int
     type: CardType
+
+
+class Card(NamedTuple):
+    faces: Sequence[CardFace]
     set: str
     rarity: Rarity
     rating: int
@@ -142,13 +147,13 @@ class Card(NamedTuple):
 
 
 class CardTypes(NamedTuple):
-    lands: Mapping[CardId, Land]
-    enchantments: Mapping[CardId, Enchantment]
-    artifacts: Mapping[CardId, Artifact]
-    planeswalkers: Mapping[CardId, Planeswalker]
-    creatures: Mapping[CardId, Creature]
-    sorceries: Mapping[CardId, Sorcery]
-    instants: Mapping[CardId, Instant]
+    lands: Mapping[CardFaceId, Land]
+    enchantments: Mapping[CardFaceId, Enchantment]
+    artifacts: Mapping[CardFaceId, Artifact]
+    planeswalkers: Mapping[CardFaceId, Planeswalker]
+    creatures: Mapping[CardFaceId, Creature]
+    sorceries: Mapping[CardFaceId, Sorcery]
+    instants: Mapping[CardFaceId, Instant]
 
 
 class SetInfo(NamedTuple):
@@ -183,16 +188,19 @@ def evaluate_deck(deck: Deck, set_info: SetInfo) -> float:
         total_cards += card_quantity
 
         # Lands
-        try:
-            mana_color = lands[card_id].color
-        except KeyError:
-            pass
-        else:
-            land_counts[mana_color] += card_quantity
+        for face_index, _ in enumerate(card.faces):
+            try:
+                mana_color = lands[card_id, face_index].color
+            except KeyError:
+                pass
+            else:
+                land_counts[mana_color] += card_quantity
+                break  # Only count one land per card
 
         # Mana symbols
-        for mana_color, mana_quantity in card.mana_cost:
-            mana_symbol_counts[mana_color] += mana_quantity
+        for face in card.faces:
+            for mana_color, mana_quantity in face.mana_cost:
+                mana_symbol_counts[mana_color] += mana_quantity
 
         # Archetypes
         for archetype in card.archetypes:

@@ -96,11 +96,11 @@ archetype(bomb; removal; advantage; evasion; win).
 % Everything except a Sorcery and an instant is a permanent
 permanent(CardId) :-
     card(CardId, _, _),
-    land(CardId).
+    land(CardId, _).
 
 permanent(CardId) :-
     card(CardId, _, _),
-    enchantment(CardId).
+    enchantment(CardId, _).
 
 permanent(CardId) :-
     card(CardId, _, _),
@@ -108,11 +108,11 @@ permanent(CardId) :-
 
 permanent(CardId) :-
     card(CardId, _, _),
-    planeswalker(CardId).
+    planeswalker(CardId, _).
 
 permanent(CardId) :-
     card(CardId, _, _),
-    creature(CardId).
+    creature(CardId, _, _).
 
 -permanent(CardId) :-
     card(CardId, _, _),
@@ -319,8 +319,8 @@ card_tapped(TurnNumber, TurnPhase, CardInstanceId) :-
     untap_card(TurnNumber, TurnPhase, _, CardInstanceId).
 
 % Players' "discard_card" action removes the card from his hand
--hand(TurnNumber, TurnPhase, CardInstanceId) :-
-    discard_card(TurnNumber, TurnPhase, CardInstanceId).
+-hand(TurnNumber, TurnPhase, PlayerId, CardInstanceId) :-
+    discard_card(TurnNumber, TurnPhase, PlayerId, CardInstanceId).
 
 % Players' "discard_card" action adds the card to his graveyard
 graveyard(TurnNumber, TurnPhase, PlayerId, CardInstanceId) :-
@@ -383,7 +383,7 @@ untap_card(TurnNumber, beginning, PlayerId, CardInstanceId) :-
         card_controller(TurnNumber, TurnPhase, CardInstanceId, BlockerPlayerId),
         card_instance(CardInstanceId, CardId, _),
         creature(CardId, _, _) } :-
-    declare_attacker(TurnNumber, TurnPhase, ActivePlayerId, _),
+    declare_attacker(TurnNumber, TurnPhase, ActivePlayerId, _, _),
     BlockerPlayerId != ActivePlayerId.
 
 % A player discards any excess of seven cards from his hand during the ending phase of his turn
@@ -401,7 +401,7 @@ ExcessCards { discard_card(TurnNumber, ending, PlayerId, CardInstanceId) :
 % A player losses if he does not have any cards to draw at the beginning of his turn
 loss(TurnNumber, beginning, ActivePlayerId) :-
     turn(TurnNumber, ActivePlayerId),
-    not deck(TurnNumber, beginning, _).
+    not deck(TurnNumber, beginning, _, _).
 
 %%%% Integrity constraints %%%%
 

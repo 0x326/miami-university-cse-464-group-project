@@ -240,7 +240,7 @@ def evaluate_deck(deck: Deck, set_info: SetInfo) -> float:
         archetype_penalty += 10 * distance_from_ideal
 
     deck_color_identity = dominant_mana_colors.union(splash_mana_colors)
-    # check if at least one of the colors is known for having flying?
+    # TODO: Check if at least one of the colors is known for having flying
 
     if archetype_counts[Archetype.EVASIVE] < 2:
         distance_from_ideal = 2 - archetype_counts[Archetype.EVASIVE]

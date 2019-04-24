@@ -146,6 +146,7 @@ turn_phase_order(post_combat, ending).
 
 % Every player starts with 20 life
 life_count(1, beginning, PlayerId, 20) :-
+    turn(1, _),
     player(PlayerId).
 
 % Every player's life count at the beginning of a turn is the same as it was at the end of the previous turn
@@ -154,14 +155,14 @@ life_count(TurnNumber, beginning, PlayerId, LifeCount) :-
     turn(TurnNumber, _),
     life_count(TurnNumber - 1, ending, PlayerId, LifeCount).
 
-% An untapped card from the end of the previous turn is untapped at the start of the next turn
+% An untapped card from the end of the previous turn is still untapped at the start of the next turn
 % (Persistence property of untapped cards)
 -card_tapped(TurnNumber, beginning, CardInstanceId) :-
     turn(TurnNumber, _),
     turn_phase(TurnNumber, beginning),
     -card_tapped(TurnNumber - 1, ending, CardInstanceId).
 
-% A tapped card from the end of the previous turn is tapped at the start of the next turn,
+% A tapped card from the end of the previous turn is still tapped at the start of the next turn,
 % unless we have already derived it isn't
 % (Persistence property of tapped cards)
 card_tapped(TurnNumber, beginning, CardInstanceId) :-

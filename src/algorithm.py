@@ -215,7 +215,7 @@ def evaluate_deck(deck: Deck, set_info: Mapping[CardId, Card]) -> float:
         archetype_penalty += 10 * distance_from_ideal
 
     deck_color_identity = dominant_mana_colors.union(splash_mana_colors)
-    #check if at least one of the colors is known for having flying?
+    # check if at least one of the colors is known for having flying?
 
     if archetype_counts[Archetype.EVASIVE] < 2:
         distance_from_ideal = 2 - archetype_counts[Archetype.EVASIVE]
@@ -223,7 +223,7 @@ def evaluate_deck(deck: Deck, set_info: Mapping[CardId, Card]) -> float:
 
     archetype_penalty += duds_count * 5
 
-    if len(deck_color_identity) > 1 & [Archetype.MANA_FIXING] < 2:
+    if len(deck_color_identity) > 1 and archetype_counts[Archetype.MANA_FIXING] < 2:
         distance_from_ideal = 2 - archetype_counts[Archetype.MANA_FIXING]
         archetype_penalty += 10 * distance_from_ideal
 
@@ -251,5 +251,6 @@ if __name__ == '__main__':
         for rating in ratings:
             card_id, card_name, mana_cost, cmc, card_type, rarity, guild, \
                 bomb, removal, combat_trick, evasive, counter, card_draw, mana_fixing, card_set, image_url = rating
-            # card = Card(name=card_name, mana_cost=mana_cost, converted_mana_cost=cmc, type=card_type)
-            # cards[card_id] = card
+            rarity = Rarity(rarity)
+            card = Card(name=card_name, mana_cost=mana_cost, converted_mana_cost=cmc, type_info=card_type)
+            cards[card_id] = card

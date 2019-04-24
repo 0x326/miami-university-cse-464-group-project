@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import re
+import sys
 from pathlib import Path
 from typing import *
 from typing import TextIO
@@ -97,6 +98,7 @@ if __name__ == '__main__':
                     predicate_signatures[predicate.name] = predicate.arguments
 
     # Scan codebase for violations
+    violations_found = False
     for file_path in args.files:
         with open(file_path) as file:
             for line_number, predicate in match_predicates(file):
@@ -110,6 +112,7 @@ if __name__ == '__main__':
                     predicate_signature = colorful.bold_yellow(f'{predicate.name}/{actual_arity}')
                     print_message(colorful.yellow(f'Missing annotation for {predicate_signature}'),
                                   file_name=file_path, line_number=line_number)
+                    violations_found = True
 
                 except AssertionError:
                     # Annotation violation
@@ -117,3 +120,7 @@ if __name__ == '__main__':
                     expected_signature = colorful.bold_red(f'{predicate.name}/{expected_arity}')
                     print_message(colorful.red(f'{actual_signature} should be {expected_signature}'),
                                   file_name=file_path, line_number=line_number)
+                    violations_found = True
+
+    if violations_found:
+        sys.exit(1)

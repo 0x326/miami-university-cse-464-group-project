@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
 
+"""
+Magic: The Gathering Tournament Deck Optimizer
+"""
+
 import random
 from collections import Counter, defaultdict
 from enum import Enum, auto, unique
@@ -162,6 +166,13 @@ class SetInfo(NamedTuple):
 
 
 def generate_booster_packs(card_options: Sequence[CardId], length: int = 90) -> Iterable[Deck]:
+    """
+    Generates a booster pack from the given card options (repetition is allowed)
+
+    :param card_options: The cards to choose from
+    :param length: The length of the booster pack
+    :return: The booster pack
+    """
     while True:
         cards: List[CardId] = random.choices(card_options, k=length)
         yield Counter(cards)

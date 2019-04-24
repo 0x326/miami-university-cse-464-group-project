@@ -34,9 +34,12 @@ def zip_dict(*dictionaries: Mapping[K, V]) -> Iterator[Tuple[K, Iterator[K, V]]]
             yield common_key, (dict_item[common_key] for dict_item in dictionaries)
 
 
+Index = int
+Count = int
+
 CardId = str
-CardFaceId = Tuple[CardId, int]
-Deck = Mapping[CardId, int]
+CardFaceId = Tuple[CardId, Index]
+Deck = Mapping[CardId, Count]
 
 
 @unique
@@ -135,7 +138,7 @@ class Rarity(Enum):
 
 class CardFace(NamedTuple):
     name: str
-    mana_cost: Mapping[ManaColor, int]
+    mana_cost: Mapping[ManaColor, Count]
     converted_mana_cost: int
     type: CardType
 

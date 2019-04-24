@@ -214,6 +214,19 @@ def evaluate_deck(deck: Deck, set_info: Mapping[CardId, Card]) -> float:
         distance_from_ideal = 2 - archetype_counts[Archetype.REMOVAL]
         archetype_penalty += 10 * distance_from_ideal
 
+    deck_color_identity = dominant_mana_colors.union(splash_mana_colors)
+    #check if at least one of the colors is known for having flying?
+
+    if archetype_counts[Archetype.EVASIVE] < 2:
+        distance_from_ideal = 2 - archetype_counts[Archetype.EVASIVE]
+        archetype_penalty += 10 * distance_from_ideal
+
+    archetype_penalty += duds_count * 5
+
+    if len(deck_color_identity) > 1 & [Archetype.MANA_FIXING] < 2:
+        distance_from_ideal = 2 - archetype_counts[Archetype.MANA_FIXING]
+        archetype_penalty += 10 * distance_from_ideal
+
     # Combine objectives
     total_penalty = number_of_cards_penalty + land_ratio_penalty + \
         mana_symbol_ratio_penalty + deck_color_penalty + archetype_penalty

@@ -170,17 +170,16 @@ class SetInfo(NamedTuple):
     card_types: CardTypes
 
 
-def generate_booster_packs(card_options: Sequence[CardId], length: int = 90) -> Iterable[Deck]:
+def generate_booster_pack(set_info: Sequence[CardId], length: int = 90) -> Deck:
     """
-    Generates a booster pack from the given card options (repetition is allowed)
+    Generates a booster pack from the given Magic: The Gathering "set" (repetition of cards is allowed)
 
-    :param card_options: The cards to choose from
+    :param set_info: The "set" to choose the cards from
     :param length: The length of the booster pack
     :return: The booster pack
     """
-    while True:
-        cards: List[CardId] = random.choices(card_options, k=length)
-        yield Counter(cards)
+    cards: List[CardId] = random.choices(set_info.cards.keys(), k=length)
+    return Counter(cards)
 
 
 def evaluate_deck(deck: Deck, set_info: SetInfo) -> float:

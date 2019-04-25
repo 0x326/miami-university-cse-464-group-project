@@ -4,9 +4,11 @@
 Magic: The Gathering Tournament Deck Optimizer
 """
 
+import operator
 import random
 from collections import Counter, defaultdict
 from enum import Enum, auto, unique
+from itertools import accumulate
 from typing import *
 from urllib.parse import ParseResult
 
@@ -196,6 +198,7 @@ def evaluate_deck(deck: Deck, set_info: SetInfo) -> float:
     total_cards: int = 0
     land_counts: DefaultDict[ManaColor, int] = defaultdict(int)
     mana_symbol_counts: DefaultDict[ManaColor, int] = defaultdict(int)
+    converted_mana_cost_counts: List[int] = [0] * 6
     archetype_counts: DefaultDict[Archetype, int] = defaultdict(int)
     duds_count: int = 0
 
@@ -220,6 +223,15 @@ def evaluate_deck(deck: Deck, set_info: SetInfo) -> float:
             for mana_color, mana_quantity in face.mana_cost:
                 mana_symbol_counts[mana_color] += mana_quantity * card_quantity
 
+        # Converted mana cost
+        for face in card.faces:
+            try:
+                # Leaves index 0 unoccupied - Allowed for code elegance
+                converted_mana_cost_counts[face.converted_mana_cost] += card_quantity
+            except IndexError:
+                # For the purposes of deck evaluation, we are only considering the converted mana cost <= 5
+                pass
+
         # Archetypes
         for archetype in card.archetypes:
             archetype_counts[archetype] += card_quantity
@@ -231,7 +243,20 @@ def evaluate_deck(deck: Deck, set_info: SetInfo) -> float:
     # Evaluate deck size
     number_of_cards_penalty = (40 - total_cards) ** 2
 
-    # TODO: Evaluate mana curve
+    # Evaluate mana curve
+    total_converted_mana_cost_count = sum(converted_mana_cost_counts)
+    converted_mana_cost_pmf: Iterator[float] = (count / total_converted_mana_cost_count
+                                                for count in converted_mana_cost_counts)
+    converted_mana_cost_cdf = accumulate(converted_mana_cost_pmf, operator.add)
+    expected_cmc_cdf = (
+        0.05,
+        0.31,
+        0.52,
+        0.73,
+        0.89)
+
+    mana_curve_penalty = sum(abs(expected_cdf_value - actual_cdf_value)
+                             for expected_cdf_value, actual_cdf_value in zip(expected_cmc_cdf, converted_mana_cost_cdf))
 
     # Evaluate land percentage
     total_land_count = sum(land_counts.values())
@@ -279,8 +304,8 @@ def evaluate_deck(deck: Deck, set_info: SetInfo) -> float:
         archetype_penalty += 10 * distance_from_ideal
 
     # Combine objectives
-    total_penalty = number_of_cards_penalty + land_ratio_penalty + \
-        mana_symbol_ratio_penalty + deck_color_penalty + archetype_penalty
+    total_penalty = number_of_cards_penalty + mana_curve_penalty + land_ratio_penalty + \
+        mana_symbol_penalty + deck_color_penalty + archetype_penalty
 
     return total_penalty
 

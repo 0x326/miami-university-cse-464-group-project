@@ -196,6 +196,11 @@ def generate_booster_pack(set_info: SetInfo, length: int = 90) -> Deck:
     :param length: The length of the booster pack
     :return: The booster pack
     """
+
+    # Typical Booster pack layout: 10 Commons, 3 Uncommons, 1 Rare or Mythic (roughly 1/7 chance to get a mythic)
+    # Foils replace a card in the common slot (no matter the rarity of the foil) and also have roughly 1/7 chance
+    # always includes 1 land (guildgate in this case)
+
     cards: List[CardId] = random.choices(set_info.cards.keys(), k=length)
     return Counter(cards)
 
@@ -348,5 +353,16 @@ if __name__ == '__main__':
                 bomb, removal, combat_trick, evasive, counter, card_draw, mana_fixing, card_set, image_url = rating
             rarity = Rarity(rarity)
             cmc = int(cmc)
+            faces = Sequence[CardFace]
+
+            try:
+                card_name.index("//")
+                # split the data at // and put it into faces
+
+            except ValueError:
+                # faces: Sequence[CardFace] = {}
+                # put data into faces
+                pass
+
             card = Card(name=card_name, mana_cost=mana_cost, converted_mana_cost=cmc, type_info=card_type)
             cards[card_id] = card

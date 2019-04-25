@@ -214,8 +214,6 @@ def generate_booster_pack(set_info: SetInfo, set_id: str, length: int = 90) -> D
     :param length: The length of the booster pack
     :return: The booster pack
     """
-
-
     # Typical Booster pack layout: 10 Commons, 3 Uncommons, 1 Rare or Mythic (roughly 1/7 chance to get a mythic)
     # Foils replace a card in the common slot (no matter the rarity of the foil) and also have roughly 1/7 chance
     # always includes 1 land (guildgate in this case)

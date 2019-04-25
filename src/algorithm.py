@@ -39,8 +39,11 @@ def zip_dict(*dictionaries: Mapping[K, V]) -> Iterator[Tuple[K, Iterator[K, V]]]
 Index = int
 Count = int
 
-CardId = str
-CardFaceId = Tuple[CardId, Index]
+# We will represent the "set" containing basic lands as None
+SetId = Optional[str]
+CardNumber = int
+CardFaceId = Tuple[CardNumber, Index]
+CardId = Tuple[SetId, CardNumber]
 Deck = Mapping[CardId, Count]
 
 
@@ -165,7 +168,7 @@ class Card(NamedTuple):
     rarity: Rarity
     rating: int
     guild: Optional[Guild]
-    image_url: ParseResult
+    image_url: Optional[ParseResult]
     archetypes: AbstractSet[Archetype]
 
 
@@ -181,12 +184,12 @@ class CardTypes(NamedTuple):
 
 class SetInfo(NamedTuple):
     set_name: str
-    cards: Mapping[CardId, Card]
+    cards: Mapping[CardNumber, Card]
     card_types: CardTypes
-    rarities: Mapping[Rarity, AbstractSet[CardId]]
-    ratings: Mapping[int, AbstractSet[CardId]]
-    guilds: Mapping[Guild, AbstractSet[CardId]]
-    archetypes: Mapping[Archetype, AbstractSet[CardId]]
+    rarities: Mapping[Rarity, AbstractSet[CardNumber]]
+    ratings: Mapping[int, AbstractSet[CardNumber]]
+    guilds: Mapping[Guild, AbstractSet[CardNumber]]
+    archetypes: Mapping[Archetype, AbstractSet[CardNumber]]
 
 
 class DeckSummary(NamedTuple):
@@ -202,32 +205,31 @@ class DeckSummary(NamedTuple):
     dud_count: int
 
 
-def generate_booster_pack(set_info: SetInfo, length: int = 90) -> Deck:
+def generate_booster_pack(set_info: SetInfo, set_id: str, length: int = 90) -> Deck:
     """
     Generates a booster pack from the given Magic: The Gathering "set" (repetition of cards is allowed)
 
     :param set_info: The "set" to choose the cards from
+    :param set_id: The id of set_info
     :param length: The length of the booster pack
     :return: The booster pack
     """
-    cards: List[CardId] = random.choices(set_info.cards.keys(), k=length)
+    cards: List[CardNumber] = random.choices(set_info.cards.keys(), k=length)
+    cards: Iterator[CardId] = (set_id, card_number for card_number in cards)
     return Counter(cards)
 
 
-def summarize_deck(deck: Deck, set_info: SetInfo) -> DeckSummary:
+def summarize_deck(deck: Deck, set_infos: Mapping[SetId, SetInfo]) -> DeckSummary:
     """
     Consolidates the deck into quantitative attributes so that it can be evaluated
 
     :param deck: The deck to summarize
-    :param set_info: Information about the set of which this deck is drawn
+    :param set_infos: Information about the set of which this deck is drawn
     :return: A summary of the deck's attributes
     """
     # Definitions:
     # CDF: Cumulative distribution function
     # PMF: Probability mass function
-
-    cards = set_info.cards
-    lands = set_info.card_types.lands
 
     # Deck counts
     total_cards: int = 0
@@ -237,7 +239,10 @@ def summarize_deck(deck: Deck, set_info: SetInfo) -> DeckSummary:
     archetype_counts: DefaultDict[Archetype, int] = defaultdict(int)
     dud_count: int = 0
 
-    for card_id, card_quantity in deck.items():
+    for (set_id, card_number), card_quantity in deck.items():
+        cards = set_infos[set_id].cards
+        lands = set_infos[set_id].card_types.lands
+
         card = cards[card_id]
 
         # Total cards
@@ -387,7 +392,49 @@ if __name__ == '__main__':
     parser.add_argument('ratings-file', metavar='RATING', type=argparse.FileType('r'),
                         help='The ratings list as a CSV')
 
-    cards: Dict[CardId, Card] = {}
+    # Pre-define basic lands
+    basic_lands = (('Plains', ManaColor.WHITE),
+                   ('Island', ManaColor.BLUE),
+                   ('Swamp', ManaColor.BLACK),
+                   ('Mountain', ManaColor.RED),
+                   ('Forest', ManaColor.GREEN))
+    basic_land_rarity = Rarity.COMMON
+    basic_land_rating = 1
+    basic_land_card_numbers = frozenset(card_number for card_number, _ in enumerate(basic_lands, start=1))
+
+    empty_set = frozenset()
+
+    set_infos: Dict[SetId, SetInfo] = {
+        None: SetInfo(set_name='Basic lands',
+                      cards={card_number: Card(
+                          faces=(
+                              CardFace(name=card_name, mana_cost={}, converted_mana_cost=0,
+                                       type=CardType.LAND),
+                          ),
+                          rarity=basic_land_rarity,
+                          rating=basic_land_rating,
+                          guild=None,
+                          image_url=None,
+                          archetypes=empty_set)
+                          for card_number, (card_name, _) in enumerate(basic_lands, start=1)
+                      },
+                      card_types=CardTypes(
+                          lands={(card_number, 0): Land(frozenset({mana_color}))
+                                 for card_number, (_, mana_color) in enumerate(basic_lands, start=1)},
+                          enchantments={},
+                          artifacts={},
+                          planeswalkers={},
+                          creatures={},
+                          sorceries={},
+                          instants={},
+                      ),
+                      rarities={basic_land_rarity: basic_land_card_numbers},
+                      ratings={basic_land_rating: basic_land_card_numbers},
+                      guilds={},
+                      archetypes={})
+    }
+
+    cards: Dict[CardNumber, Card] = {}
     card_types = CardTypes(lands={}, enchantments={}, artifacts={}, planeswalkers={}, creatures={}, sorceries={},
                            instants={})
 

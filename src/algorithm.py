@@ -220,7 +220,6 @@ def generate_booster_pack(set_info: SetInfo, set_id: str, length: int = 90) -> D
     # Foils replace a card in the common slot (no matter the rarity of the foil) and also have roughly 1/7 chance
     # always includes 1 land (guildgate in this case)
 
-    cards: List[CardId] = random.choices(set_info.cards.keys(), k=length)
     cards: List[CardNumber] = random.choices(set_info.cards.keys(), k=length)
     cards: Iterator[CardId] = (set_id, card_number for card_number in cards)
     return Counter(cards)

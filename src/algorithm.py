@@ -214,7 +214,7 @@ def evaluate_deck(deck: Deck, set_info: SetInfo) -> float:
         # Mana symbols
         for face in card.faces:
             for mana_color, mana_quantity in face.mana_cost:
-                mana_symbol_counts[mana_color] += mana_quantity
+                mana_symbol_counts[mana_color] += mana_quantity * card_quantity
 
         # Archetypes
         for archetype in card.archetypes:

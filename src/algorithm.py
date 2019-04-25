@@ -185,6 +185,10 @@ def evaluate_deck(deck: Deck, set_info: SetInfo) -> float:
     """
     :return: A penalty value which should be minimized
     """
+    # Definitions:
+    # CDF: Cumulative distribution function
+    # PMF: Probability mass function
+
     cards = set_info.cards
     lands = set_info.card_types.lands
 
@@ -230,27 +234,27 @@ def evaluate_deck(deck: Deck, set_info: SetInfo) -> float:
     # TODO: Evaluate mana curve
 
     # Evaluate land percentage
-    total_lands = sum(land_counts.values())
-    land_ratios: Dict[ManaColor, float] = {color: count / total_lands
-                                           for color, count in land_counts.items()}
-
-    total_land_ratio = total_lands / total_cards
+    total_land_count = sum(land_counts.values())
+    total_land_ratio = total_land_count / total_cards
     land_ratio_penalty = 0 if 16 / 40 <= total_land_ratio <= 18 / 40 else abs(17 / 40 - total_land_ratio)
 
     # Evaluate land color percentage
-    total_mana_symbols = sum(mana_symbol_counts.values())
-    mana_symbol_ratios: Dict[ManaColor, float] = {color: count / total_mana_symbols
-                                                  for color, count in mana_symbol_counts.items()}
+    total_mana_symbol_count = sum(mana_symbol_counts.values())
+    mana_symbol_pmf: Dict[ManaColor, float] = {color: count / total_mana_symbol_count
+                                               for color, count in mana_symbol_counts.items()}
 
-    mana_symbol_ratio_penalty: float = sum(abs(mana_symbol_ratio - land_ratio)
-                                           for _, (mana_symbol_ratio, land_ratio)
-                                           in zip_dict(mana_symbol_ratios, land_ratios))
+    land_color_pmf: Dict[ManaColor, float] = {color: count / total_land_count
+                                              for color, count in land_counts.items()}
+
+    mana_symbol_penalty: float = sum(abs(mana_symbol_probability_mass - land_probability_mass)
+                                     for _, (mana_symbol_probability_mass, land_probability_mass)
+                                     in zip_dict(mana_symbol_pmf, land_color_pmf))
 
     # Evaluate color identity
     dominant_mana_colors: Set[ManaColor] = {mana_color
-                                            for mana_color, ratio in mana_symbol_ratios.items()
-                                            if ratio >= 0.05}
-    splash_mana_colors = set(mana_symbol_ratios.keys()) - dominant_mana_colors
+                                            for mana_color, probability_mass in mana_symbol_pmf.items()
+                                            if probability_mass >= 0.05}
+    splash_mana_colors = set(mana_symbol_pmf.keys()) - dominant_mana_colors
     deck_color_penalty = max(2 - len(dominant_mana_colors), 2) + len(splash_mana_colors)
 
     # Evaluate card archetypes

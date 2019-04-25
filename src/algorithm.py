@@ -99,6 +99,20 @@ class CardType(Enum):
     SORCERY = auto()
 
 
+@unique
+class Guild(Enum):
+    AZORIUS = auto()
+    DIMIR = auto()
+    RAKDOS = auto()
+    GRUUL = auto()
+    SELESNYA = auto()
+    ORZHOV = auto()
+    IZZET = auto()
+    GOLGARI = auto()
+    BOROS = auto()
+    SIMIC = auto()
+
+
 class Land(NamedTuple):
     color: ManaColor
 
@@ -147,10 +161,9 @@ class CardFace(NamedTuple):
 
 class Card(NamedTuple):
     faces: Sequence[CardFace]
-    set: str
     rarity: Rarity
     rating: int
-    guild: Optional[str]
+    guild: Optional[Guild]
     image_url: ParseResult
     archetypes: AbstractSet[Archetype]
 
@@ -166,11 +179,16 @@ class CardTypes(NamedTuple):
 
 
 class SetInfo(NamedTuple):
+    set_name: str
     cards: Mapping[CardId, Card]
     card_types: CardTypes
+    rarities: Mapping[Rarity, AbstractSet[CardId]]
+    ratings: Mapping[int, AbstractSet[CardId]]
+    guilds: Mapping[Guild, AbstractSet[CardId]]
+    archetypes: Mapping[Archetype, AbstractSet[CardId]]
 
 
-def generate_booster_pack(set_info: Sequence[CardId], length: int = 90) -> Deck:
+def generate_booster_pack(set_info: SetInfo, length: int = 90) -> Deck:
     """
     Generates a booster pack from the given Magic: The Gathering "set" (repetition of cards is allowed)
 

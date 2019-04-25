@@ -16,7 +16,7 @@ K = TypeVar('K')
 V = TypeVar('V')
 
 
-def zip_dict(*dictionaries: Mapping[K, V]) -> Iterator[Tuple[K, Iterator[K, V]]]:
+def zip_dict(*dictionaries: Mapping[K, V]) -> Iterator[Tuple[K, Iterator[V]]]:
     """
     Like ``zip(*(dict_item.items() for dict_item in dict_list))``,
     except each iteration value is grouped by the same dict key
@@ -219,7 +219,7 @@ def generate_booster_pack(set_info: SetInfo, set_id: str, length: int = 90) -> D
     # always includes 1 land (guildgate in this case)
 
     cards: List[CardNumber] = random.choices(set_info.cards.keys(), k=length)
-    cards: Iterator[CardId] = (set_id, card_number for card_number in cards)
+    cards: Iterator[CardId] = ((set_id, card_number) for card_number in cards)
     return Counter(cards)
 
 

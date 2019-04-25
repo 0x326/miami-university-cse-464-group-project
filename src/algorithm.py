@@ -39,8 +39,11 @@ def zip_dict(*dictionaries: Mapping[K, V]) -> Iterator[Tuple[K, Iterator[K, V]]]
 Index = int
 Count = int
 
-CardId = str
-CardFaceId = Tuple[CardId, Index]
+# We will represent the "set" containing basic lands as None
+SetId = Optional[str]
+CardNumber = int
+CardFaceId = Tuple[CardNumber, Index]
+CardId = Tuple[SetId, CardNumber]
 Deck = Mapping[CardId, Count]
 
 
@@ -114,7 +117,7 @@ class Guild(Enum):
 
 
 class Land(NamedTuple):
-    color: ManaColor
+    possible_colors: AbstractSet[ManaColor]
 
 
 class Enchantment(NamedTuple):
@@ -154,7 +157,8 @@ class Rarity(Enum):
 
 class CardFace(NamedTuple):
     name: str
-    mana_cost: Mapping[ManaColor, Count]
+    # The "Any" mana cost should be represented as {ManaColor.ANY} instead of {ManaColor.WHITE, ManaColor.BLUE, ...}
+    mana_cost: Mapping[AbstractSet[ManaColor], Count]
     converted_mana_cost: int
     type: CardType
 
@@ -164,7 +168,7 @@ class Card(NamedTuple):
     rarity: Rarity
     rating: int
     guild: Optional[Guild]
-    image_url: ParseResult
+    image_url: Optional[ParseResult]
     archetypes: AbstractSet[Archetype]
 
 
@@ -180,51 +184,72 @@ class CardTypes(NamedTuple):
 
 class SetInfo(NamedTuple):
     set_name: str
-    cards: Mapping[CardId, Card]
+    cards: Mapping[CardNumber, Card]
     card_types: CardTypes
-    rarities: Mapping[Rarity, AbstractSet[CardId]]
-    ratings: Mapping[int, AbstractSet[CardId]]
-    guilds: Mapping[Guild, AbstractSet[CardId]]
-    archetypes: Mapping[Archetype, AbstractSet[CardId]]
+    rarities: Mapping[Rarity, AbstractSet[CardNumber]]
+    ratings: Mapping[int, AbstractSet[CardNumber]]
+    guilds: Mapping[Guild, AbstractSet[CardNumber]]
+    archetypes: Mapping[Archetype, AbstractSet[CardNumber]]
 
 
-def generate_booster_pack(set_info: SetInfo, length: int = 90) -> Deck:
+class DeckSummary(NamedTuple):
+    total_cards: int
+    converted_mana_cost_cdf: Iterator[float]
+    total_land_ratio: float
+    mana_symbol_pmf: Mapping[ManaColor, float]
+    land_color_pmf: Mapping[ManaColor, float]
+    color_identity: AbstractSet[ManaColor]
+    dominant_mana_colors: AbstractSet[ManaColor]
+    splash_mana_colors: AbstractSet[ManaColor]
+    archetype_counts: Mapping[Archetype, int]
+    dud_count: int
+
+
+def generate_booster_pack(set_info: SetInfo, set_id: str, length: int = 90) -> Deck:
     """
     Generates a booster pack from the given Magic: The Gathering "set" (repetition of cards is allowed)
 
     :param set_info: The "set" to choose the cards from
+    :param set_id: The id of set_info
     :param length: The length of the booster pack
     :return: The booster pack
     """
+
 
     # Typical Booster pack layout: 10 Commons, 3 Uncommons, 1 Rare or Mythic (roughly 1/7 chance to get a mythic)
     # Foils replace a card in the common slot (no matter the rarity of the foil) and also have roughly 1/7 chance
     # always includes 1 land (guildgate in this case)
 
     cards: List[CardId] = random.choices(set_info.cards.keys(), k=length)
+    cards: List[CardNumber] = random.choices(set_info.cards.keys(), k=length)
+    cards: Iterator[CardId] = (set_id, card_number for card_number in cards)
     return Counter(cards)
 
 
-def evaluate_deck(deck: Deck, set_info: SetInfo) -> float:
+def summarize_deck(deck: Deck, set_infos: Mapping[SetId, SetInfo]) -> DeckSummary:
     """
-    :return: A penalty value which should be minimized
+    Consolidates the deck into quantitative attributes so that it can be evaluated
+
+    :param deck: The deck to summarize
+    :param set_infos: Information about the set of which this deck is drawn
+    :return: A summary of the deck's attributes
     """
     # Definitions:
     # CDF: Cumulative distribution function
     # PMF: Probability mass function
 
-    cards = set_info.cards
-    lands = set_info.card_types.lands
-
     # Deck counts
     total_cards: int = 0
-    land_counts: DefaultDict[ManaColor, int] = defaultdict(int)
-    mana_symbol_counts: DefaultDict[ManaColor, int] = defaultdict(int)
+    land_counts: DefaultDict[ManaColor, float] = defaultdict(float)
+    mana_symbol_counts: DefaultDict[ManaColor, float] = defaultdict(float)
     converted_mana_cost_counts: List[int] = [0] * 6
     archetype_counts: DefaultDict[Archetype, int] = defaultdict(int)
-    duds_count: int = 0
+    dud_count: int = 0
 
-    for card_id, card_quantity in deck.items():
+    for (set_id, card_number), card_quantity in deck.items():
+        cards = set_infos[set_id].cards
+        lands = set_infos[set_id].card_types.lands
+
         card = cards[card_id]
 
         # Total cards
@@ -233,17 +258,21 @@ def evaluate_deck(deck: Deck, set_info: SetInfo) -> float:
         # Lands
         for face_index, _ in enumerate(card.faces):
             try:
-                mana_color = lands[card_id, face_index].color
+                mana_colors = lands[card_id, face_index].possible_colors
             except KeyError:
                 pass
             else:
-                land_counts[mana_color] += card_quantity
+                for mana_color in mana_colors:
+                    # In the case of a dual land, count 0.5 for each color
+                    land_counts[mana_color] += card_quantity / len(mana_colors)
                 break  # Only count one land per card
 
         # Mana symbols
         for face in card.faces:
-            for mana_color, mana_quantity in face.mana_cost:
-                mana_symbol_counts[mana_color] += mana_quantity * card_quantity
+            for mana_colors, mana_quantity in face.mana_cost.items():
+                for mana_color in mana_colors:
+                    # In the case of a split mana symbol, count 0.5 for each half
+                    mana_symbol_counts[mana_color] += mana_quantity * card_quantity / len(mana_colors)
 
         # Converted mana cost
         for face in card.faces:
@@ -260,16 +289,53 @@ def evaluate_deck(deck: Deck, set_info: SetInfo) -> float:
 
         # Duds
         if card.rating <= 1:
-            duds_count += card_quantity
+            dud_count += card_quantity
 
-    # Evaluate deck size
-    number_of_cards_penalty = (40 - total_cards) ** 2
-
-    # Evaluate mana curve
+    # Summarize mana curve
     total_converted_mana_cost_count = sum(converted_mana_cost_counts)
     converted_mana_cost_pmf: Iterator[float] = (count / total_converted_mana_cost_count
                                                 for count in converted_mana_cost_counts)
     converted_mana_cost_cdf = accumulate(converted_mana_cost_pmf, operator.add)
+
+    # Summarize land percentage
+    total_land_count = sum(land_counts.values())
+    total_land_ratio = total_land_count / total_cards
+
+    # Summarize land color percentage
+    total_mana_symbol_count = sum(mana_symbol_counts.values())
+    mana_symbol_pmf: Dict[ManaColor, float] = {color: count / total_mana_symbol_count
+                                               for color, count in mana_symbol_counts.items()}
+
+    land_color_pmf: Dict[ManaColor, float] = {color: count / total_land_count
+                                              for color, count in land_counts.items()}
+
+    # Summarize color identity
+    deck_color_identity = set(mana_symbol_pmf.keys())
+    dominant_mana_colors: Set[ManaColor] = {mana_color
+                                            for mana_color, probability_mass in mana_symbol_pmf.items()
+                                            if probability_mass >= 0.05}
+    splash_mana_colors = deck_color_identity - dominant_mana_colors
+
+    return DeckSummary(total_cards=total_cards,
+                       converted_mana_cost_cdf=converted_mana_cost_cdf,
+                       total_land_ratio=total_land_ratio,
+                       mana_symbol_pmf=mana_symbol_pmf, land_color_pmf=land_color_pmf,
+                       color_identity=deck_color_identity,
+                       dominant_mana_colors=dominant_mana_colors, splash_mana_colors=splash_mana_colors,
+                       archetype_counts=archetype_counts, dud_count=dud_count)
+
+
+def evaluate_deck(deck: DeckSummary) -> float:
+    """
+    Evaluates a deck against a predetermined ideal and penalizes it accordingly.
+
+    :param deck: The deck to evaluate
+    :return: A penalty value which should be minimized
+    """
+    # Evaluate deck size
+    number_of_cards_penalty = (40 - deck.total_cards) ** 2
+
+    # Evaluate mana curve
     expected_cmc_cdf = (
         0.05,
         0.31,
@@ -278,51 +344,44 @@ def evaluate_deck(deck: Deck, set_info: SetInfo) -> float:
         0.89)
 
     mana_curve_penalty = sum(abs(expected_cdf_value - actual_cdf_value)
-                             for expected_cdf_value, actual_cdf_value in zip(expected_cmc_cdf, converted_mana_cost_cdf))
+                             for expected_cdf_value, actual_cdf_value
+                             in zip(expected_cmc_cdf, deck.converted_mana_cost_cdf))
 
     # Evaluate land percentage
-    total_land_count = sum(land_counts.values())
-    total_land_ratio = total_land_count / total_cards
-    land_ratio_penalty = 0 if 16 / 40 <= total_land_ratio <= 18 / 40 else abs(17 / 40 - total_land_ratio)
+    land_ratio_penalty = 0 if 16 / 40 <= deck.total_land_ratio <= 18 / 40 else abs(17 / 40 - deck.total_land_ratio)
 
     # Evaluate land color percentage
-    total_mana_symbol_count = sum(mana_symbol_counts.values())
-    mana_symbol_pmf: Dict[ManaColor, float] = {color: count / total_mana_symbol_count
-                                               for color, count in mana_symbol_counts.items()}
-
-    land_color_pmf: Dict[ManaColor, float] = {color: count / total_land_count
-                                              for color, count in land_counts.items()}
-
     mana_symbol_penalty: float = sum(abs(mana_symbol_probability_mass - land_probability_mass)
                                      for _, (mana_symbol_probability_mass, land_probability_mass)
-                                     in zip_dict(mana_symbol_pmf, land_color_pmf))
+                                     in zip_dict(deck.mana_symbol_pmf, deck.land_color_pmf))
 
     # Evaluate color identity
-    dominant_mana_colors: Set[ManaColor] = {mana_color
-                                            for mana_color, probability_mass in mana_symbol_pmf.items()
-                                            if probability_mass >= 0.05}
-    splash_mana_colors = set(mana_symbol_pmf.keys()) - dominant_mana_colors
-    deck_color_penalty = max(2 - len(dominant_mana_colors), 2) + len(splash_mana_colors)
+    deck_color_penalty = max(2 - len(deck.dominant_mana_colors), 2) + len(deck.splash_mana_colors)
 
     # Evaluate card archetypes
     archetype_penalty = 0
-    if archetype_counts[Archetype.BOMB] == 0:
+
+    bombs = deck.archetype_counts[Archetype.BOMB]
+    removals = deck.archetype_counts[Archetype.REMOVAL]
+    evasive_count = deck.archetype_counts[Archetype.EVASIVE]
+    mana_fixing_count = deck.archetype_counts[Archetype.MANA_FIXING]
+
+    if bombs == 0:
         archetype_penalty += 10
-    if archetype_counts[Archetype.REMOVAL] < 2:
-        distance_from_ideal = 2 - archetype_counts[Archetype.REMOVAL]
+    if removals < 2:
+        distance_from_ideal = 2 - removals
         archetype_penalty += 10 * distance_from_ideal
 
-    deck_color_identity = dominant_mana_colors.union(splash_mana_colors)
     # TODO: Check if at least one of the colors is known for having flying
 
-    if archetype_counts[Archetype.EVASIVE] < 2:
-        distance_from_ideal = 2 - archetype_counts[Archetype.EVASIVE]
+    if evasive_count < 2:
+        distance_from_ideal = 2 - evasive_count
         archetype_penalty += 10 * distance_from_ideal
 
-    archetype_penalty += duds_count * 5
+    archetype_penalty += deck.dud_count * 5
 
-    if len(deck_color_identity) > 1 and archetype_counts[Archetype.MANA_FIXING] < 2:
-        distance_from_ideal = 2 - archetype_counts[Archetype.MANA_FIXING]
+    if len(deck.color_identity) > 1 and mana_fixing_count < 2:
+        distance_from_ideal = 2 - mana_fixing_count
         archetype_penalty += 10 * distance_from_ideal
 
     # Combine objectives
@@ -340,7 +399,49 @@ if __name__ == '__main__':
     parser.add_argument('ratings-file', metavar='RATING', type=argparse.FileType('r'),
                         help='The ratings list as a CSV')
 
-    cards: Dict[CardId, Card] = {}
+    # Pre-define basic lands
+    basic_lands = (('Plains', ManaColor.WHITE),
+                   ('Island', ManaColor.BLUE),
+                   ('Swamp', ManaColor.BLACK),
+                   ('Mountain', ManaColor.RED),
+                   ('Forest', ManaColor.GREEN))
+    basic_land_rarity = Rarity.COMMON
+    basic_land_rating = 1
+    basic_land_card_numbers = frozenset(card_number for card_number, _ in enumerate(basic_lands, start=1))
+
+    empty_set = frozenset()
+
+    set_infos: Dict[SetId, SetInfo] = {
+        None: SetInfo(set_name='Basic lands',
+                      cards={card_number: Card(
+                          faces=(
+                              CardFace(name=card_name, mana_cost={}, converted_mana_cost=0,
+                                       type=CardType.LAND),
+                          ),
+                          rarity=basic_land_rarity,
+                          rating=basic_land_rating,
+                          guild=None,
+                          image_url=None,
+                          archetypes=empty_set)
+                          for card_number, (card_name, _) in enumerate(basic_lands, start=1)
+                      },
+                      card_types=CardTypes(
+                          lands={(card_number, 0): Land(frozenset({mana_color}))
+                                 for card_number, (_, mana_color) in enumerate(basic_lands, start=1)},
+                          enchantments={},
+                          artifacts={},
+                          planeswalkers={},
+                          creatures={},
+                          sorceries={},
+                          instants={},
+                      ),
+                      rarities={basic_land_rarity: basic_land_card_numbers},
+                      ratings={basic_land_rating: basic_land_card_numbers},
+                      guilds={},
+                      archetypes={})
+    }
+
+    cards: Dict[CardNumber, Card] = {}
     card_types = CardTypes(lands={}, enchantments={}, artifacts={}, planeswalkers={}, creatures={}, sorceries={},
                            instants={})
 

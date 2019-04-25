@@ -1,0 +1,98 @@
+cases:
+  # Test case 1
+  - cards:
+
+      # Bring to Trial
+      - set: RNA
+        card_number: 5
+
+      # Impassioned Orator
+      - set: RNA
+        card_number: 12
+
+      # Knight of Sorrows
+      - set: RNA
+        card_number: 14
+
+      # Syndicate Messenger
+      - set: RNA
+        card_number: 25
+
+      # Twilight Panther
+      - set: RNA
+        card_number: 28
+
+      # Carrion Imp
+      - set: RNA
+        card_number: 66
+
+      # Clear the Stage
+      - set: RNA
+        card_number: 68
+
+      # Consign to the Pit
+      - set: RNA
+        card_number: 69
+
+      # Orzhov Enforcer
+      - set: RNA
+        card_number: 79
+
+      # Rakdos Trumpeter
+      - set: RNA
+        card_number: 84
+        quantity: 3
+
+      # Thirsting Shade
+      - set: RNA
+        card_number: 87
+
+      # Imperious Oligarch
+      - set: RNA
+        card_number: 184
+        quantity: 2
+
+      # Seraph of the Scales
+      - set: RNA
+        card_number: 205
+
+      # Vizkopa Vampire
+      - set: RNA
+        card_number: 220
+
+      # Consecrate // Consume
+      - set: RNA
+        card_number: 224
+
+      # Depose // Deploy
+      - set: RNA
+        card_number: 225
+        quantity: 2
+
+      # Orzhov Locket
+      - set: RNA
+        card_number: 236
+
+      # Azorius Guildgate
+      - set: RNA
+        card_number: 243
+
+      # Orzhov Guildgate
+      - set: RNA
+        card_number: 250
+        quantity: 2
+
+      # Island
+      - set: Basic Land
+        card_number: 2
+        quantity: 3
+
+      # Plains
+      - set: Basic Land
+        card_number: 1
+        quantity: 5
+
+      # Swamp
+      - set: Basic Land
+        card_number: 3
+        quantity: 6

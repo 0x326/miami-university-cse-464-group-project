@@ -189,6 +189,19 @@ class SetInfo(NamedTuple):
     archetypes: Mapping[Archetype, AbstractSet[CardId]]
 
 
+class DeckSummary(NamedTuple):
+    total_cards: int
+    converted_mana_cost_cdf: Iterator[float]
+    total_land_ratio: float
+    mana_symbol_pmf: Mapping[ManaColor, float]
+    land_color_pmf: Mapping[ManaColor, float]
+    color_identity: AbstractSet[ManaColor]
+    dominant_mana_colors: AbstractSet[ManaColor]
+    splash_mana_colors: AbstractSet[ManaColor]
+    archetype_counts: Mapping[Archetype, int]
+    dud_count: int
+
+
 def generate_booster_pack(set_info: SetInfo, length: int = 90) -> Deck:
     """
     Generates a booster pack from the given Magic: The Gathering "set" (repetition of cards is allowed)
@@ -201,9 +214,13 @@ def generate_booster_pack(set_info: SetInfo, length: int = 90) -> Deck:
     return Counter(cards)
 
 
-def evaluate_deck(deck: Deck, set_info: SetInfo) -> float:
+def summarize_deck(deck: Deck, set_info: SetInfo) -> DeckSummary:
     """
-    :return: A penalty value which should be minimized
+    Consolidates the deck into quantitative attributes so that it can be evaluated
+
+    :param deck: The deck to summarize
+    :param set_info: Information about the set of which this deck is drawn
+    :return: A summary of the deck's attributes
     """
     # Definitions:
     # CDF: Cumulative distribution function
@@ -218,7 +235,7 @@ def evaluate_deck(deck: Deck, set_info: SetInfo) -> float:
     mana_symbol_counts: DefaultDict[ManaColor, float] = defaultdict(float)
     converted_mana_cost_counts: List[int] = [0] * 6
     archetype_counts: DefaultDict[Archetype, int] = defaultdict(int)
-    duds_count: int = 0
+    dud_count: int = 0
 
     for card_id, card_quantity in deck.items():
         card = cards[card_id]
@@ -260,16 +277,53 @@ def evaluate_deck(deck: Deck, set_info: SetInfo) -> float:
 
         # Duds
         if card.rating <= 1:
-            duds_count += card_quantity
+            dud_count += card_quantity
 
-    # Evaluate deck size
-    number_of_cards_penalty = (40 - total_cards) ** 2
-
-    # Evaluate mana curve
+    # Summarize mana curve
     total_converted_mana_cost_count = sum(converted_mana_cost_counts)
     converted_mana_cost_pmf: Iterator[float] = (count / total_converted_mana_cost_count
                                                 for count in converted_mana_cost_counts)
     converted_mana_cost_cdf = accumulate(converted_mana_cost_pmf, operator.add)
+
+    # Summarize land percentage
+    total_land_count = sum(land_counts.values())
+    total_land_ratio = total_land_count / total_cards
+
+    # Summarize land color percentage
+    total_mana_symbol_count = sum(mana_symbol_counts.values())
+    mana_symbol_pmf: Dict[ManaColor, float] = {color: count / total_mana_symbol_count
+                                               for color, count in mana_symbol_counts.items()}
+
+    land_color_pmf: Dict[ManaColor, float] = {color: count / total_land_count
+                                              for color, count in land_counts.items()}
+
+    # Summarize color identity
+    deck_color_identity = set(mana_symbol_pmf.keys())
+    dominant_mana_colors: Set[ManaColor] = {mana_color
+                                            for mana_color, probability_mass in mana_symbol_pmf.items()
+                                            if probability_mass >= 0.05}
+    splash_mana_colors = deck_color_identity - dominant_mana_colors
+
+    return DeckSummary(total_cards=total_cards,
+                       converted_mana_cost_cdf=converted_mana_cost_cdf,
+                       total_land_ratio=total_land_ratio,
+                       mana_symbol_pmf=mana_symbol_pmf, land_color_pmf=land_color_pmf,
+                       color_identity=deck_color_identity,
+                       dominant_mana_colors=dominant_mana_colors, splash_mana_colors=splash_mana_colors,
+                       archetype_counts=archetype_counts, dud_count=dud_count)
+
+
+def evaluate_deck(deck: DeckSummary) -> float:
+    """
+    Evaluates a deck against a predetermined ideal and penalizes it accordingly.
+
+    :param deck: The deck to evaluate
+    :return: A penalty value which should be minimized
+    """
+    # Evaluate deck size
+    number_of_cards_penalty = (40 - deck.total_cards) ** 2
+
+    # Evaluate mana curve
     expected_cmc_cdf = (
         0.05,
         0.31,
@@ -278,51 +332,44 @@ def evaluate_deck(deck: Deck, set_info: SetInfo) -> float:
         0.89)
 
     mana_curve_penalty = sum(abs(expected_cdf_value - actual_cdf_value)
-                             for expected_cdf_value, actual_cdf_value in zip(expected_cmc_cdf, converted_mana_cost_cdf))
+                             for expected_cdf_value, actual_cdf_value
+                             in zip(expected_cmc_cdf, deck.converted_mana_cost_cdf))
 
     # Evaluate land percentage
-    total_land_count = sum(land_counts.values())
-    total_land_ratio = total_land_count / total_cards
-    land_ratio_penalty = 0 if 16 / 40 <= total_land_ratio <= 18 / 40 else abs(17 / 40 - total_land_ratio)
+    land_ratio_penalty = 0 if 16 / 40 <= deck.total_land_ratio <= 18 / 40 else abs(17 / 40 - deck.total_land_ratio)
 
     # Evaluate land color percentage
-    total_mana_symbol_count = sum(mana_symbol_counts.values())
-    mana_symbol_pmf: Dict[ManaColor, float] = {color: count / total_mana_symbol_count
-                                               for color, count in mana_symbol_counts.items()}
-
-    land_color_pmf: Dict[ManaColor, float] = {color: count / total_land_count
-                                              for color, count in land_counts.items()}
-
     mana_symbol_penalty: float = sum(abs(mana_symbol_probability_mass - land_probability_mass)
                                      for _, (mana_symbol_probability_mass, land_probability_mass)
-                                     in zip_dict(mana_symbol_pmf, land_color_pmf))
+                                     in zip_dict(deck.mana_symbol_pmf, deck.land_color_pmf))
 
     # Evaluate color identity
-    dominant_mana_colors: Set[ManaColor] = {mana_color
-                                            for mana_color, probability_mass in mana_symbol_pmf.items()
-                                            if probability_mass >= 0.05}
-    splash_mana_colors = set(mana_symbol_pmf.keys()) - dominant_mana_colors
-    deck_color_penalty = max(2 - len(dominant_mana_colors), 2) + len(splash_mana_colors)
+    deck_color_penalty = max(2 - len(deck.dominant_mana_colors), 2) + len(deck.splash_mana_colors)
 
     # Evaluate card archetypes
     archetype_penalty = 0
-    if archetype_counts[Archetype.BOMB] == 0:
+
+    bombs = deck.archetype_counts[Archetype.BOMB]
+    removals = deck.archetype_counts[Archetype.REMOVAL]
+    evasive_count = deck.archetype_counts[Archetype.EVASIVE]
+    mana_fixing_count = deck.archetype_counts[Archetype.MANA_FIXING]
+
+    if bombs == 0:
         archetype_penalty += 10
-    if archetype_counts[Archetype.REMOVAL] < 2:
-        distance_from_ideal = 2 - archetype_counts[Archetype.REMOVAL]
+    if removals < 2:
+        distance_from_ideal = 2 - removals
         archetype_penalty += 10 * distance_from_ideal
 
-    deck_color_identity = dominant_mana_colors.union(splash_mana_colors)
     # TODO: Check if at least one of the colors is known for having flying
 
-    if archetype_counts[Archetype.EVASIVE] < 2:
-        distance_from_ideal = 2 - archetype_counts[Archetype.EVASIVE]
+    if evasive_count < 2:
+        distance_from_ideal = 2 - evasive_count
         archetype_penalty += 10 * distance_from_ideal
 
-    archetype_penalty += duds_count * 5
+    archetype_penalty += deck.dud_count * 5
 
-    if len(deck_color_identity) > 1 and archetype_counts[Archetype.MANA_FIXING] < 2:
-        distance_from_ideal = 2 - archetype_counts[Archetype.MANA_FIXING]
+    if len(deck.color_identity) > 1 and mana_fixing_count < 2:
+        distance_from_ideal = 2 - mana_fixing_count
         archetype_penalty += 10 * distance_from_ideal
 
     # Combine objectives

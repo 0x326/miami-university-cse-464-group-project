@@ -114,7 +114,7 @@ class Guild(Enum):
 
 
 class Land(NamedTuple):
-    color: ManaColor
+    possible_colors: AbstractSet[ManaColor]
 
 
 class Enchantment(NamedTuple):
@@ -154,7 +154,8 @@ class Rarity(Enum):
 
 class CardFace(NamedTuple):
     name: str
-    mana_cost: Mapping[ManaColor, Count]
+    # The "Any" mana cost should be represented as {ManaColor.ANY} instead of {ManaColor.WHITE, ManaColor.BLUE, ...}
+    mana_cost: Mapping[AbstractSet[ManaColor], Count]
     converted_mana_cost: int
     type: CardType
 
@@ -213,8 +214,8 @@ def evaluate_deck(deck: Deck, set_info: SetInfo) -> float:
 
     # Deck counts
     total_cards: int = 0
-    land_counts: DefaultDict[ManaColor, int] = defaultdict(int)
-    mana_symbol_counts: DefaultDict[ManaColor, int] = defaultdict(int)
+    land_counts: DefaultDict[ManaColor, float] = defaultdict(float)
+    mana_symbol_counts: DefaultDict[ManaColor, float] = defaultdict(float)
     converted_mana_cost_counts: List[int] = [0] * 6
     archetype_counts: DefaultDict[Archetype, int] = defaultdict(int)
     duds_count: int = 0
@@ -228,17 +229,21 @@ def evaluate_deck(deck: Deck, set_info: SetInfo) -> float:
         # Lands
         for face_index, _ in enumerate(card.faces):
             try:
-                mana_color = lands[card_id, face_index].color
+                mana_colors = lands[card_id, face_index].possible_colors
             except KeyError:
                 pass
             else:
-                land_counts[mana_color] += card_quantity
+                for mana_color in mana_colors:
+                    # In the case of a dual land, count 0.5 for each color
+                    land_counts[mana_color] += card_quantity / len(mana_colors)
                 break  # Only count one land per card
 
         # Mana symbols
         for face in card.faces:
-            for mana_color, mana_quantity in face.mana_cost:
-                mana_symbol_counts[mana_color] += mana_quantity * card_quantity
+            for mana_colors, mana_quantity in face.mana_cost.items():
+                for mana_color in mana_colors:
+                    # In the case of a split mana symbol, count 0.5 for each half
+                    mana_symbol_counts[mana_color] += mana_quantity * card_quantity / len(mana_colors)
 
         # Converted mana cost
         for face in card.faces:

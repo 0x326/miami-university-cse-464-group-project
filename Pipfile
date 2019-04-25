@@ -11,6 +11,8 @@ colorful = "*"
 hypothesis = "*"
 pycodestyle = "*"
 autopep8 = "*"
+pyyaml = "*"
+pytest = "*"
 
 [requires]
 python_version = "3"

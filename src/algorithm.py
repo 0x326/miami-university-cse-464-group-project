@@ -252,5 +252,6 @@ if __name__ == '__main__':
             card_id, card_name, mana_cost, cmc, card_type, rarity, guild, \
                 bomb, removal, combat_trick, evasive, counter, card_draw, mana_fixing, card_set, image_url = rating
             rarity = Rarity(rarity)
+            cmc = int(cmc)
             card = Card(name=card_name, mana_cost=mana_cost, converted_mana_cost=cmc, type_info=card_type)
             cards[card_id] = card

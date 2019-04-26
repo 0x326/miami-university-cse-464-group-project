@@ -393,7 +393,7 @@ if __name__ == '__main__':
     import csv
 
     parser = argparse.ArgumentParser(description='Compute an optimal deck given a set of booster packs')
-    parser.add_argument('ratings-file', metavar='RATING', type=argparse.FileType('r'),
+    parser.add_argument('ratings', metavar='RATING', type=argparse.FileType('r'),
                         help='The ratings list as a CSV')
 
     # Pre-define basic lands
@@ -443,7 +443,7 @@ if __name__ == '__main__':
                            instants={})
 
     args = parser.parse_args()
-    with args.ratings_file as ratings_file:
+    with args.ratings as ratings_file:
         ratings: Iterator[List[str]] = csv.reader(ratings_file)
         _ = next(ratings)  # Skip header row
         for rating in ratings:

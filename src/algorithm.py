@@ -460,8 +460,9 @@ if __name__ == '__main__':
         ratings: Iterator[List[str]] = csv.reader(ratings_file)
         _ = next(ratings)  # Skip header row
         for rating in ratings:
-            card_set, card_number, card_name, mana_cost, cmc, card_type, rarity, rating_score,\
-            guild, bomb, removal, combat_trick, evasive, counter, card_draw, mana_fixing, image_url = rating  # type: str
+            card_set, card_number, card_name, mana_cost, cmc, card_type, rarity, rating_score, \
+                guild, bomb, removal, combat_trick, evasive, counter, card_draw, mana_fixing, \
+                image_url = rating  # type: str
 
             card_number = int(card_number)
 

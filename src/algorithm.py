@@ -523,17 +523,11 @@ if __name__ == '__main__':
             else:
                 card_guild = Guild(guild)
 
-            archetype_set: AbstractSet = AbstractSet
-
-            # TODO: convert these booleans into the appropriate ENUMs
-
-            bomb_bool = (bomb == '1')
-            removal_bool = (removal == '1')
-            combat_trick_bool = (combat_trick == '1')
-            evasive_bool = (evasive == '1')
-            counter_bool = (counter == '1')
-            card_draw_bool = (card_draw == '1')
-            mana_fixing_bool = (mana_fixing == '1')
+            # Important: Keep this tuple in sync with the definition order of the Archetype Enum
+            archetypes: Tuple[str, ...] = (bomb, removal, combat_trick, evasive, counter, card_draw, mana_fixing)
+            archetypes: Set[Archetype] = {archetype_enum
+                                          for archetype, archetype_enum in zip(archetypes, iter(Archetype))
+                                          if archetype == '1'}
 
             image_url: ParseResult = urlparse(image_url)
 

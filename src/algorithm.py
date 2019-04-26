@@ -260,7 +260,7 @@ def summarize_deck(deck: Deck, set_infos: Mapping[SetId, SetInfo]) -> DeckSummar
         cards = set_infos[set_id].cards
         lands = set_infos[set_id].card_types.lands
 
-        card = cards[card_id]
+        card = cards[card_number]
 
         # Total cards
         total_cards += card_quantity
@@ -268,7 +268,7 @@ def summarize_deck(deck: Deck, set_infos: Mapping[SetId, SetInfo]) -> DeckSummar
         # Lands
         for face_index, _ in enumerate(card.faces):
             try:
-                mana_colors = lands[card_id, face_index].possible_colors
+                mana_colors = lands[card_number, face_index].possible_colors
             except KeyError:
                 pass
             else:

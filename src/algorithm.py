@@ -464,7 +464,7 @@ if __name__ == '__main__':
                 guild, bomb, removal, combat_trick, evasive, counter, card_draw, mana_fixing, \
                 image_url = rating  # type: str
 
-            card_number = int(card_number)
+            card_number: int = int(card_number)
 
             mana_cost_text: str = mana_cost.upper()
             mana_cost_text = mana_cost_text.strip('{}')
@@ -493,7 +493,7 @@ if __name__ == '__main__':
 
                 mana_cost[mana_colors] += mana_quantity
 
-            cmc = int(cmc)
+            cmc: int = int(cmc)
 
             try:
                 card_type_split = card_type.split(' ')
@@ -504,11 +504,10 @@ if __name__ == '__main__':
                 # Multiple words in card_type
                 card_kind = CardType(card_type_split[0])
 
-
             # NULL is None in python
             # if guild.upper() == 'NULL'
 
-            rarity = Rarity(rarity)
+            rarity: Rarity = Rarity(rarity)
 
             try:
                 num_card_rating = float(rating_score)

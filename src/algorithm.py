@@ -10,7 +10,7 @@ from collections import Counter, defaultdict
 from enum import Enum, auto, unique
 from itertools import accumulate
 from typing import *
-from urllib.parse import ParseResult
+from urllib.parse import ParseResult, urlparse
 
 K = TypeVar('K')
 V = TypeVar('V')
@@ -50,11 +50,11 @@ Deck = Mapping[CardId, Count]
 @unique
 class ManaColor(Enum):
     ANY = auto()
-    WHITE = auto()
-    BLUE = auto()
-    BLACK = auto()
-    RED = auto()
-    GREEN = auto()
+    WHITE = 'W'
+    BLUE = 'U'
+    BLACK = 'B'
+    RED = 'R'
+    GREEN = 'G'
     COLORLESS = auto()
     SNOW = auto()
 
@@ -94,12 +94,12 @@ class Archetype(Enum):
 
 @unique
 class CardType(Enum):
-    LAND = auto()
-    ENCHANTMENT = auto()
-    ARTIFACT = auto()
-    PLANESWALKER = auto()
-    CREATURE = auto()
-    SORCERY = auto()
+    LAND = 'Land'
+    ENCHANTMENT = 'Enchantment'
+    ARTIFACT = 'Artifact'
+    PLANESWALKER = 'Planeswalker'
+    CREATURE = 'Creature'
+    SORCERY = 'Sorcery'
 
 
 @unique
@@ -447,20 +447,97 @@ if __name__ == '__main__':
         ratings: Iterator[List[str]] = csv.reader(ratings_file)
         _ = next(ratings)  # Skip header row
         for rating in ratings:
-            card_id, card_name, mana_cost, cmc, card_type, rarity, guild, \
-                bomb, removal, combat_trick, evasive, counter, card_draw, mana_fixing, card_set, image_url = rating
-            rarity = Rarity(rarity)
+            card_set, card_number, card_name, mana_cost, cmc, card_type, rarity, rating_score,\
+            guild, bomb, removal, combat_trick, evasive, counter, card_draw, mana_fixing, image_url = rating  # type: str
+
+            card_number = int(card_number)
+
+            mana_cost_text: str = mana_cost.upper()
+            mana_cost_text = mana_cost_text.strip('{}')
+            mana_cost: DefaultDict[Set[ManaColor], Count] = defaultdict(int)
+            for mana_cost_symbol in mana_cost_text.split('}{'):
+                try:
+                    mana_cost_symbol = int(mana_cost_symbol)
+
+                except ValueError:
+                    mana_quantity = 1
+                    try:
+                        left_mana_symbol, right_mana_symbol = mana_cost_symbol.split('/')
+
+                    except ValueError:
+                        # Single-color mana
+                        mana_colors = {ManaColor(mana_cost_symbol)}
+
+                    else:
+                        # Split mana
+                        mana_colors = {left_mana_symbol, right_mana_symbol}
+
+                else:
+                    # Any mana
+                    mana_colors = {ManaColor.ANY}
+                    mana_quantity = mana_cost_symbol
+
+                mana_cost[mana_colors] += mana_quantity
+
             cmc = int(cmc)
-            faces = Sequence[CardFace]
 
             try:
-                card_name.index("//")
-                # split the data at // and put it into faces
+                card_type_split = card_type.split(' ')
+            except ValueError:
+                # Single word in card_type
+                card_kind = CardType(card_type)
+            else:
+                # Multiple words in card_type
+                card_kind = CardType(card_type_split[0])
+
+
+            # NULL is None in python
+            # if guild.upper() == 'NULL'
+
+            rarity = Rarity(rarity)
+
+            try:
+                num_card_rating = float(rating_score)
+                # I don't really know what to put in the except and else but heres this
+            except ValueError:
+                pass
+            else:
+                pass
+
+            guild = guild.upper()
+            if guild == 'NULL':
+                card_guild = None
+            else:
+                card_guild = Guild(guild)
+
+            archetype_set: AbstractSet = AbstractSet
+
+            # TODO: convert these booleans into the appropriate ENUMs
+
+            bomb_bool = (bomb == '1')
+            removal_bool = (removal == '1')
+            combat_trick_bool = (combat_trick == '1')
+            evasive_bool = (evasive == '1')
+            counter_bool = (counter == '1')
+            card_draw_bool = (card_draw == '1')
+            mana_fixing_bool = (mana_fixing == '1')
+
+            image_url: ParseResult = urlparse(image_url)
+
+            faces = Sequence[CardFace]
+
+            # TODO: Incorporate split cards
+            try:
+                left_card_name, right_card_name = card_name.split('//')
 
             except ValueError:
                 # faces: Sequence[CardFace] = {}
                 # put data into faces
                 pass
 
-            card = Card(name=card_name, mana_cost=mana_cost, converted_mana_cost=cmc, type_info=card_type)
-            cards[card_id] = card
+            else:
+                pass  # Continue on with split card
+
+            # TODO: create the card object to be stored and store it
+            # card = Card(name=card_name, mana_cost=mana_cost_text, converted_mana_cost=cmc, type_info=card_type)
+            # cards[card_id] = card

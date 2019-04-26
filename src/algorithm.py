@@ -8,7 +8,7 @@ import operator
 import random
 from collections import Counter, defaultdict
 from enum import Enum, auto, unique
-from itertools import accumulate
+from itertools import accumulate, chain
 from typing import *
 from urllib.parse import ParseResult, urlparse
 
@@ -205,22 +205,35 @@ class DeckSummary(NamedTuple):
     dud_count: int
 
 
-def generate_booster_pack(set_info: SetInfo, set_id: str, length: int = 90) -> Deck:
+def generate_booster_pack(set_info: SetInfo) -> Iterator[CardNumber]:
     """
     Generates a booster pack from the given Magic: The Gathering "set" (repetition of cards is allowed)
 
     :param set_info: The "set" to choose the cards from
-    :param set_id: The id of set_info
-    :param length: The length of the booster pack
     :return: The booster pack
     """
     # Typical Booster pack layout: 10 Commons, 3 Uncommons, 1 Rare or Mythic (roughly 1/7 chance to get a mythic)
     # Foils replace a card in the common slot (no matter the rarity of the foil) and also have roughly 1/7 chance
     # always includes 1 land (guildgate in this case)
 
-    cards: List[CardNumber] = random.choices(set_info.cards.keys(), k=length)
-    cards: Iterator[CardId] = ((set_id, card_number) for card_number in cards)
-    return Counter(cards)
+    # Foil & Commons
+    if random.randrange(7) == 0:
+        # 1 Foil & 9 Commons
+        yield from random.choice(set_info.cards.keys())
+        yield from random.sample(set_info.rarities[Rarity.COMMON], k=9)
+    else:
+        # 10 Commons
+        yield from random.sample(set_info.rarities[Rarity.COMMON], k=10)
+
+    # Uncommons
+    yield from random.choices(set_info.rarities[Rarity.UNCOMMON], k=3)
+
+    # Rare/Mythic Rare
+    rares = set_info.rarities[Rarity.RARE]
+    rare_weights = (7,) * len(rares)
+    mythic_rares = set_info.rarities[Rarity.MYTHIC_RARE]
+    mythic_rare_weights = (1,) * len(mythic_rares)
+    yield from random.choices(chain(rares, mythic_rares), cum_weights=chain(rare_weights, mythic_rare_weights))
 
 
 def summarize_deck(deck: Deck, set_infos: Mapping[SetId, SetInfo]) -> DeckSummary:

@@ -104,16 +104,16 @@ class CardType(Enum):
 
 @unique
 class Guild(Enum):
-    AZORIUS = auto()
-    DIMIR = auto()
-    RAKDOS = auto()
-    GRUUL = auto()
-    SELESNYA = auto()
-    ORZHOV = auto()
-    IZZET = auto()
-    GOLGARI = auto()
-    BOROS = auto()
-    SIMIC = auto()
+    AZORIUS = 'AZORIUS'
+    DIMIR = 'DIMIR'
+    RAKDOS = 'RAKDOS'
+    GRUUL = 'GRUUL'
+    SELESNYA = 'SELESNYA'
+    ORZHOV = 'ORZHOV'
+    IZZET = 'IZZET'
+    GOLGARI = 'GOLGARI'
+    BOROS = 'BOROS'
+    SIMIC = 'SIMIC'
 
 
 class Land(NamedTuple):

@@ -466,6 +466,9 @@ if __name__ == '__main__':
 
             card_number: int = int(card_number)
 
+            # Nothing to do with card_name
+
+            # Mana cost
             mana_cost_text: str = mana_cost.upper()
             mana_cost_text = mana_cost_text.strip('{}')
             mana_cost: DefaultDict[Set[ManaColor], Count] = defaultdict(int)

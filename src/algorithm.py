@@ -100,6 +100,7 @@ class CardType(Enum):
     PLANESWALKER = 'Planeswalker'
     CREATURE = 'Creature'
     SORCERY = 'Sorcery'
+    INSTANT = 'Instant'
 
 
 @unique

@@ -417,7 +417,7 @@ if __name__ == '__main__':
                    ('Forest', ManaColor.GREEN))
     basic_land_rarity = Rarity.COMMON
     basic_land_rating = 1
-    basic_land_card_numbers = frozenset(card_number for card_number, _ in enumerate(basic_lands, start=1))
+    basic_land_card_numbers: FrozenSet[int] = frozenset(range(1, len(basic_lands) + 1))
 
     empty_set = frozenset()
 

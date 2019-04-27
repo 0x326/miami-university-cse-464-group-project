@@ -531,7 +531,7 @@ if __name__ == '__main__':
 
             image_url: ParseResult = urlparse(image_url)
 
-            faces = Sequence[CardFace]
+            faces: Sequence[CardFace]
 
             # TODO: Incorporate split cards
             try:

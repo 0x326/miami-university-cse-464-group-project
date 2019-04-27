@@ -14,6 +14,7 @@ Uses [LaTeX][Wikibook-LaTeX]
   - Windows ([Scoop]): `scoop install latex`
   - Windows ([Chocolatey]): `choco install miktex`
   - macOS ([Homebrew]): `brew tap caskroom/cask && brew cask install mactex`
+  - Debian: `apt install latexmk texlive-science`
 
 - Perl
 
@@ -31,4 +32,5 @@ Uses [LaTeX][Wikibook-LaTeX]
 
 Just run:
 
-    make
+    cd ..
+    make report

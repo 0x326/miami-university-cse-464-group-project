@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 from mtgsdk import Card, Set, Type, Supertype, Subtype, Changelog
 
 # cardList = Card.where(set = 'grn').where(language="English").all()

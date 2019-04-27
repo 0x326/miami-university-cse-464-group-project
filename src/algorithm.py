@@ -104,16 +104,16 @@ class CardType(Enum):
 
 @unique
 class Guild(Enum):
-    AZORIUS = 'AZORIUS'
-    DIMIR = 'DIMIR'
-    RAKDOS = 'RAKDOS'
-    GRUUL = 'GRUUL'
-    SELESNYA = 'SELESNYA'
-    ORZHOV = 'ORZHOV'
-    IZZET = 'IZZET'
-    GOLGARI = 'GOLGARI'
-    BOROS = 'BOROS'
-    SIMIC = 'SIMIC'
+    AZORIUS = 'Azorius'
+    DIMIR = 'Dimir'
+    RAKDOS = 'Rakdos'
+    GRUUL = 'Gruul'
+    SELESNYA = 'Selesnya'
+    ORZHOV = 'Orzhov'
+    IZZET = 'Izzet'
+    GOLGARI = 'Golgari'
+    BOROS = 'Boros'
+    SIMIC = 'Simic'
 
 
 class Land(NamedTuple):
@@ -512,11 +512,11 @@ if __name__ == '__main__':
             else:
                 pass
 
-            guild = guild.upper()
-            if guild == 'NULL':
-                card_guild = None
-            else:
-                card_guild = Guild(guild)
+            try:
+                guild: Optional[Guild] = Guild(guild)
+
+            except ValueError:
+                guild: Optional[Guild] = None
 
             # Important: Keep this tuple in sync with the definition order of the Archetype Enum
             archetypes: Tuple[str, ...] = (bomb, removal, combat_trick, evasive, counter, card_draw, mana_fixing)

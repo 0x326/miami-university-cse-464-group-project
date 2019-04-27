@@ -4,9 +4,15 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
+mtgsdk = "*"
 
 [dev-packages]
 colorful = "*"
+hypothesis = "*"
+pycodestyle = "*"
+autopep8 = "*"
+pyyaml = "*"
+pytest = "*"
 
 [requires]
-python_version = "3.6"
+python_version = "3"

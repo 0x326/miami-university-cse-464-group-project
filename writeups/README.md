@@ -32,4 +32,5 @@ Uses [LaTeX][Wikibook-LaTeX]
 
 Just run:
 
-    make
+    cd ..
+    make report

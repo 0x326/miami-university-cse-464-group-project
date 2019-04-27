@@ -501,9 +501,17 @@ if __name__ == '__main__':
 
             cmc: int = int(cmc)
 
-            # Keep only the first word
-            card_type, *_ = card_type.split()
-            card_type: CardType = CardType(card_type.capitalize())
+            card_type, *_ = card_type.split(' - ')
+            for word in card_type.split():
+                word = word.capitalize()
+                try:
+                    card_type: CardType = CardType(word)
+                    break
+
+                except ValueError:
+                    pass
+            else:
+                raise ValueError('Cannot parse card type')
 
             rarity: Rarity = Rarity(rarity)
 

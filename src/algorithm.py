@@ -498,17 +498,9 @@ if __name__ == '__main__':
 
             cmc: int = int(cmc)
 
-            try:
-                card_type_split = card_type.split(' ')
-            except ValueError:
-                # Single word in card_type
-                card_kind = CardType(card_type)
-            else:
-                # Multiple words in card_type
-                card_kind = CardType(card_type_split[0])
-
-            # NULL is None in python
-            # if guild.upper() == 'NULL'
+            # Keep only the first word
+            card_type, *_ = card_type.split()
+            card_type: CardType = CardType(card_type.capitalize())
 
             rarity: Rarity = Rarity(rarity)
 

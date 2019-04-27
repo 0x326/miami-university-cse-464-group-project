@@ -472,7 +472,7 @@ if __name__ == '__main__':
             # Mana cost
             mana_cost_text: str = mana_cost.upper()
             mana_cost_text = mana_cost_text.strip('{}')
-            mana_cost: DefaultDict[Set[ManaColor], Count] = defaultdict(int)
+            mana_cost: DefaultDict[FrozenSet[ManaColor], Count] = defaultdict(int)
             for mana_cost_symbol in mana_cost_text.split('}{'):
                 try:
                     mana_cost_symbol = int(mana_cost_symbol)
@@ -484,17 +484,19 @@ if __name__ == '__main__':
 
                     except ValueError:
                         # Single-color mana
-                        mana_colors = {ManaColor(mana_cost_symbol)}
+                        mana_colors = ManaColor(mana_cost_symbol),
 
                     else:
                         # Split mana
-                        mana_colors = {left_mana_symbol, right_mana_symbol}
+                        left_mana_symbol, right_mana_symbol = ManaColor(left_mana_symbol), ManaColor(right_mana_symbol)
+                        mana_colors = left_mana_symbol, right_mana_symbol
 
                 else:
                     # Any mana
-                    mana_colors = {ManaColor.ANY}
+                    mana_colors = ManaColor.ANY,
                     mana_quantity = mana_cost_symbol
 
+                mana_colors = frozenset(mana_colors)
                 mana_cost[mana_colors] += mana_quantity
 
             cmc: int = int(cmc)

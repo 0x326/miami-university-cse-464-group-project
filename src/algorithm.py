@@ -160,12 +160,12 @@ class CardFace(NamedTuple):
     name: str
     # The "Any" mana cost should be represented as {ManaColor.ANY} instead of {ManaColor.WHITE, ManaColor.BLUE, ...}
     mana_cost: Mapping[AbstractSet[ManaColor], Count]
-    converted_mana_cost: int
     type: CardType
 
 
 class Card(NamedTuple):
     faces: Sequence[CardFace]
+    converted_mana_cost: int  # Sum of all mana costs for all faces
     rarity: Rarity
     rating: int
     guild: Optional[Guild]
@@ -286,13 +286,12 @@ def summarize_deck(deck: Deck, set_infos: Mapping[SetId, SetInfo]) -> DeckSummar
                     mana_symbol_counts[mana_color] += mana_quantity * card_quantity / len(mana_colors)
 
         # Converted mana cost
-        for face in card.faces:
-            try:
-                # Leaves index 0 unoccupied - Allowed for code elegance
-                converted_mana_cost_counts[face.converted_mana_cost] += card_quantity
-            except IndexError:
-                # For the purposes of deck evaluation, we are only considering the converted mana cost <= 5
-                pass
+        try:
+            # Leaves index 0 unoccupied - Allowed for code elegance
+            converted_mana_cost_counts[card.converted_mana_cost] += card_quantity
+        except IndexError:
+            # For the purposes of deck evaluation, we are only considering the converted mana cost <= 5
+            pass
 
         # Archetypes
         for archetype in card.archetypes:

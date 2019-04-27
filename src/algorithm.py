@@ -504,13 +504,7 @@ if __name__ == '__main__':
 
             rarity: Rarity = Rarity(rarity)
 
-            try:
-                num_card_rating = float(rating_score)
-                # I don't really know what to put in the except and else but heres this
-            except ValueError:
-                pass
-            else:
-                pass
+            rating_score: int = int(rating_score)
 
             try:
                 guild: Optional[Guild] = Guild(guild)

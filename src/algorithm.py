@@ -497,8 +497,8 @@ if __name__ == '__main__':
 
             # Card faces
             card_faces: List[CardFace] = []
-            for card_name, mana_cost, card_type in zip(*(string.split('//')
-                                                         for string in (card_name, mana_cost, card_type))):
+            for face_index, (card_name, mana_cost, card_type) in enumerate(zip(*(string.split('//')
+                                                                                 for string in (card_name, mana_cost, card_type)))):
                 # Trim whitespace
                 card_name, mana_cost, card_type = card_name.strip(), mana_cost.strip(), card_type.strip()
 
@@ -550,6 +550,32 @@ if __name__ == '__main__':
                         pass
                 else:
                     raise ValueError('Cannot parse card type')
+
+                # Card type info
+                # __setitem__(...) is only defined in MutableMapping, not Mapping.
+                # Mutate anyway and ignore type warnings
+                # TODO: Implement
+                if card_type == CardType.LAND:
+                    set_info.card_types.lands[card_number, face_index] = Land(possible_colors=set())
+
+                elif card_type == CardType.ENCHANTMENT:
+                    set_info.card_types.enchantments[card_number, face_index] = Enchantment(possible_target_types=set())
+
+                elif card_type == CardType.ARTIFACT:
+                    set_info.card_types.artifacts[card_number, face_index] = Artifact()
+
+                elif card_type == CardType.PLANESWALKER:
+                    set_info.card_types.planeswalkers[card_number, face_index] = Planeswalker(loyalty=0, actions=())
+
+                elif card_type == CardType.CREATURE:
+                    set_info.card_types.creatures[card_number, face_index] = Creature(power=0, toughness=0,
+                                                                                      keywords=set())
+
+                elif card_type == CardType.SORCERY:
+                    set_info.card_types.sorceries[card_number, face_index] = Sorcery()
+
+                elif card_type == CardType.INSTANT:
+                    set_info.card_types.instants[card_number, face_index] = Instant()
 
                 # Consolidate
                 card_faces.append(CardFace(name=card_name, mana_cost=mana_cost, type=card_type))

@@ -421,10 +421,10 @@ if __name__ == '__main__':
             sorceries={},
             instants={},
         ),
-        rarities={},
-        ratings={},
-        guilds={},
-        archetypes={},
+        rarities=defaultdict(set),
+        ratings=defaultdict(set),
+        guilds=defaultdict(set),
+        archetypes=defaultdict(set),
     ))
 
     # Pre-define basic lands
@@ -560,7 +560,8 @@ if __name__ == '__main__':
 
             image_url: ParseResult = urlparse(image_url)
 
-            # __setitem__ is only defined in MutableMapping, not Mapping.
+            # Populate forward data structure
+            # __setitem__(...) is only defined in MutableMapping, not Mapping.
             # Mutate anyway and ignore type warning
             set_infos[card_set].cards[card_number] = Card(
                 faces=card_faces,
@@ -571,3 +572,12 @@ if __name__ == '__main__':
                 guild=guild,
                 image_url=image_url,
             )
+
+            # Populate backward data structures
+            # add(...) is only defined in MutableSet, not AbstractSet.
+            # Mutate anyway and ignore type warnings
+            set_infos[card_set].rarities[rarity].add(card_number)
+            set_infos[card_set].ratings[rating].add(card_number)
+            set_infos[card_set].guilds[guild].add(card_number)
+            for archetype in archetypes:
+                set_infos[card_set].archetypes[archetype].add(card_number)

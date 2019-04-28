@@ -10,7 +10,7 @@ from mtgsdk import Card, Set, Type, Supertype, Subtype, Changelog
 # booster = Set.generate_booster('grn')
 # print(len(booster))
 
-grn = Card.where(set='rna').where(language="English").all()
+grn = Card.where(set='rna', language='English')
 num: int = 1
 with open("RavnicaAllegienceCardIDs.txt", "w") as file_object:
 

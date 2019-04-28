@@ -482,6 +482,8 @@ if __name__ == '__main__':
                 bomb, removal, combat_trick, evasive, counter, card_draw, mana_fixing, \
                 image_url = card_csv_line  # type: str
 
+            set_info = set_infos[card_set]
+
             card_number: int = int(card_number)
             rarity: Rarity = Rarity(rarity)
             cmc: int = int(cmc)
@@ -563,7 +565,7 @@ if __name__ == '__main__':
             # Populate forward data structure
             # __setitem__(...) is only defined in MutableMapping, not Mapping.
             # Mutate anyway and ignore type warning
-            set_infos[card_set].cards[card_number] = Card(
+            set_info.cards[card_number] = Card(
                 faces=card_faces,
                 converted_mana_cost=cmc,
                 archetypes=archetypes,
@@ -576,8 +578,8 @@ if __name__ == '__main__':
             # Populate backward data structures
             # add(...) is only defined in MutableSet, not AbstractSet.
             # Mutate anyway and ignore type warnings
-            set_infos[card_set].rarities[rarity].add(card_number)
-            set_infos[card_set].ratings[rating].add(card_number)
-            set_infos[card_set].guilds[guild].add(card_number)
+            set_info.rarities[rarity].add(card_number)
+            set_info.ratings[rating].add(card_number)
+            set_info.guilds[guild].add(card_number)
             for archetype in archetypes:
-                set_infos[card_set].archetypes[archetype].add(card_number)
+                set_info.archetypes[archetype].add(card_number)

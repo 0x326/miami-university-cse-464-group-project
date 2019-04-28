@@ -550,7 +550,7 @@ if __name__ == '__main__':
                     raise ValueError('Cannot parse card type')
 
                 # Consolidate
-                card_faces.append(CardFace(name=card_name, mana_cost=mana_cost,  type=card_type))
+                card_faces.append(CardFace(name=card_name, mana_cost=mana_cost, type=card_type))
 
             # Important: Keep this tuple in sync with the definition order of the Archetype Enum
             archetypes: Tuple[str, ...] = (bomb, removal, combat_trick, evasive, counter, card_draw, mana_fixing)

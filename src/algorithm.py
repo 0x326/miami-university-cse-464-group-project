@@ -477,7 +477,7 @@ if __name__ == '__main__':
         for card_csv_line in cards_csv:
             # Unpack cell data
             card_set, card_number, \
-                rarity, cmc, rating, guild, layout, \
+                rarity, cmc, rating, guild, \
                 card_name, mana_cost, card_type, \
                 bomb, removal, combat_trick, evasive, counter, card_draw, mana_fixing, \
                 image_url = card_csv_line  # type: str

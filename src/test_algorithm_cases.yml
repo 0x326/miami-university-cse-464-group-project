@@ -103,3 +103,134 @@ cases:
       - set: null
         card_number: 3
         quantity: 6
+
+  - cards:
+
+      # Summary Judgement
+      - set: RNA
+        card_number: 24
+        quantity: 2
+
+      # Syndicate Messenger
+      - set: RNA
+        card_number: 25
+
+      # Shimmer of Possibility
+      - set: RNA
+        card_number: 51
+        quantity: 2
+
+      # Awaken the Erstwhile
+      - set: RNA
+        card_number: 61
+
+      # Carrion Imp
+      - set: RNA
+        card_number: 66
+
+      # Consign to the Pit
+      - set: RNA
+        card_number: 69
+
+      # Orzhov Enforcer
+      - set: RNA
+        card_number: 79
+
+      # Priest of the Forgotten Gods
+      - set: RNA
+        card_number: 83
+
+      # Spire Mangler
+      - set: RNA
+        card_number: 86
+
+      # Growth-Chamber Guardian
+      - set: RNA
+        card_number: 128
+
+      # Open the Gates
+      - set: RNA
+        card_number: 133
+        quantity: 2
+
+      # Light Up the Stage
+      - set: RNA
+        card_number: 107
+
+      # Absorb
+      - set: RNA
+        card_number: 151
+
+      # Azorius Skyguard
+      - set: RNA
+        card_number: 155
+
+      # Consecrate // Consume
+      - set: RNA
+        card_number: 224
+
+      # Depose // Deploy
+      - set: RNA
+        card_number: 225
+        quantity: 2
+
+      # Growth Spiral
+      - set: RNA
+        card_number: 178
+
+      # Hydroid Krasis
+      - set: RNA
+        card_number: 183
+
+      # Incubation // Incongruity
+      - set: RNA
+        card_number: 226
+
+      # Orzhov Locket
+      - set: RNA
+        card_number: 236
+
+      # Rakdos Trumpeter
+      - set: RNA
+        card_number: 84
+        quantity: 2
+
+      # Senate Courier
+      - set: RNA
+        card_number: 50
+        quantity: 2
+
+      # Seraph of the Scales
+      - set: RNA
+        card_number: 205
+
+      # Sphinx's Insight
+      - set: RNA
+        card_number: 209
+
+      # Vizkopa Vampire
+      - set: RNA
+        card_number: 220
+
+      # Azorius Guildgate
+      - set: RNA
+        card_number: 243
+
+      # Gruul Guildgate
+      - set: RNA
+        card_number: 248
+
+      # Orzhov Guildgate
+      - set: RNA
+        card_number: 250
+        quantity: 2
+
+      # Rakdos Guildgate
+      - set: RNA
+        card_number: 252
+        quantity: 2
+
+      # Forest
+      - set: null
+        card_number: 5
+        quantity: 3

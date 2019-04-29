@@ -90,16 +90,16 @@ cases:
         quantity: 2
 
       # Island
-      - set: Basic Land
+      - set: null
         card_number: 2
         quantity: 3
 
       # Plains
-      - set: Basic Land
+      - set: null
         card_number: 1
         quantity: 5
 
       # Swamp
-      - set: Basic Land
+      - set: null
         card_number: 3
         quantity: 6

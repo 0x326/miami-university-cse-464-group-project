@@ -297,7 +297,7 @@ def summarize_deck(deck: Deck, set_infos: Mapping[SetId, SetInfo]) -> DeckSummar
             archetype_counts[archetype] += card_quantity
 
         # Duds
-        if card.rating <= 1:
+        if card.rating <= 10:
             dud_count += card_quantity
 
     # Summarize mana curve

@@ -400,15 +400,13 @@ def evaluate_deck(deck: DeckSummary) -> float:
     return total_penalty
 
 
-if __name__ == '__main__':
-    import argparse
-    import csv
+def parse_cards_csv(cards_csv: Iterable[Sequence[str]]) -> Dict[SetId, SetInfo]:
+    """
+    Load a spreadsheet of cards and generate necessary data structures to contain them
 
-    parser = argparse.ArgumentParser(description='Compute an optimal deck given a set of booster packs')
-    parser.add_argument('cards', metavar='RATING', type=argparse.FileType('r'),
-                        help='The ratings list as a CSV')
-    args = parser.parse_args()
-
+    :param cards_csv: The spreadsheet to parse
+    :return: The populated data structures
+    """
     # Initialize data structure
     set_infos: Dict[SetId, SetInfo] = defaultdict(lambda: SetInfo(
         cards={},
@@ -426,6 +424,161 @@ if __name__ == '__main__':
         guilds=defaultdict(set),
         archetypes=defaultdict(set),
     ))
+
+    for card_csv_line in cards_csv:
+        # Unpack cell data
+        card_set, card_number, \
+            rarity, cmc, rating, guild, \
+            card_name, mana_cost, card_type, \
+            bomb, removal, combat_trick, evasive, counter, card_draw, mana_fixing, \
+            image_url = card_csv_line  # type: str
+
+        set_info = set_infos[card_set]
+
+        card_number: int = int(card_number)
+        rarity: Rarity = Rarity(rarity)
+        cmc: int = int(cmc)
+        rating: int = int(rating)
+
+        try:
+            guild: Optional[Guild] = Guild(guild)
+
+        except ValueError:
+            guild: Optional[Guild] = None
+
+        # Card faces
+        card_faces: List[CardFace] = []
+        for face_index, (card_name, mana_cost, card_type) in enumerate(zip(*(string.split('//')
+                                                                             for string in
+                                                                             (card_name, mana_cost, card_type)))):
+            # Trim whitespace
+            card_name, mana_cost, card_type = card_name.strip(), mana_cost.strip(), card_type.strip()
+
+            # Mana cost
+            mana_cost_text: str = mana_cost.upper()
+            mana_cost_text = mana_cost_text.strip('{}')
+            mana_cost: DefaultDict[FrozenSet[ManaColor], Count] = defaultdict(int)
+            for mana_cost_symbol in mana_cost_text.split('}{'):
+                try:
+                    assert mana_cost_symbol
+                    mana_cost_symbol = int(mana_cost_symbol)
+
+                except AssertionError:
+                    # No mana symbol
+                    continue
+
+                except ValueError:
+                    mana_quantity = 1
+                    try:
+                        left_mana_symbol, right_mana_symbol = mana_cost_symbol.split('/')
+
+                    except ValueError:
+                        # Single-color mana
+                        mana_colors = ManaColor(mana_cost_symbol),
+
+                    else:
+                        # Split mana
+                        left_mana_symbol, right_mana_symbol = \
+                            ManaColor(left_mana_symbol), ManaColor(right_mana_symbol)
+                        mana_colors = left_mana_symbol, right_mana_symbol
+
+                else:
+                    # Any mana
+                    mana_colors = ManaColor.ANY,
+                    mana_quantity = mana_cost_symbol
+
+                mana_colors = frozenset(mana_colors)
+                mana_cost[mana_colors] += mana_quantity
+
+            # Card type
+            card_type, *_ = card_type.split(' - ')
+            for word in card_type.split():
+                word = word.capitalize()
+                try:
+                    card_type: CardType = CardType(word)
+                    break
+
+                except ValueError:
+                    pass
+            else:
+                raise ValueError('Cannot parse card type')
+
+            # Card type info
+            # __setitem__(...) is only defined in MutableMapping, not Mapping.
+            # Mutate anyway and ignore type warnings
+            # TODO: Implement
+            if card_type == CardType.LAND:
+                set_info.card_types.lands[card_number, face_index] = Land(possible_colors=set())
+
+            elif card_type == CardType.ENCHANTMENT:
+                set_info.card_types.enchantments[card_number, face_index] = Enchantment(possible_target_types=set())
+
+            elif card_type == CardType.ARTIFACT:
+                set_info.card_types.artifacts[card_number, face_index] = Artifact()
+
+            elif card_type == CardType.PLANESWALKER:
+                set_info.card_types.planeswalkers[card_number, face_index] = Planeswalker(loyalty=0, actions=())
+
+            elif card_type == CardType.CREATURE:
+                set_info.card_types.creatures[card_number, face_index] = Creature(power=0, toughness=0,
+                                                                                  keywords=set())
+
+            elif card_type == CardType.SORCERY:
+                set_info.card_types.sorceries[card_number, face_index] = Sorcery()
+
+            elif card_type == CardType.INSTANT:
+                set_info.card_types.instants[card_number, face_index] = Instant()
+
+            # Consolidate
+            card_faces.append(CardFace(name=card_name, mana_cost=mana_cost, type=card_type))
+
+        # Important: Keep this tuple in sync with the definition order of the Archetype Enum
+        archetypes: Tuple[str, ...] = (bomb, removal, combat_trick, evasive, counter, card_draw, mana_fixing)
+        archetypes: Set[Archetype] = {archetype_enum
+                                      for archetype, archetype_enum in zip(archetypes, iter(Archetype))
+                                      if archetype == '1'}
+
+        image_url: ParseResult = urlparse(image_url)
+
+        # Populate forward data structure
+        # __setitem__(...) is only defined in MutableMapping, not Mapping.
+        # Mutate anyway and ignore type warning
+        set_info.cards[card_number] = Card(
+            faces=card_faces,
+            converted_mana_cost=cmc,
+            archetypes=archetypes,
+            rarity=rarity,
+            rating=rating,
+            guild=guild,
+            image_url=image_url,
+        )
+
+        # Populate backward data structures
+        # add(...) is only defined in MutableSet, not AbstractSet.
+        # Mutate anyway and ignore type warnings
+        set_info.rarities[rarity].add(card_number)
+        set_info.ratings[rating].add(card_number)
+        set_info.guilds[guild].add(card_number)
+        for archetype in archetypes:
+            set_info.archetypes[archetype].add(card_number)
+
+    return set_infos
+
+
+if __name__ == '__main__':
+    import argparse
+    import csv
+
+    parser = argparse.ArgumentParser(description='Compute an optimal deck given a set of booster packs')
+    parser.add_argument('cards', metavar='RATING', type=argparse.FileType('r'),
+                        help='The ratings list as a CSV')
+    args = parser.parse_args()
+
+    # Read in CSV file
+    with args.cards as cards_file:
+        cards_csv: Iterator[List[str]] = csv.reader(cards_file)
+        _ = next(cards_csv)  # Skip header row
+        set_infos = parse_cards_csv(cards_csv)
 
     # Pre-define basic lands
     basic_lands = (('Plains', ManaColor.WHITE),
@@ -468,144 +621,3 @@ if __name__ == '__main__':
                       guilds={},
                       archetypes={})
     })
-
-    # Read in CSV file
-    with args.cards as cards_file:
-        cards_csv: Iterator[List[str]] = csv.reader(cards_file)
-        _ = next(cards_csv)  # Skip header row
-
-        for card_csv_line in cards_csv:
-            # Unpack cell data
-            card_set, card_number, \
-                rarity, cmc, rating, guild, \
-                card_name, mana_cost, card_type, \
-                bomb, removal, combat_trick, evasive, counter, card_draw, mana_fixing, \
-                image_url = card_csv_line  # type: str
-
-            set_info = set_infos[card_set]
-
-            card_number: int = int(card_number)
-            rarity: Rarity = Rarity(rarity)
-            cmc: int = int(cmc)
-            rating: int = int(rating)
-
-            try:
-                guild: Optional[Guild] = Guild(guild)
-
-            except ValueError:
-                guild: Optional[Guild] = None
-
-            # Card faces
-            card_faces: List[CardFace] = []
-            for face_index, (card_name, mana_cost, card_type) in enumerate(zip(*(string.split('//')
-                                                                                 for string in (card_name, mana_cost, card_type)))):
-                # Trim whitespace
-                card_name, mana_cost, card_type = card_name.strip(), mana_cost.strip(), card_type.strip()
-
-                # Mana cost
-                mana_cost_text: str = mana_cost.upper()
-                mana_cost_text = mana_cost_text.strip('{}')
-                mana_cost: DefaultDict[FrozenSet[ManaColor], Count] = defaultdict(int)
-                for mana_cost_symbol in mana_cost_text.split('}{'):
-                    try:
-                        assert mana_cost_symbol
-                        mana_cost_symbol = int(mana_cost_symbol)
-
-                    except AssertionError:
-                        # No mana symbol
-                        continue
-
-                    except ValueError:
-                        mana_quantity = 1
-                        try:
-                            left_mana_symbol, right_mana_symbol = mana_cost_symbol.split('/')
-
-                        except ValueError:
-                            # Single-color mana
-                            mana_colors = ManaColor(mana_cost_symbol),
-
-                        else:
-                            # Split mana
-                            left_mana_symbol, right_mana_symbol = \
-                                ManaColor(left_mana_symbol), ManaColor(right_mana_symbol)
-                            mana_colors = left_mana_symbol, right_mana_symbol
-
-                    else:
-                        # Any mana
-                        mana_colors = ManaColor.ANY,
-                        mana_quantity = mana_cost_symbol
-
-                    mana_colors = frozenset(mana_colors)
-                    mana_cost[mana_colors] += mana_quantity
-
-                # Card type
-                card_type, *_ = card_type.split(' - ')
-                for word in card_type.split():
-                    word = word.capitalize()
-                    try:
-                        card_type: CardType = CardType(word)
-                        break
-
-                    except ValueError:
-                        pass
-                else:
-                    raise ValueError('Cannot parse card type')
-
-                # Card type info
-                # __setitem__(...) is only defined in MutableMapping, not Mapping.
-                # Mutate anyway and ignore type warnings
-                # TODO: Implement
-                if card_type == CardType.LAND:
-                    set_info.card_types.lands[card_number, face_index] = Land(possible_colors=set())
-
-                elif card_type == CardType.ENCHANTMENT:
-                    set_info.card_types.enchantments[card_number, face_index] = Enchantment(possible_target_types=set())
-
-                elif card_type == CardType.ARTIFACT:
-                    set_info.card_types.artifacts[card_number, face_index] = Artifact()
-
-                elif card_type == CardType.PLANESWALKER:
-                    set_info.card_types.planeswalkers[card_number, face_index] = Planeswalker(loyalty=0, actions=())
-
-                elif card_type == CardType.CREATURE:
-                    set_info.card_types.creatures[card_number, face_index] = Creature(power=0, toughness=0,
-                                                                                      keywords=set())
-
-                elif card_type == CardType.SORCERY:
-                    set_info.card_types.sorceries[card_number, face_index] = Sorcery()
-
-                elif card_type == CardType.INSTANT:
-                    set_info.card_types.instants[card_number, face_index] = Instant()
-
-                # Consolidate
-                card_faces.append(CardFace(name=card_name, mana_cost=mana_cost, type=card_type))
-
-            # Important: Keep this tuple in sync with the definition order of the Archetype Enum
-            archetypes: Tuple[str, ...] = (bomb, removal, combat_trick, evasive, counter, card_draw, mana_fixing)
-            archetypes: Set[Archetype] = {archetype_enum
-                                          for archetype, archetype_enum in zip(archetypes, iter(Archetype))
-                                          if archetype == '1'}
-
-            image_url: ParseResult = urlparse(image_url)
-
-            # Populate forward data structure
-            # __setitem__(...) is only defined in MutableMapping, not Mapping.
-            # Mutate anyway and ignore type warning
-            set_info.cards[card_number] = Card(
-                faces=card_faces,
-                converted_mana_cost=cmc,
-                archetypes=archetypes,
-                rarity=rarity,
-                rating=rating,
-                guild=guild,
-                image_url=image_url,
-            )
-
-            # Populate backward data structures
-            # add(...) is only defined in MutableSet, not AbstractSet.
-            # Mutate anyway and ignore type warnings
-            set_info.rarities[rarity].add(card_number)
-            set_info.ratings[rating].add(card_number)
-            set_info.guilds[guild].add(card_number)
-            for archetype in archetypes:
-                set_info.archetypes[archetype].add(card_number)

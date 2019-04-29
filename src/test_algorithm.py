@@ -1,13 +1,14 @@
 #!/usr/bin/env python3
 
 from collections import defaultdict
+import csv
 from typing import *
 
 from hypothesis import given
 from hypothesis.strategies import *
 from yaml import safe_load
 
-from algorithm import Deck, CardId, generate_booster_pack, summarize_deck, evaluate_deck
+from algorithm import Deck, CardId, generate_booster_pack, summarize_deck, evaluate_deck, parse_cards_csv
 
 
 # Describe test case schema
@@ -34,10 +35,15 @@ def test_generate_booster_packs(mtg_set):
 
 
 def test_evaluate_deck():
+    # Load in CSV
+    with open('RNA.csv') as cards_csv:
+        cards_csv: Iterator[List[str]] = csv.reader(cards_csv)
+        _ = next(cards_csv)  # Skip header row
+        set_infos = parse_cards_csv(cards_csv)
+
     for test_number, test_deck in enumerate(load_test_cases(), start=1):
         print(f'Evaluating test deck {test_number}')
-        # TODO: Pass set_infos
-        deck_summary = summarize_deck(test_deck)
+        deck_summary = summarize_deck(test_deck, set_infos=set_infos)
         print(f'Deck summary: {deck_summary}')
         penalty = evaluate_deck(deck_summary)
         print(f'Penalty: {penalty}')

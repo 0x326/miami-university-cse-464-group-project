@@ -8,7 +8,7 @@ from hypothesis import given
 from hypothesis.strategies import *
 from yaml import safe_load
 
-from algorithm import Deck, CardId, generate_booster_pack, summarize_deck, evaluate_deck, parse_cards_csv
+from algorithm import Deck, CardId, generate_booster_pack, summarize_deck, evaluate_deck, parse_cards_csv, basic_land_info
 
 
 # Describe test case schema
@@ -40,6 +40,10 @@ def test_evaluate_deck():
         cards_csv: Iterator[List[str]] = csv.reader(cards_csv)
         _ = next(cards_csv)  # Skip header row
         set_infos = parse_cards_csv(cards_csv)
+
+    set_infos.update({
+        None: basic_land_info,
+    })
 
     for test_number, test_deck in enumerate(load_test_cases(), start=1):
         print(f'Evaluating test deck {test_number}')

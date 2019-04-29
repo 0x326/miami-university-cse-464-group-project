@@ -565,35 +565,20 @@ def parse_cards_csv(cards_csv: Iterable[Sequence[str]]) -> Dict[SetId, SetInfo]:
     return set_infos
 
 
-if __name__ == '__main__':
-    import argparse
-    import csv
+# Pre-define basic lands
+basic_lands = (('Plains', ManaColor.WHITE),
+               ('Island', ManaColor.BLUE),
+               ('Swamp', ManaColor.BLACK),
+               ('Mountain', ManaColor.RED),
+               ('Forest', ManaColor.GREEN))
+basic_land_rarity = Rarity.COMMON
+basic_land_rating = 1
+basic_land_card_numbers: FrozenSet[int] = frozenset(range(1, len(basic_lands) + 1))
 
-    parser = argparse.ArgumentParser(description='Compute an optimal deck given a set of booster packs')
-    parser.add_argument('cards', metavar='RATING', type=argparse.FileType('r'),
-                        help='The ratings list as a CSV')
-    args = parser.parse_args()
+empty_set = frozenset()
 
-    # Read in CSV file
-    with args.cards as cards_file:
-        cards_csv: Iterator[List[str]] = csv.reader(cards_file)
-        _ = next(cards_csv)  # Skip header row
-        set_infos = parse_cards_csv(cards_csv)
 
-    # Pre-define basic lands
-    basic_lands = (('Plains', ManaColor.WHITE),
-                   ('Island', ManaColor.BLUE),
-                   ('Swamp', ManaColor.BLACK),
-                   ('Mountain', ManaColor.RED),
-                   ('Forest', ManaColor.GREEN))
-    basic_land_rarity = Rarity.COMMON
-    basic_land_rating = 1
-    basic_land_card_numbers: FrozenSet[int] = frozenset(range(1, len(basic_lands) + 1))
-
-    empty_set = frozenset()
-
-    set_infos.update({
-        None: SetInfo(cards={card_number: Card(
+basic_land_info = SetInfo(cards={card_number: Card(
                           faces=(
                               CardFace(name=card_name, mana_cost={},
                                        type=CardType.LAND),
@@ -620,4 +605,23 @@ if __name__ == '__main__':
                       ratings={basic_land_rating: basic_land_card_numbers},
                       guilds={},
                       archetypes={})
+
+
+if __name__ == '__main__':
+    import argparse
+    import csv
+
+    parser = argparse.ArgumentParser(description='Compute an optimal deck given a set of booster packs')
+    parser.add_argument('cards', metavar='RATING', type=argparse.FileType('r'),
+                        help='The ratings list as a CSV')
+    args = parser.parse_args()
+
+    # Read in CSV file
+    with args.cards as cards_file:
+        cards_csv: Iterator[List[str]] = csv.reader(cards_file)
+        _ = next(cards_csv)  # Skip header row
+        set_infos = parse_cards_csv(cards_csv)
+
+    set_infos.update({
+        None: basic_land_info,
     })

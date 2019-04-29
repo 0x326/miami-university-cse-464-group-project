@@ -16,6 +16,11 @@ cases:
       - set: RNA
         card_number: 14
 
+      # Summary Judgement
+      - set: RNA
+        card_number: 24
+        quantity: 2
+
       # Syndicate Messenger
       - set: RNA
         card_number: 25

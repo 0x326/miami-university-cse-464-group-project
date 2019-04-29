@@ -659,9 +659,10 @@ $$
 
 \subsection{Optimization}
 
-Through our research, we have found two possible optimization algorithms
+Through our research, we have found three possible optimization algorithms
 that we could use to select the cards for our objective function to grade.
-These are ant colony optimization and particle swarm optimization.
+These are ant colony optimization, particle swarm optimization,
+and compartmentalized knapsack optimization.
 
 Ant colony optimization is based off of the way ants move around.
 When an ant finds a path leading to food,
@@ -673,7 +674,7 @@ Since we can evaluate how good each card with the objective function described a
 the use of this algorithm
 would allow us to find the best cards to use from the pool.
 
-The other optimization algorithm we are considering is particle swarm optimization.
+The second optimization algorithm we are considering is particle swarm optimization.
 This method simulates birds flocking to food.
 It works by having all particles follow the two \enquote{best} values.
 These two bests are the local best and the global best.
@@ -683,6 +684,15 @@ if we can modify it, this method would be preferable.
 This is because we would be able to account for card synergies.
 This would allow for the best deck to be selected given the cards
 in the pool based off of more situational factors.
+
+The third algorithm is a variation of the knapsack algorithm discussed during class.
+It uses the same idea of maximizing the value of a \enquote{knapsack,}
+which contains some elements.
+This variation stores elements of the same type in compartments within the knapsack.
+The compartments each have flexible capacities, but are lower and upper bounded.
+The goal is to maximize the total value of all of the items in the knapsack
+minus the cost of the compartments.
+
 
 While searching for an efficient optimization algorithm that would suit our needs,
 we discovered a project similar to ours that a grad student

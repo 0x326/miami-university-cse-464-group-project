@@ -253,3 +253,8 @@ RNA,251,Rare,0,30,NULL,Plaza of Harmony,,Land,0,0,0,0,0,0,1,http://gatherer.wiza
 RNA,252,Common,0,30,NULL,Rakdos Guildgate,,Land - Gate,0,0,0,0,0,0,1,http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=457399&type=card
 RNA,253,Common,0,30,NULL,Simic Guildgate,,Land - Gate,0,0,0,0,0,0,1,http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=457401&type=card
 RNA,254,Rare,0,30,NULL,Stomping Ground,,Land - Mountain Forest,0,0,0,0,0,0,1,http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=457403&type=card
+Basic Land,-1,Common,0,10,NULL,Forest,,Basic Land - Forest,0,0,0,0,0,0,0,http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=457403&type=card
+Basic Land,-2,Common,0,10,NULL,Mountain,,Basic Land - Mountain,0,0,0,0,0,0,0,http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=457403&type=card
+Basic Land,-3,Common,0,10,NULL,Swamp,,Basic Land - Swamp,0,0,0,0,0,0,0,http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=457403&type=card
+Basic Land,-4,Common,0,10,NULL,Island,,Basic Land - Island,0,0,0,0,0,0,0,http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=457403&type=card
+Basic Land,-5,Common,0,10,NULL,Plains,,Basic Land - Plains,0,0,0,0,0,0,0,http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=457403&type=card

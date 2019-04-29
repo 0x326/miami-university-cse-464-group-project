@@ -259,6 +259,7 @@ def summarize_deck(deck: Deck, set_infos: Mapping[SetId, SetInfo]) -> DeckSummar
     for (set_id, card_number), card_quantity in deck.items():
         cards = set_infos[set_id].cards
         lands = set_infos[set_id].card_types.lands
+        print(str(set_id) + ' ' + str(card_number))
 
         card = cards[card_number]
 
@@ -588,12 +589,12 @@ if __name__ == '__main__':
                    ('Forest', ManaColor.GREEN))
     basic_land_rarity = Rarity.COMMON
     basic_land_rating = 1
-    basic_land_card_numbers: FrozenSet[int] = frozenset(range(1, len(basic_lands) + 1))
+    basic_land_card_numbers: FrozenSet[int] = frozenset(range(-5, 0))
 
     empty_set = frozenset()
 
     set_infos.update({
-        None: SetInfo(cards={card_number: Card(
+        'Basic Land': SetInfo(cards={card_number: Card(
                           faces=(
                               CardFace(name=card_name, mana_cost={},
                                        type=CardType.LAND),

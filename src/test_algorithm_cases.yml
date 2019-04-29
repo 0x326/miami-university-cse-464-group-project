@@ -16,6 +16,11 @@ cases:
       - set: RNA
         card_number: 14
 
+      # Summary Judgement
+      - set: RNA
+        card_number: 24
+        quantity: 2
+
       # Syndicate Messenger
       - set: RNA
         card_number: 25
@@ -86,15 +91,15 @@ cases:
 
       # Island
       - set: Basic Land
-        card_number: 2
+        card_number: -4
         quantity: 3
 
       # Plains
       - set: Basic Land
-        card_number: 1
+        card_number: -5
         quantity: 5
 
       # Swamp
       - set: Basic Land
-        card_number: 3
+        card_number: -3
         quantity: 6

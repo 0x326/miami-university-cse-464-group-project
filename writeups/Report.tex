@@ -696,11 +696,14 @@ would allow us to find the best cards to use from the pool.
 
 \phantomsection
 \label{paragraph:Particle Swarm}
-The second optimization algorithm we are considering is particle swarm optimization.
+The second optimization algorithm we are considering is particle swarm optimization,
+specifically the set-based variant.
 This method simulates birds flocking to food.
 It works by having all particles follow the two \enquote{best} values.
 These two bests are the local best and the global best.
 After each iteration the velocities of each particle is updated.
+The set-based variant allows for a discrete search space,
+as well as the velocity being defined as a set with possibilities.
 While this form of optimization may not be the best in its normal state,
 if we can modify it, this method would be preferable.
 This is because we would be able to account for card synergies.

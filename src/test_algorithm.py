@@ -1,11 +1,22 @@
 #!/usr/bin/env python3
 
-from collections import defaultdict
+"""
+To run tests with ``pytest``, run::
+
+    cd src/
+    pytest
+
+To run tests without ``pytest``, run::
+
+    cd src/
+    python3 test_algorithm.py
+
+"""
+
 import csv
+from collections import defaultdict
 from typing import *
 
-from hypothesis import given
-from hypothesis.strategies import *
 from yaml import safe_load
 
 from algorithm import Deck, CardId, Rarity, generate_booster_pack, summarize_deck, evaluate_deck, parse_cards_csv, basic_land_info
@@ -56,18 +67,16 @@ def test_generate_booster_packs():
         assert (1 <= card_rarities[Rarity.RARE] <= 2) ^ (1 <= card_rarities[Rarity.MYTHIC_RARE] <= 2)
 
 
-def test_evaluate_deck(capsys):
+def test_evaluate_deck():
     set_infos = load_card_csv()
 
-    # Disable stdout capturing
-    with capsys.disabled():
-        for test_number, test_deck in enumerate(load_test_cases(), start=1):
-            print(f'Evaluating test deck {test_number}')
-            deck_summary = summarize_deck(test_deck, set_infos=set_infos)
-            print(f'Deck summary: {deck_summary}')
-            penalty = evaluate_deck(deck_summary)
-            print(f'Penalty: {penalty}')
-            print()
+    for test_number, test_deck in enumerate(load_test_cases(), start=1):
+        print(f'Evaluating test deck {test_number}')
+        deck_summary = summarize_deck(test_deck, set_infos=set_infos)
+        print(f'Deck summary: {deck_summary}')
+        penalty = evaluate_deck(deck_summary)
+        print(f'Penalty: {penalty}')
+        print()
 
 
 # noinspection PyArgumentList
@@ -88,6 +97,5 @@ def load_test_cases() -> Iterator[Deck]:
 
 
 if __name__ == '__main__':
-    import pytest
-
-    pytest.main()
+    # Run tests without pytest
+    test_evaluate_deck()

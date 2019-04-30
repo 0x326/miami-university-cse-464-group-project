@@ -30,7 +30,7 @@ def zip_dict(*dictionaries: Mapping[K, V]) -> Iterator[Tuple[K, Iterator[V]]]:
         yield from ()
     else:
         common_keys: Set[K] = set(first_dict.keys())
-        common_keys.intersection(*other_dicts)
+        common_keys.intersection_update(*other_dicts)
 
         for common_key in common_keys:
             yield common_key, (dict_item[common_key] for dict_item in dictionaries)

@@ -194,7 +194,7 @@ class SetInfo(NamedTuple):
 
 class DeckSummary(NamedTuple):
     total_cards: int
-    converted_mana_cost_cdf: Iterator[float]
+    converted_mana_cost_cdf: Iterable[float]
     total_land_ratio: float
     mana_symbol_pmf: Mapping[ManaColor, float]
     land_color_pmf: Mapping[ManaColor, float]

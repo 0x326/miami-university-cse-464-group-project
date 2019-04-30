@@ -457,6 +457,7 @@ or lower ratio of lands to non-lands with the following function:
 $$
 f(r) = \begin{cases}
     0 & \frac{16}{40} <= r <= \frac{18}{40} \\
+    \abs{\frac{17}{40} - r} * 1000 & r > 0.75 \\
     \abs{\frac{17}{40} - r} & otherwise
 \end{cases}
 $$

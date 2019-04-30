@@ -75,8 +75,9 @@ def test_evaluate_deck():
         print(f'Evaluating test deck {test_number}')
         deck_summary = summarize_deck(test_deck, set_infos=set_infos)
         print(f'Deck summary: {deck_summary}')
-        penalty = evaluate_deck(deck_summary)
-        print(f'Penalty: {penalty}')
+        penalties = evaluate_deck(deck_summary)
+        print(f'Evaluation: {penalties}')
+        print(f'Total Penalty: {sum(penalties)}')
         print()
 
 

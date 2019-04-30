@@ -206,6 +206,15 @@ class DeckSummary(NamedTuple):
     dud_count: int
 
 
+class DeckEvaluation(NamedTuple):
+    number_of_cards_penalty: float
+    mana_curve_penalty: float
+    land_ratio_penalty: float
+    mana_symbol_penalty: float
+    deck_color_penalty: float
+    archetype_penalty: float
+
+
 def generate_booster_pack(set_info: SetInfo) -> Iterator[CardNumber]:
     """
     Generates a booster pack from the given Magic: The Gathering "set" (repetition of cards is allowed)
@@ -341,7 +350,7 @@ def summarize_deck(deck: Deck, set_infos: Mapping[SetId, SetInfo]) -> DeckSummar
                        archetype_counts=archetype_counts, dud_count=dud_count)
 
 
-def evaluate_deck(deck: DeckSummary) -> float:
+def evaluate_deck(deck: DeckSummary) -> DeckEvaluation:
     """
     Evaluates a deck against a predetermined ideal and penalizes it accordingly.
 
@@ -404,14 +413,15 @@ def evaluate_deck(deck: DeckSummary) -> float:
         archetype_penalty += 10 * distance_from_ideal
 
     # Combine objectives
+    penalties = DeckEvaluation(
+        number_of_cards_penalty=number_of_cards_penalty,
+        mana_curve_penalty=mana_curve_penalty,
+        land_ratio_penalty=land_ratio_penalty,
+        mana_symbol_penalty=mana_symbol_penalty,
+        deck_color_penalty=deck_color_penalty,
+        archetype_penalty=archetype_penalty)
 
-    print(f'number_of_cards_penalty {number_of_cards_penalty}\nmana_curve_penalty {mana_curve_penalty}\n'
-          f'land_ratio_penalty {land_ratio_penalty}\nmana_symbol_penalty {mana_symbol_penalty}\ndeck_color_penalty '
-          f'{deck_color_penalty}\narchetype_penalty {archetype_penalty}')
-    total_penalty = number_of_cards_penalty + mana_curve_penalty + land_ratio_penalty + \
-        mana_symbol_penalty + deck_color_penalty + archetype_penalty
-
-    return total_penalty
+    return penalties
 
 
 def parse_cards_csv(cards_csv: Iterable[Sequence[str]]) -> Dict[SetId, SetInfo]:

@@ -1,4 +1,6 @@
 *.pdf
+*db.yml
+*db.yaml
 
 #### Python ####
 # Byte-compiled / optimized / DLL files

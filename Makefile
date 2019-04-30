@@ -12,7 +12,8 @@ lint-fix:
 	pipenv run autopep8 --in-place -r src/ --max-line-length=140
 
 test:
-	pipenv run python src/test*.py
+	cd src/ && pipenv run pytest
+	cd src/ && pipenv run python test*.py
 
 report:
 	cd writeups && latexmk -pdf *.tex

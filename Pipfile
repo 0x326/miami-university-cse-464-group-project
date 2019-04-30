@@ -5,13 +5,13 @@ name = "pypi"
 
 [packages]
 mtgsdk = "*"
+pyyaml = "*"
 
 [dev-packages]
 colorful = "*"
 hypothesis = "*"
 pycodestyle = "*"
 autopep8 = "*"
-pyyaml = "*"
 pytest = "*"
 
 [requires]

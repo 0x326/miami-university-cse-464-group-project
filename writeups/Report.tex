@@ -87,6 +87,7 @@ we want to choose $ D $ such that we maximize $ P(\text{game success} \mid D) $.
 \section{Literature Review}
 
 \subsection{\enquote{Ensemble Determinization in Monte Carlo Tree Search for the Imperfect Information Card Game Magic: The Gathering.}}
+\label{sec:3.1}
 
 This article discusses how the Monte Carlo Tree Search (MCTS) algorithm
 has been applied to create AI's for games in the
@@ -112,6 +113,7 @@ By using multiple trees,
 the authors compensate for incomplete information allowing for the ideal course of action based on the known information.
 
 \subsection{\enquote{Rarity and Power: Balance in Collectible Object Games.}}
+\label{sec:3.2}
 
 Mr. Ham details the issues that come along with the collectable card game format.
 The main issue involves the game both being fun as well as balanced.
@@ -131,6 +133,7 @@ With this versatility Suitcase players are not put at as much
 of an advantage in the baseball card game as they are in games such as Magic: the Gathering.
 
 \subsection{\enquote{BOA: Bayesian Optimization Algorithm.}}
+\label{sec:3.3}
 
 This paper describes how a bayesian optimization algorithm can be used to increase the efficiency of genetic algorithms.
 It describes how genetic algorithms are optimization programs
@@ -146,6 +149,7 @@ This method could also be useful because it selects the best from a network,
 which would be an optimal way of selecting the best cards for the deck.
 
 \subsection{\enquote{Surprising strategies obtained by stochastic optimization in partially observable games.}}
+\label{sec:3.4}
 
 This paper takes a different approach to optimization.
 The authors use a evolutionary algorithm and a stochastic optimization algorithm
@@ -157,6 +161,7 @@ The results found that these algorithms found strategies for games that seem ent
 This type of algorithm could be useful for finding the optimal deck against different styles of play.
 
 \subsection{\enquote{Active Set Methods with Reoptimization for Convex Quadratic Integer Programming}}
+\label{sec:3.5}
 
 \enquote{Active Set Methods with Reoptimization for Convex Quadratic Integer Programming}
 proposes a new algorithm to solve \enquote{unconstrained convex quadratic integer}
@@ -173,6 +178,7 @@ the algorithm runs in linear time with respect to the problem size.
 It was tested with 200 random problem instances and it was found to outperform IBM CPLEX by a moderate measure.
 
 \subsection{\enquote{Approximating the k-Set Packing Problem by Local Improvements}}
+\label{sec:3.6}
 
 \enquote{Approximating the k-Set Packing Problem by Local Improvements}
 proposes a more efficient variant of many algorithms already created to solve the k-set packing problem.
@@ -195,6 +201,7 @@ To conclude, they use various strategies to squeeze out better performance from 
 and do so perhaps for the last time.
 
 \subsection{\enquote{Magic: The Gathering, A Literary Text.}}
+\label{sec:3.7}
 
 This reading starts off by talking about Magic: The Gathering and a bit of its history.
 It compares the card game to the popular role-playing game
@@ -218,6 +225,7 @@ All of these arguments, and the fact that Magic is a wildly popular and acclaime
 lead the author to claim that the card game is a \enquote{dynamic literary text.}
 
 \subsection{\enquote{The Complexity of Deciding Legality of a Single Step of Magic: The Gathering.}}
+\label{sec:3.8}
 
 The reading begins with a short introduction on Magic: The Gathering,
 where it explains the general circumstances and goals of the game.
@@ -265,6 +273,7 @@ important aspect of successful decks that we want to consider in our analysis.
 % Some of the specified penalty values have not yet been fully tested and may change in the future.
 
 \subsubsection{Deck Size}
+\label{objective:Deck Size}
 
 In the sealed format of Magic: The Gathering,
 players are given 6 booster packs, each containing 15 cards,
@@ -287,6 +296,7 @@ $$
 with $ n $ being the actual number of cards in a constructed deck.
 
 \subsubsection{Mana Curve}
+\label{objective:Mana Curve}
 
 Magic: The Gathering cards require certain amounts of \enquote{mana} in order to be played.
 This mana cost is denoted on the top-right corner of every card.
@@ -418,6 +428,7 @@ Using this function, the penalty for the suboptimal mana curve would be
 $ penalty(F') \approx 2.00 $.
 
 \subsubsection{Land Percentage}
+\label{objective:Land Percentage}
 
 During gameplay,
 players pay the cost for these cards in terms of a special card type known as a land.
@@ -450,6 +461,7 @@ $$
 with $ r $ being our ratio of lands to non-lands.
 
 \subsubsection{Land Color Percentage}
+\label{objective:Land Color Percentage}
 
 As mentioned previously,
 most cards in Magic: The Gathering require mana in order to be played
@@ -479,8 +491,8 @@ $f(w,u,b,r,g)=|w'-w|+|u'-u|+|b'-b|+|r'-r|+|g'-g|$
 where w, u, b, r, and g denote the land color ratio for each color within the deck
 while their prime counterparts represent the corresponding mana symbol ratio for the deck.
 
-
 \subsubsection{Color Identity}
+\label{objective:Color Identity}
 
 The ideal deck primarily consists of two mana colors.
 Any other color underneath a certain threshold is considered to be a \enquote{splash}.
@@ -499,6 +511,7 @@ where `colors' denotes the number of dominant colors,
 and $ c_1 $ \& $ c_2 $ are separate values to weight the results.
 
 \subsubsection{Card Archetypes}
+\label{objective:Card Archetypes}
 
 In the card game Magic: The Gathering there are many \enquote{archetypes} of cards that are
 important to keep in mind when creating a sealed deck.
@@ -658,12 +671,16 @@ TP(deck) = b(bombs) + r(removal) + e(evasive) + d(duds) + m(mana)
 $$
 
 \subsection{Optimization}
+\label{sec:Optimization}
+
 
 Through our research, we have found three possible optimization algorithms
 that we could use to select the cards for our objective function to grade.
 These are ant colony optimization, particle swarm optimization,
 and compartmentalized knapsack optimization.
 
+\phantomsection
+\label{paragraph:Ant colony}
 Ant colony optimization is based off of the way ants move around.
 When an ant finds a path leading to food,
 they release a pheromone to attract other ants to tell they are headed the right way.
@@ -674,6 +691,8 @@ Since we can evaluate how good each card with the objective function described a
 the use of this algorithm
 would allow us to find the best cards to use from the pool.
 
+\phantomsection
+\label{paragraph:Particle Swarm}
 The second optimization algorithm we are considering is particle swarm optimization.
 This method simulates birds flocking to food.
 It works by having all particles follow the two \enquote{best} values.
@@ -712,27 +731,51 @@ into Python, we ended up not going with this method.
 
 \begin{itemize}
 
-\item[Scott Harris]
-    \item Literary Review Sections 3.1 \& 3.2
-    \item Archetypes Sub-objective
+\item Scott Harris
+
+\begin{itemize}
+
+    \item Literary Review Sections \ref{sec:3.1} \& \ref{sec:3.2}
+    \item Archetypes Sub-objective (\ref{objective:Card Archetypes})
     \item Magic: The Gathering Consultant/Researcher
     \item Contribution \%: 30\%
-\item[John Meyer]
-    \item Literary Review Sections 3.5 \& 3.6
-    \item Mana-Curve Sub-objective
+
+\end{itemize}
+
+\item John Meyer
+
+\begin{itemize}
+
+    \item Literary Review Sections \ref{sec:3.5} \& \ref{sec:3.6}
+    \item Mana-Curve Sub-objective (\ref{objective:Mana Curve})
     \item Project Lead
     \item Contribution \%: 40\%
-\item[Bryan Hayes]
-    \item Literary Review Sections 3.7 \& 3.8
-    \item Deck-size \& Land Ratio Sub-Objectives
-    \item Ant Colony Optimization Paragraph
+
+\end{itemize}
+
+\item Bryan Hayes
+
+\begin{itemize}
+
+    \item Literary Review Sections \ref{sec:3.7} \& \ref{sec:3.8}
+    \item Deck-size (\ref{objective:Deck Size}) \&
+        Land Ratio (\ref{objective:Land Percentage}, \ref{objective:Land Color Percentage}) Sub-Objectives
+    \item Ant Colony Optimization Paragraph (\ref{paragraph:Ant colony})
     \item Contribution \%: 15\%
-\item[Jacob Freedman]
-    \item Literary Review Sections 3.3 \& 3.4
-    \item Color Identity Sub-objective
+
+\end{itemize}
+
+\item Jacob Freedman
+
+\begin{itemize}
+
+    \item Literary Review Sections \ref{sec:3.3} \& \ref{sec:3.4}
+    \item Color Identity (\ref{objective:Color Identity}) Sub-objective
     \item Researched Optimization
-    \item Particle Swarm Optimization Paragraph
+    \item Particle Swarm Optimization Paragraph (\ref{paragraph:Particle Swarm})
     \item Contribution \%: 15\%
+
+\end{itemize}
 
 \end{itemize}
 

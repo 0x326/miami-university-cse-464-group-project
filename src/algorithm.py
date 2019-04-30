@@ -6,9 +6,9 @@ Magic: The Gathering Tournament Deck Optimizer
 
 import operator
 import random
-from collections import Counter, defaultdict
+from collections import defaultdict
 from enum import Enum, auto, unique
-from itertools import accumulate, chain
+from itertools import accumulate, repeat
 from typing import *
 from urllib.parse import ParseResult, urlparse
 
@@ -217,23 +217,28 @@ def generate_booster_pack(set_info: SetInfo) -> Iterator[CardNumber]:
     # always includes 1 land (guildgate in this case)
 
     # Foil & Commons
+    all_cards = tuple(set_info.cards.keys())
+    commons = tuple(set_info.rarities[Rarity.COMMON])
     if random.randrange(7) == 0:
         # 1 Foil & 9 Commons
-        yield from random.choice(set_info.cards.keys())
-        yield from random.sample(set_info.rarities[Rarity.COMMON], k=9)
+        yield random.choice(all_cards)
+        yield from random.sample(commons, k=9)
     else:
         # 10 Commons
-        yield from random.sample(set_info.rarities[Rarity.COMMON], k=10)
+        yield from random.sample(commons, k=10)
 
     # Uncommons
-    yield from random.choices(set_info.rarities[Rarity.UNCOMMON], k=3)
+    uncommons = tuple(set_info.rarities[Rarity.UNCOMMON])
+    yield from random.choices(uncommons, k=3)
 
     # Rare/Mythic Rare
     rares = set_info.rarities[Rarity.RARE]
-    rare_weights = (7,) * len(rares)
     mythic_rares = set_info.rarities[Rarity.MYTHIC_RARE]
-    mythic_rare_weights = (1,) * len(mythic_rares)
-    yield from random.choices(chain(rares, mythic_rares), cum_weights=chain(rare_weights, mythic_rare_weights))
+
+    rare_weights = repeat(7, len(rares))
+    mythic_rare_weights = repeat(1, len(mythic_rares))
+
+    yield from random.choices((*rares, *mythic_rares), cum_weights=(*rare_weights, *mythic_rare_weights))
 
 
 def summarize_deck(deck: Deck, set_infos: Mapping[SetId, SetInfo]) -> DeckSummary:

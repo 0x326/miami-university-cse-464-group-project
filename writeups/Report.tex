@@ -268,17 +268,18 @@ using a Monte Carlo Search Tree approach, genetic programming, as well as active
 
 \section{Algorithm Design}
 
-In order to determine the optimal deck of cards that can be created with a generated pool of cards,
-we must define a way of evaluating each created deck such that an optimization algorithm can determine
-the best subset of the card pool would perform most optimally.
+In order to determine an optimal deck of cards that can be created from a given card pool,
+we must define a way of evaluating each candidate deck
+such that an optimization algorithm can determine
+the subset of the card pool would perform most optimally.
 For this we have defined an objective function that will analyze a proposed deck
-and calculate the penalty level of the given deck for the optimization algorithm to work with.
+and calculate a penalty for it, which an optimization algorithm can try to minimize.
 
 \subsection{Objective Function}
 
-In order to calculate the penalty level on a single deck,
-we have identified 6 sub-objectives each evaluating a different
-important aspect of successful decks that we want to consider in our analysis.
+In order to calculate the penalty on a single deck,
+we have identified 6 sub-objectives, each considering
+important aspects of previously successful decks that we want every deck to share.
 % Some of the specified penalty values have not yet been fully tested and may change in the future.
 
 \subsubsection{Deck Size}

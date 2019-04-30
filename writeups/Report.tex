@@ -10,7 +10,6 @@
 \usepackage{mathtools}
 \usepackage{amssymb}
 \usepackage{setspace}
-\usepackage{listings}
 \usepackage{commath}
 \usepackage{amsmath}
 \usepackage[section]{minted}
@@ -332,7 +331,7 @@ If one were to count the converted mana cost of each card in the deck and store 
 the relative frequency graph of that vector is the \enquote{mana curve}.
 Specifically, the ideal mana curve can be represented with the following R code:
 
-\begin{lstlisting}[language=R, frame=single]
+\begin{minted}{R}
 
 ideal.mana.curve <- c(
     1,
@@ -343,7 +342,7 @@ ideal.mana.curve <- c(
     6, 6)
 relative.frequency <- table(ideal.mana.curve) / length(ideal.mana.curve)
 
-\end{lstlisting}
+\end{minted}
 
 To differentiate an optimal mana curve from a suboptimal one,
 let us first recall cumulative distribution functions (CDFs) from statistics.
@@ -376,7 +375,7 @@ so we can develop a quantitative measure for how the two differ.
 For example, take the following mana curve:
 
 
-\begin{lstlisting}[language=R, frame=single]
+\begin{minted}{R}
 
 bad.mana.curve <- c(
     1,
@@ -389,8 +388,8 @@ bad.mana.curve <- c(
     8, 8, 8, 8, 8, 8)
 
 bad.relative.frequency <- table(bad.mana.curve) / length(bad.mana.curve)
-\end{lstlisting}
 
+\end{minted}
 
 Using its CDF $ F' $, we can describe this mana curve with the following table:
 

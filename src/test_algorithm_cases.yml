@@ -105,7 +105,7 @@ cases:
         card_number: 3
         quantity: 6
 
-  - expected_performance: OK
+  - expected_performance: Kinda bad
     cards:
 
       # Summary Judgement

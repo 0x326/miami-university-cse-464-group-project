@@ -18,6 +18,23 @@ import logging
 from collections import defaultdict
 from typing import *
 
+try:
+    import colorful
+
+except ImportError:
+    def identity(string: str) -> str:
+        return string
+
+    class ColorfulDummy:
+        def __getattr__(self, item):
+            return identity
+
+    colorful = ColorfulDummy()
+
+else:
+    colorful.use_style('solarized')
+
+
 from yaml import safe_load
 
 from algorithm import Deck, CardId, Rarity, generate_booster_pack, summarize_deck, evaluate_deck, parse_cards_csv, basic_land_info
@@ -73,12 +90,13 @@ def test_evaluate_deck():
     set_infos = load_card_csv()
 
     for test_number, (expected_performance, test_deck) in enumerate(load_test_cases(), start=1):
-        print(f'Evaluating test deck {test_number} (Expected to be "{expected_performance}")')
+        print(colorful.dimmed_blue(f'Evaluating test deck {test_number} ') +
+              colorful.cyan(f'(Expected to be "{expected_performance}")'))
         deck_summary = summarize_deck(test_deck, set_infos=set_infos)
-        print(f'Deck summary: {deck_summary}')
+        print(f'Deck summary: {colorful.yellow(deck_summary)}')
         penalties = evaluate_deck(deck_summary)
-        print(f'Evaluation: {penalties}')
-        print(f'Total Penalty: {sum(penalties)}')
+        print(f'Evaluation: {colorful.orange(penalties)}')
+        print(f'Total Penalty: {colorful.bold_red(sum(penalties))}')
         print()
 
 

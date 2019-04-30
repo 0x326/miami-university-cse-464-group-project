@@ -32,6 +32,7 @@ class TestCard(NamedTuple):
 
 class TestCase(NamedTuple):
     cards: Sequence[TestCard]
+    expected_performance: str
 
 
 # Document root
@@ -71,8 +72,8 @@ def test_generate_booster_packs():
 def test_evaluate_deck():
     set_infos = load_card_csv()
 
-    for test_number, test_deck in enumerate(load_test_cases(), start=1):
-        print(f'Evaluating test deck {test_number}')
+    for test_number, (expected_performance, test_deck) in enumerate(load_test_cases(), start=1):
+        print(f'Evaluating test deck {test_number} (Expected to be "{expected_performance}")')
         deck_summary = summarize_deck(test_deck, set_infos=set_infos)
         print(f'Deck summary: {deck_summary}')
         penalties = evaluate_deck(deck_summary)
@@ -95,7 +96,7 @@ def load_test_cases() -> Iterator[Deck]:
                 card = TestCard(**card)
                 deck[card.set, card.card_number] += card.quantity
 
-            yield deck
+            yield test_case.expected_performance, deck
 
 
 if __name__ == '__main__':

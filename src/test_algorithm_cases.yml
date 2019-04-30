@@ -2,7 +2,8 @@
 ---
 cases:
   # Test case 1
-  - cards:
+  - expected_performance: Good
+    cards:
 
       # Bring to Trial
       - set: RNA
@@ -104,7 +105,8 @@ cases:
         card_number: 3
         quantity: 6
 
-  - cards:
+  - expected_performance: OK
+    cards:
 
       # Summary Judgement
       - set: RNA
@@ -235,7 +237,8 @@ cases:
         card_number: 5
         quantity: 3
 
-  - cards:
+  - expected_performance: Bad
+    cards:
 
       # Biogenic Ooze
       - set: RNA
@@ -247,7 +250,8 @@ cases:
         quantity: 39
 
 
-  - cards:
+  - expected_performance: Very bad
+    cards:
 
       # Forest
       - set: null

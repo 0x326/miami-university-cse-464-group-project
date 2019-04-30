@@ -741,7 +741,58 @@ into Python, we ended up not going with this method.
 
 \section{Implementation}
 
-\subsection{Time Complexity}
+\subsection{Data Sets}
+
+To implement the objective function we designed,
+we require a comprehensive description of the Magic: The Gathering
+set of which a candidate solution of cards are members.
+To this end,
+we query a publicly available database containing all MTG cards to date.
+% TODO: Add link or citation
+The database contains information such as:
+
+\begin{itemize}
+    \item Set id
+    \item Card number
+    \item Card rarity
+    \item Converted mana cost as well as individual cost components
+    \item Card type
+\end{itemize}
+
+Using this data,
+we can account for mana curve (\ref{objective:Mana Curve}),
+land percentage (\ref{objective:Land Percentage}),
+land color percentage (\ref{objective:Land Color Percentage}),
+as well as color identity (\ref{objective:Color Identity}).
+The deck size objective (\ref{objective:Deck Size})
+can be trivially implemented independently of the above data
+but accounting for card archetypes (\ref{objective:Card Archetypes}) requires additional data.
+So, we decided to handcraft our own database using as much pre-existing data as possible.
+We decided to keep the above columns and add the following:
+
+\begin{itemize}
+    \item Archetypes (Bomb, Removal, Combat trick, Evasive, Counter, Card draw, Mana fixing)
+    \item Rating
+\end{itemize}
+
+To give an example of what this looks like in practice,
+we represented the \enquote{Angel of Grace} card in the following fashion:
+
+\begin{itemize}
+    \item Set id: \enquote{RNA}
+    \item Card number: $ 1 $
+    \item Card rarity: \enquote{Mythic rare}
+    \item Converted mana cost: $ 5 $
+    \item Mana cost: \enquote{\{3\}\{W\}\{W\}}
+    \item Card type: \enquote{Creature}
+\end{itemize}
+
+For mana cost,
+we use a commonly-understood notation.
+In this example,
+\enquote{\{3\}\{W\}\{W\}} means $ 2 $ white mana symbols
+and $ 3 $ additional mana symbols of any color
+are required to play the card.
 
 \begin{minted}[linenos=false]{python}
     from enum import *

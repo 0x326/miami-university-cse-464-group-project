@@ -7,7 +7,6 @@
 % card_mana_cost(CardId, ManaColor, ManaCount).
 % card_mana_cost_variable(CardId, ManaColor, VariableName).
 % card_rule_exception(CardId, RuleNumber).
-% tappable(CardId).
 
 % land(CardId, Color).
 % enchantment(CardId, TargetType).
@@ -30,6 +29,7 @@
 % ability(Ability).
 % archetype(Archetype).
 % permanent(CardId).
+% tappable(CardId).
 
 %%%% Time tracking predicates %%%%
 
@@ -44,7 +44,7 @@
 
 % card_instance(CardInstanceId, CardId, OwnerPlayerId).
 % card_present(TurnNumber, TurnPhase, CardInstanceId).
-% card_controller(TurnNumber, TurnPhase, CardInstanceId, ControllerPlayerId)
+% card_controller(TurnNumber, TurnPhase, CardInstanceId, ControllerPlayerId).
 % summoning_sickness(TurnNumber, TurnPhase, CardInstanceId).
 % card_tapped(TurnNumber, TurnPhase, CardInstanceId).
 % card_attacking(TurnNumber, TurnPhase, CardInstanceId).
@@ -96,11 +96,11 @@ archetype(bomb; removal; advantage; evasion; win).
 % Everything except a Sorcery and an instant is a permanent
 permanent(CardId) :-
     card(CardId, _, _),
-    land(CardId).
+    land(CardId, _).
 
 permanent(CardId) :-
     card(CardId, _, _),
-    enchantment(CardId).
+    enchantment(CardId, _).
 
 permanent(CardId) :-
     card(CardId, _, _),
@@ -108,11 +108,11 @@ permanent(CardId) :-
 
 permanent(CardId) :-
     card(CardId, _, _),
-    planeswalker(CardId).
+    planeswalker(CardId, _).
 
 permanent(CardId) :-
     card(CardId, _, _),
-    creature(CardId).
+    creature(CardId, _, _).
 
 -permanent(CardId) :-
     card(CardId, _, _),
@@ -146,6 +146,7 @@ turn_phase_order(post_combat, ending).
 
 % Every player starts with 20 life
 life_count(1, beginning, PlayerId, 20) :-
+    turn(1, _),
     player(PlayerId).
 
 % Every player's life count at the beginning of a turn is the same as it was at the end of the previous turn
@@ -154,14 +155,14 @@ life_count(TurnNumber, beginning, PlayerId, LifeCount) :-
     turn(TurnNumber, _),
     life_count(TurnNumber - 1, ending, PlayerId, LifeCount).
 
-% An untapped card from the end of the previous turn is untapped at the start of the next turn
+% An untapped card from the end of the previous turn is still untapped at the start of the next turn
 % (Persistence property of untapped cards)
 -card_tapped(TurnNumber, beginning, CardInstanceId) :-
     turn(TurnNumber, _),
     turn_phase(TurnNumber, beginning),
     -card_tapped(TurnNumber - 1, ending, CardInstanceId).
 
-% A tapped card from the end of the previous turn is tapped at the start of the next turn,
+% A tapped card from the end of the previous turn is still tapped at the start of the next turn,
 % unless we have already derived it isn't
 % (Persistence property of tapped cards)
 card_tapped(TurnNumber, beginning, CardInstanceId) :-
@@ -319,8 +320,8 @@ card_tapped(TurnNumber, TurnPhase, CardInstanceId) :-
     untap_card(TurnNumber, TurnPhase, _, CardInstanceId).
 
 % Players' "discard_card" action removes the card from his hand
--hand(TurnNumber, TurnPhase, CardInstanceId) :-
-    discard_card(TurnNumber, TurnPhase, CardInstanceId).
+-hand(TurnNumber, TurnPhase, PlayerId, CardInstanceId) :-
+    discard_card(TurnNumber, TurnPhase, PlayerId, CardInstanceId).
 
 % Players' "discard_card" action adds the card to his graveyard
 graveyard(TurnNumber, TurnPhase, PlayerId, CardInstanceId) :-
@@ -336,12 +337,14 @@ turn(PreviousTurnNumber + 1, NextPlayerId) :-
 %%%% Player action %%%%
 
 % Every player untaps all of his cards at the beginning of his turn
-% TODO: Make sure this rule only untaps tapable cards (such as lands and creatures)
+% This rule only untaps tapable cards (such as lands and creatures)
 untap_card(TurnNumber, beginning, PlayerId, CardInstanceId) :-
     turn_phase(TurnNumber, beginning),
     turn(TurnNumber, ActivePlayerId),
     card_present(TurnNumber, beginning, CardInstanceId),
     card_controller(TurnNumber, beginning, CardInstanceId, ControllerPlayerId),
+    card_instance(CardInstanceId, CardId, _),
+    tappable(CardId),
     ActivePlayerId = ControllerPlayerId,
     PlayerId = ActivePlayerId.
 
@@ -381,7 +384,7 @@ untap_card(TurnNumber, beginning, PlayerId, CardInstanceId) :-
         card_controller(TurnNumber, TurnPhase, CardInstanceId, BlockerPlayerId),
         card_instance(CardInstanceId, CardId, _),
         creature(CardId, _, _) } :-
-    declare_attacker(TurnNumber, TurnPhase, ActivePlayerId, _),
+    declare_attacker(TurnNumber, TurnPhase, ActivePlayerId, _, _),
     BlockerPlayerId != ActivePlayerId.
 
 % A player discards any excess of seven cards from his hand during the ending phase of his turn
@@ -399,7 +402,7 @@ ExcessCards { discard_card(TurnNumber, ending, PlayerId, CardInstanceId) :
 % A player losses if he does not have any cards to draw at the beginning of his turn
 loss(TurnNumber, beginning, ActivePlayerId) :-
     turn(TurnNumber, ActivePlayerId),
-    not deck(TurnNumber, beginning, _).
+    not deck(TurnNumber, beginning, _, _).
 
 %%%% Integrity constraints %%%%
 

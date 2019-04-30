@@ -10,6 +10,18 @@
 
 - [Online examples](https://potassco.org/clingo/run/)
 
+## Running
+
+```shell
+clingo base_encoding.lp test_instantiation.lp
+```
+
+## Linting (experimental)
+
+```shell
+pipenv run python lint_predicates.py *.lp
+```
+
 ## Magic the Gathering Gameplay Notes
 
 - Goal: Reduce opponent's life count from 20 to 0

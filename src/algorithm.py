@@ -389,8 +389,8 @@ def evaluate_deck(deck: DeckSummary) -> float:
 
     archetype_penalty += deck.dud_count * 5
 
-    if len(deck.color_identity) > 1 and mana_fixing_count < 2:
-        distance_from_ideal = 2 - mana_fixing_count
+    if len(deck.color_identity) > 1 and mana_fixing_count < 2 * len(deck.color_identity):
+        distance_from_ideal = 2 * len(deck.color_identity) - mana_fixing_count
         archetype_penalty += 10 * distance_from_ideal
 
     # Combine objectives
@@ -572,7 +572,7 @@ basic_lands = (('Plains', ManaColor.WHITE),
                ('Mountain', ManaColor.RED),
                ('Forest', ManaColor.GREEN))
 basic_land_rarity = Rarity.COMMON
-basic_land_rating = 1
+basic_land_rating = 15
 basic_land_card_numbers: FrozenSet[int] = frozenset(range(1, len(basic_lands) + 1))
 
 empty_set = frozenset()

@@ -681,6 +681,14 @@ $$
 TP(deck) = b(bombs) + r(removal) + e(evasive) + d(duds) + m(mana)
 $$
 
+\subsubsection{Time Complexity}
+\label{Time Complexity of Objective Function}
+In our implementation of our objective function we do not have any iterative processes
+based upon the number of cards within the deck, leading to a time complexity of $O(1)$ for
+the objective function. In generating the values for the objective function to process, each
+card in the deck is processed one at a time leading to a time complexity of $O(n)$ where n is
+the number of cards within the deck.
+
 \subsection{Optimization}
 \label{sec:Optimization}
 

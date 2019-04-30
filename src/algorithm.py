@@ -4,6 +4,7 @@
 Magic: The Gathering Tournament Deck Optimizer
 """
 
+import logging
 import operator
 import random
 from collections import defaultdict
@@ -303,6 +304,7 @@ def summarize_deck(deck: Deck, set_infos: Mapping[SetId, SetInfo]) -> DeckSummar
 
         # Duds
         if card.rating <= 10:
+            logging.debug('Counting card %d from set %s as a dud', card_number, set_id)
             dud_count += card_quantity
 
     # Summarize mana curve

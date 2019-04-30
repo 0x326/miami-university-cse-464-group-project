@@ -14,6 +14,7 @@ To run tests without ``pytest``, run::
 """
 
 import csv
+import logging
 from collections import defaultdict
 from typing import *
 
@@ -98,4 +99,6 @@ def load_test_cases() -> Iterator[Deck]:
 
 if __name__ == '__main__':
     # Run tests without pytest
+    logging.basicConfig(level=logging.DEBUG)
+
     test_evaluate_deck()

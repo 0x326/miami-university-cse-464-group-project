@@ -16,4 +16,4 @@ test:
 	cd src/ && pipenv run python test*.py
 
 report:
-	cd writeups/ && pipenv run latexmk -shell-escape -pdf *.tex
+	cd writeups/ && pipenv run latexmk -pdf *.tex

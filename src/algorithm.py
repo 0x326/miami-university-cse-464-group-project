@@ -8,6 +8,7 @@ import logging
 import operator
 import random
 from collections import defaultdict
+from decimal import Decimal
 from enum import Enum, auto, unique
 from itertools import accumulate, repeat
 from typing import *
@@ -168,7 +169,7 @@ class Card(NamedTuple):
     faces: Sequence[CardFace]
     converted_mana_cost: int  # Sum of all mana costs for all faces
     rarity: Rarity
-    rating: int
+    rating: Decimal
     guild: Optional[Guild]
     image_url: Optional[ParseResult]
     archetypes: AbstractSet[Archetype]
@@ -188,7 +189,7 @@ class SetInfo(NamedTuple):
     cards: Mapping[CardNumber, Card]
     card_types: CardTypes
     rarities: Mapping[Rarity, AbstractSet[CardNumber]]
-    ratings: Mapping[int, AbstractSet[CardNumber]]
+    ratings: Mapping[Decimal, AbstractSet[CardNumber]]
     guilds: Mapping[Guild, AbstractSet[CardNumber]]
     archetypes: Mapping[Archetype, AbstractSet[CardNumber]]
 
@@ -312,7 +313,7 @@ def summarize_deck(deck: Deck, set_infos: Mapping[SetId, SetInfo]) -> DeckSummar
             archetype_counts[archetype] += card_quantity
 
         # Duds
-        if card.rating <= 10:
+        if card.rating <= 1:
             logging.debug('Counting card %d from set %s as a dud', card_number, set_id)
             dud_count += card_quantity
 
@@ -462,7 +463,7 @@ def parse_cards_csv(cards_csv: Iterable[Sequence[str]]) -> Dict[SetId, SetInfo]:
         card_number: int = int(card_number)
         rarity: Rarity = Rarity(rarity)
         cmc: int = int(cmc)
-        rating: int = int(rating)
+        rating: Decimal = Decimal(rating)
 
         try:
             guild: Optional[Guild] = Guild(guild)
@@ -596,7 +597,7 @@ basic_lands = (('Plains', ManaColor.WHITE),
                ('Mountain', ManaColor.RED),
                ('Forest', ManaColor.GREEN))
 basic_land_rarity = Rarity.COMMON
-basic_land_rating = 15
+basic_land_rating = Decimal('1.5')
 basic_land_card_numbers: FrozenSet[int] = frozenset(range(1, len(basic_lands) + 1))
 
 empty_set = frozenset()

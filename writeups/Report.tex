@@ -892,6 +892,15 @@ while \enquote{land} cards have an additional attribute \enquote{color}.
 \end{minted}
 \inputminted[firstline=44, lastline=194]{python}{../src/algorithm.py}
 
+\subsubsection{Time Complexity}
+
+In our implementation of our objective function we do not have any iterative processes
+based upon the number of cards within the deck,
+leading to a time complexity of $ O(1) $ for the objective function.
+In generating the values for the objective function to process,
+each card in the deck is processed one at a time leading to a time complexity of $ O(n) $
+where $ n $ is the number of cards within the deck.
+
 \section{Contributions}
 
 \begin{itemize}

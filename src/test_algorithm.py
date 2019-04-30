@@ -52,7 +52,7 @@ def test_generate_booster_packs():
         card_rarities: Counter[Rarity] = Counter(set_infos[mtg_set].cards[card_number].rarity
                                                  for card_number in booster_pack)
         assert 9 <= card_rarities[Rarity.COMMON] <= 10
-        assert 3 <= card_rarities[Rarity.UNCOMMON] == 4
+        assert 3 <= card_rarities[Rarity.UNCOMMON] <= 4
         assert (1 <= card_rarities[Rarity.RARE] <= 2) ^ (1 <= card_rarities[Rarity.MYTHIC_RARE] <= 2)
 
 

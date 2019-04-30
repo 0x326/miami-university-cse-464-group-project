@@ -89,6 +89,5 @@ def load_test_cases() -> Iterator[Deck]:
 
 if __name__ == '__main__':
     import pytest
-
-    test_evaluate_deck()
+    
     pytest.main()

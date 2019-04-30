@@ -304,7 +304,7 @@ def summarize_deck(deck: Deck, set_infos: Mapping[SetId, SetInfo]) -> DeckSummar
     total_converted_mana_cost_count = sum(converted_mana_cost_counts)
     converted_mana_cost_pmf: Iterator[float] = (count / total_converted_mana_cost_count
                                                 for count in converted_mana_cost_counts)
-    converted_mana_cost_cdf = accumulate(converted_mana_cost_pmf, operator.add)
+    converted_mana_cost_cdf = tuple(accumulate(converted_mana_cost_pmf, operator.add))
 
     # Summarize land percentage
     total_land_count = sum(land_counts.values())

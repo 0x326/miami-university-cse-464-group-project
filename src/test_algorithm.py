@@ -8,7 +8,7 @@ from hypothesis import given
 from hypothesis.strategies import *
 from yaml import safe_load
 
-from algorithm import Deck, CardId, generate_booster_pack, summarize_deck, evaluate_deck, parse_cards_csv, basic_land_info
+from algorithm import Deck, CardId, Rarity, generate_booster_pack, summarize_deck, evaluate_deck, parse_cards_csv, basic_land_info
 
 
 # Describe test case schema
@@ -27,14 +27,7 @@ class TestFileSchema(NamedTuple):
     cases: Sequence[TestCase]
 
 
-@given(lists(text(), min_size=40))
-def test_generate_booster_packs(mtg_set):
-    deck = generate_booster_pack(mtg_set)
-    deck = tuple(deck)
-    assert len(deck) >= 40
-
-
-def test_evaluate_deck():
+def load_card_csv():
     # Load in CSV
     with open('RNA.csv') as cards_csv:
         cards_csv: Iterator[List[str]] = csv.reader(cards_csv)
@@ -45,13 +38,36 @@ def test_evaluate_deck():
         None: basic_land_info,
     })
 
-    for test_number, test_deck in enumerate(load_test_cases(), start=1):
-        print(f'Evaluating test deck {test_number}')
-        deck_summary = summarize_deck(test_deck, set_infos=set_infos)
-        print(f'Deck summary: {deck_summary}')
-        penalty = evaluate_deck(deck_summary)
-        print(f'Penalty: {penalty}')
-        print()
+    return set_infos
+
+
+def test_generate_booster_packs():
+    set_infos = load_card_csv()
+    for mtg_set in set_infos.keys():
+        if mtg_set is None:
+            continue
+
+        booster_pack = tuple(generate_booster_pack(set_infos[mtg_set]))
+        assert len(booster_pack) == 14
+        card_rarities: Counter[Rarity] = Counter(set_infos[mtg_set].cards[card_number].rarity
+                                                 for card_number in booster_pack)
+        assert 9 <= card_rarities[Rarity.COMMON] <= 10
+        assert 3 <= card_rarities[Rarity.UNCOMMON] == 4
+        assert (1 <= card_rarities[Rarity.RARE] <= 2) ^ (1 <= card_rarities[Rarity.MYTHIC_RARE] <= 2)
+
+
+def test_evaluate_deck(capsys):
+    set_infos = load_card_csv()
+
+    # Disable stdout capturing
+    with capsys.disabled():
+        for test_number, test_deck in enumerate(load_test_cases(), start=1):
+            print(f'Evaluating test deck {test_number}')
+            deck_summary = summarize_deck(test_deck, set_infos=set_infos)
+            print(f'Deck summary: {deck_summary}')
+            penalty = evaluate_deck(deck_summary)
+            print(f'Penalty: {penalty}')
+            print()
 
 
 # noinspection PyArgumentList

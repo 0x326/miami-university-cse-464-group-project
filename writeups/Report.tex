@@ -795,6 +795,97 @@ In this example,
 and $ 3 $ additional mana symbols of any color
 are required to play the card.
 
+However, we found that this schema was not enough.
+Additional complexities arise due to the fact that
+some cards effectively have two faces.
+These cards are essentially two cards printed on one piece
+of paper.
+However, due to their inseparability,
+they share some properties in common
+(such as rating or converted mana cost).
+To accommodate for this inconsistency,
+we decided to store both faces in the same data entry
+using the same fields,
+using the special value \enquote{ // } to separate unshared properties.
+
+To demonstrate,
+let's look at card 224 from the RNA set.
+The card is divided in two and on one side it reads \enquote{Consecrate},
+on the other it reads \enquote{Consume}.
+It shares a converted mana cost of $ 6 $
+while the left side is an \enquote{Instant} card type
+and the right side is a \enquote{Sorcery}.
+We represent such a card in the following manner:
+
+\begin{itemize}
+    \item Set id: \enquote{RNA}
+    \item Card number: $ 224 $
+    \item Card rarity: \enquote{Uncommon}
+    \item Converted mana cost: $ 6 $
+    \item Mana cost: \enquote{\{1\}\{W/B\}//\{2\}\{W\}\{B\}}
+    \item Card type: \enquote{Instant // Sorcery}
+\end{itemize}
+
+Furthermore,
+this card demonstrates another exception the game provides.
+\enquote{Consecrate}'s mana cost is \enquote{\{1\}\{W/B\}},
+meaning that it requires $ 2 $ mana symbols,
+one of which can be of any color and the other must either be white or black.
+Since the \enquote{W/B} notation greatly resembles how the mana symbols appear
+on the card,
+we internally represent the construct in this manner as well.
+
+\subsection{Time complexity}
+
+\subsubsection{Database parsing}
+
+Before running our application,
+we export our database to a single CSV file.
+
+Then, at run time,
+we read it in and process it in its entirety.
+Since we process each card,
+this phase is at least $ \Omega(n) $
+
+During processing,
+we convert each card into the following data structures:
+
+% CardFace definition
+\inputminted[firstline=161, lastline=165]{python}{../src/algorithm.py}
+
+% Card definition
+\inputminted[firstline=168, lastline=175]{python}{../src/algorithm.py}
+
+For each card,
+we split on the string \enquote{//} and create a CardFace for each half.
+If the sentinal string is absent (the card is monolithic),
+we just create a single instance of CardFace.
+In Card,
+we store the attributes common to the card faces.
+
+Note that we are defining forward relations from a Card instance
+to an instance of Rarity, Archetype, etc.
+It will be useful, as we will later find,
+to reverse the relation so we can go from Rarity, etc. to appropriate Card instances.
+To this end,
+we create another data structure SetInfo and it stores such reverse relations:
+
+% SetInfo definition
+\inputminted[firstline=188, lastline=194]{python}{../src/algorithm.py}
+
+Finally,
+we create a CardTypes data structure to store additional properties that are
+specific card types.
+For example,
+\enquote{creature} cards have an additional power and toughness value
+while \enquote{land} cards have an additional attribute \enquote{color}.
+
+% CardTypes definition
+\inputminted[firstline=178, lastline=185]{python}{../src/algorithm.py}
+
+% Land, Enchantment, ..., Instant
+\inputminted[firstline=122, lastline=151]{python}{../src/algorithm.py}
+
 \begin{minted}[linenos=false]{python}
     from enum import *
     from typing import *

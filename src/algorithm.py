@@ -357,7 +357,10 @@ def evaluate_deck(deck: DeckSummary) -> float:
                              in zip(expected_cmc_cdf, deck.converted_mana_cost_cdf))
 
     # Evaluate land percentage
-    land_ratio_penalty = 0 if 16 / 40 <= deck.total_land_ratio <= 18 / 40 else abs(17 / 40 - deck.total_land_ratio)
+    land_ratio_penalty = 0 if 16 / 40 <= deck.total_land_ratio <= 18 / 40 else 20 * abs(17 / 40 - deck.total_land_ratio)
+
+    if deck.total_land_ratio >= .75:
+        land_ratio_penalty += 1000
 
     # Evaluate land color percentage
     mana_symbol_penalty: float = sum(abs(mana_symbol_probability_mass - land_probability_mass)
@@ -394,6 +397,10 @@ def evaluate_deck(deck: DeckSummary) -> float:
         archetype_penalty += 10 * distance_from_ideal
 
     # Combine objectives
+
+    print(f'number_of_cards_penalty {number_of_cards_penalty}\nmana_curve_penalty {mana_curve_penalty}\n'
+          f'land_ratio_penalty {land_ratio_penalty}\nmana_symbol_penalty {mana_symbol_penalty}\ndeck_color_penalty '
+          f'{deck_color_penalty}\narchetype_penalty {archetype_penalty}')
     total_penalty = number_of_cards_penalty + mana_curve_penalty + land_ratio_penalty + \
         mana_symbol_penalty + deck_color_penalty + archetype_penalty
 

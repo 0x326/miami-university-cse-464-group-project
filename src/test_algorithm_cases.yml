@@ -245,3 +245,16 @@ cases:
       - set: null
         card_number: 5
         quantity: 39
+
+
+  - cards:
+
+      # Forest
+      - set: null
+        card_number: 5
+        quantity: 20
+
+      # Mountain
+      - set: null
+        card_number: 4
+        quantity: 20

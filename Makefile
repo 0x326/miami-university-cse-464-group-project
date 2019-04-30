@@ -1,4 +1,4 @@
-all: report install lint test
+all: install report lint test
 
 install:
 	pipenv install --dev

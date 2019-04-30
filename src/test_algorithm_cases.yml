@@ -234,3 +234,14 @@ cases:
       - set: null
         card_number: 5
         quantity: 3
+
+  - cards:
+
+      # Biogenic Ooze
+      - set: RNA
+        card_number: 122
+
+      # Forest
+      - set: null
+        card_number: 5
+        quantity: 39

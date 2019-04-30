@@ -34,7 +34,7 @@ def test_generate_booster_packs(mtg_set):
     assert len(deck) >= 40
 
 
-def test_evaluate_deck():
+def test_evaluate_deck(capsys):
     # Load in CSV
     with open('RNA.csv') as cards_csv:
         cards_csv: Iterator[List[str]] = csv.reader(cards_csv)
@@ -45,13 +45,15 @@ def test_evaluate_deck():
         None: basic_land_info,
     })
 
-    for test_number, test_deck in enumerate(load_test_cases(), start=1):
-        print(f'Evaluating test deck {test_number}')
-        deck_summary = summarize_deck(test_deck, set_infos=set_infos)
-        print(f'Deck summary: {deck_summary}')
-        penalty = evaluate_deck(deck_summary)
-        print(f'Penalty: {penalty}')
-        print()
+    # Disable stdout capturing
+    with capsys.disabled():
+        for test_number, test_deck in enumerate(load_test_cases(), start=1):
+            print(f'Evaluating test deck {test_number}')
+            deck_summary = summarize_deck(test_deck, set_infos=set_infos)
+            print(f'Deck summary: {deck_summary}')
+            penalty = evaluate_deck(deck_summary)
+            print(f'Penalty: {penalty}')
+            print()
 
 
 # noinspection PyArgumentList

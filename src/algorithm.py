@@ -306,7 +306,8 @@ def summarize_deck(deck: Deck, set_infos: Mapping[SetId, SetInfo]) -> DeckSummar
             converted_mana_cost_counts[card.converted_mana_cost] += card_quantity
         except IndexError:
             # For the purposes of deck evaluation, we are only considering the converted mana cost <= 5
-            pass
+            logging.debug('Ignoring CMC of card %d ("%s") from set "%s", since its CMC = %d', card_number,
+                          ' // '.join(face.name for face in card.faces), set_id, card.converted_mana_cost)
 
         # Archetypes
         for archetype in card.archetypes:
@@ -314,7 +315,8 @@ def summarize_deck(deck: Deck, set_infos: Mapping[SetId, SetInfo]) -> DeckSummar
 
         # Duds
         if card.rating <= 1:
-            logging.debug('Counting card %d from set %s as a dud', card_number, set_id)
+            logging.debug('Counting card %d ("%s") from set "%s" as a dud', card_number,
+                          ' // '.join(face.name for face in card.faces), set_id)
             dud_count += card_quantity
 
     # Summarize mana curve

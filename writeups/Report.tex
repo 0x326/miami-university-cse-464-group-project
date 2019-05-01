@@ -918,9 +918,22 @@ greater than Deck #1's total penalty. This result is to be expected due to this 
 
 \subsubsection{Deck #3: Bad Deck}
 
+This test case was created to show that our objective function works to accurately grade decks
+where even though they are so bad that they are extremely suboptimal but they still could be played
+and in extremely rare situations could win. This deck contains 39 lands and a single creature. This leads to a
+huge penalty in the land ratio penalty of $ 11000 $ . Overall the total penalty is $ 11084.975 $ .
+
 \subsubsection{Deck #4: Very Bad Deck}
 
+This deck is similar to Deck #3 in terms of being extraordinarily. It differs from the previous
+deck in the fact that it is entirely lands and therefore will never win. The land ratio penalty for this
+deck shows that since it is $ 11500 $ which is 500 greater than Deck #3. This deck's total penalty is $ 11554.5 $ .
+
 \subsubsection{Test Case Conclusions}
+
+These test cases illustrate that the objective function grades decks to an acceptable degree. However the influence
+of each of the individual penalties are not all equivalent and therefore future work should include weighting
+these penalties to obtain a more accurate and detailed result.
 
 \section{Contributions}
 
@@ -934,6 +947,7 @@ greater than Deck #1's total penalty. This result is to be expected due to this 
     \item Archetypes Sub-objective (\ref{objective:Card Archetypes})
     \item Magic: The Gathering Consultant/Researcher
     \item Contribution \%: 30\%
+    \item Test Case Creation and Description
 
 \end{itemize}
 

@@ -69,9 +69,8 @@ so that players can play with the most effective deck.
 This algorithm could help professionals as well as novices to have better odds of success
 and a more enjoyable experience. 
 
-The implementation of our objective function is located on github, which is linked below.
-
-https://github.com/0x326/miami-university-cse-464-group-project
+The implementation of our objective function is located on
+\href{https://github.com/0x326/miami-university-cse-464-group-project}{GitHub}
 
 \section{Definition}
 
@@ -932,7 +931,7 @@ we can more accurately say the time complexity to be $ O(nm) $.
 
 \subsection{Test Cases}
 
-\subsubsection{Deck #1: Good Deck}
+\subsubsection{Deck 1: Good Deck}
 
 In this test deck, from the test card pool we created an above average deck that is 2 colors with a splash of a third
 and less dominant color. The color combination adds a penalty of $ 3 $ due to the addition of the third color.
@@ -942,27 +941,27 @@ to nonlands is also very close to ideal the penalty is only $ 1.5 $ . Due to the
 to ideal, the penalty is only $ 0.58666 $ . Finally the archetypes represented in the deck lead to a penalty of 55.
 This deck's total penalty adds up to be $ 61.17 $ .
 
-\subsubsection{Deck #2: Somewhat Bad Deck}
+\subsubsection{Deck 2: Somewhat Bad Deck}
 
 In this test deck we created a somewhat bad 5 color deck. The color penalty in this case is $ 3 $ .
-Due to this deck's better mana curve than Deck #1 the mana curve penalty is $ 0.4999 $ which is lower than
-Deck #1's mana curve penalty. Due to this deck only containing 9 land cards, the land ratio penalty is $ 7 $
-which is significantly higher than Deck #1's. Due to this deck's 5 color nature, the mana symbol penalty
+Due to this deck's better mana curve than Deck 1 the mana curve penalty is $ 0.4999 $ which is lower than
+Deck 1's mana curve penalty. Due to this deck only containing 9 land cards, the land ratio penalty is $ 7 $
+which is significantly higher than Deck 1's. Due to this deck's 5 color nature, the mana symbol penalty
 is $ 0.9356 $ . Finally this deck's archetype penalty is $ 60 $ . This deck's total penalty is $ 71.4356 $ which is
-greater than Deck #1's total penalty. This result is to be expected due to this deck's contents.
+greater than Deck 1's total penalty. This result is to be expected due to this deck's contents.
 
-\subsubsection{Deck #3: Bad Deck}
+\subsubsection{Deck 3: Bad Deck}
 
 This test case was created to show that our objective function works to accurately grade decks
 where even though they are so bad that they are extremely suboptimal but they still could be played
 and in extremely rare situations could win. This deck contains 39 lands and a single creature. This leads to a
 huge penalty in the land ratio penalty of $ 11000 $ . Overall the total penalty is $ 11084.975 $ .
 
-\subsubsection{Deck #4: Very Bad Deck}
+\subsubsection{Deck 4: Very Bad Deck}
 
-This deck is similar to Deck #3 in terms of being extraordinarily. It differs from the previous
+This deck is similar to Deck 3 in terms of being extraordinarily. It differs from the previous
 deck in the fact that it is entirely lands and therefore will never win. The land ratio penalty for this
-deck shows that since it is $ 11500 $ which is 500 greater than Deck #3. This deck's total penalty is $ 11554.5 $ .
+deck shows that since it is $ 11500 $ which is 500 greater than Deck 3. This deck's total penalty is $ 11554.5 $ .
 
 \subsubsection{Test Case Conclusions}
 

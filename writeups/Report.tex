@@ -886,6 +886,26 @@ while \enquote{land} cards have an additional attribute \enquote{color}.
 % Land, Enchantment, ..., Instant
 \inputminted[firstline=122, lastline=151]{python}{../src/algorithm.py}
 
+% \subsubsection{Booster pack generation}
+
+% To generate a pool of cards for use in an optimization algorithm,
+% we have defined the following function.
+% It generates a booster pack from a given Magic: The Gathering set
+% and would be called $ 6 $ times to generate the entire card pool:
+
+% % generate_booster_pack(...) definition
+% \inputminted[firstline=219, lastline=252]{python}{../src/algorithm.py}
+
+% Before each call to random.sample(\dots),
+% each entry in set_info.rarities is first converted
+% from a set type to a tuple type.
+% Though perhaps dependent on the Python interpreter,
+% this operation can be at worst $ O(n) $.
+% We perform is type conversion due to the API contract of the random module.
+% It requires a so-called \enquote{subscriptable} type.
+% However,
+% we want to use the set data type because it removes duplicates during the CSV parsing.
+
 \subsubsection{Objective function}
 
 The objective function loops over each card in a candidate deck of $ n $ cards.

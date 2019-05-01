@@ -895,6 +895,33 @@ In generating the values for the objective function to process,
 each card in the deck is processed one at a time leading to a time complexity of $ O(n) $
 where $ n $ is the number of cards within the deck.
 
+\subsection{Test Cases}
+
+\subsubsection{Deck #1: Good Deck}
+
+In this test deck, from the test card pool we created an above average deck that is 2 colors with a splash of a third
+and less dominant color. The color combination adds a penalty of $ 3 $ due to the addition of the third color.
+The mana curve of this deck is pretty good so it only adds a penalty of $ 1 $ . In this deck there are 17 lands to
+23 non-lands totalling to 40 cards. Since we are at the ideal deck size there is no penalty. Since the ratio of lands
+to nonlands is also very close to ideal the penalty is only $ 1.5 $ . Due to the mana symbol ratio being very close
+to ideal, the penalty is only $ 0.58666 $ . Finally the archetypes represented in the deck lead to a penalty of 55.
+This deck's total penalty adds up to be $ 61.17 $ .
+
+\subsubsection{Deck #2: Somewhat Bad Deck}
+
+In this test deck we created a somewhat bad 5 color deck. The color penalty in this case is $ 3 $ .
+Due to this deck's better mana curve than Deck #1 the mana curve penalty is $ 0.4999 $ which is lower than
+Deck #1's mana curve penalty. Due to this deck only containing 9 land cards, the land ratio penalty is $ 7 $
+which is significantly higher than Deck #1's. Due to this deck's 5 color nature, the mana symbol penalty
+is $ 0.9356 $ . Finally this deck's archetype penalty is $ 60 $ . This deck's total penalty is $ 71.4356 $ which is
+greater than Deck #1's total penalty. This result is to be expected due to this deck's contents.
+
+\subsubsection{Deck #3: Bad Deck}
+
+\subsubsection{Deck #4: Very Bad Deck}
+
+\subsubsection{Test Case Conclusions}
+
 \section{Contributions}
 
 \begin{itemize}

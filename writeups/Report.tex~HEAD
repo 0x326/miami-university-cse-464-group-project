@@ -1,20 +1,21 @@
 \documentclass[12pt, letterpaper]{article}
 
-% Document metadata
 \title{Problem Definition}
 \date{April 30}
 \author{Jacob Freedman, Scott Harris, Bryan Hayes, John Meyer}
 
-% Required packages
 \usepackage[autostyle, english=american]{csquotes}
 \usepackage{mathtools}
 \usepackage{amssymb}
 \usepackage{setspace}
+\usepackage{listings}
 \usepackage{commath}
 \usepackage{amsmath}
-\usepackage[section]{minted}
+\usepackage{minted}
 
 \usepackage[colorlinks=true,linkcolor=blue,urlcolor=black,bookmarksopen=true]{hyperref}
+
+\doublespacing
 
 % Define subsections down to \subsubsubsection
 \usepackage{titlesec}
@@ -36,13 +37,6 @@
 {0pt}
 {3.25ex plus 1ex minus .2ex}
 {1.5ex plus .2ex}
-
-% Packages configuration
-\setminted{linenos, autogobble, breakautoindent, breaklines, breakindentnchars=4,
-    fontsize=\footnotesize}
-\setminted[python]{python3}
-
-\doublespacing
 
 \begin{document}
 
@@ -268,18 +262,17 @@ using a Monte Carlo Search Tree approach, genetic programming, as well as active
 
 \section{Algorithm Design}
 
-In order to determine an optimal deck of cards that can be created from a given card pool,
-we must define a way of evaluating each candidate deck
-such that an optimization algorithm can determine
-the subset of the card pool would perform most optimally.
+In order to determine the optimal deck of cards that can be created with a generated pool of cards,
+we must define a way of evaluating each created deck such that an optimization algorithm can determine
+the best subset of the card pool would perform most optimally.
 For this we have defined an objective function that will analyze a proposed deck
-and calculate a penalty for it, which an optimization algorithm can try to minimize.
+and calculate the penalty level of the given deck for the optimization algorithm to work with.
 
 \subsection{Objective Function}
 
-In order to calculate the penalty on a single deck,
-we have identified 6 sub-objectives, each considering
-important aspects of previously successful decks that we want every deck to share.
+In order to calculate the penalty level on a single deck,
+we have identified 6 sub-objectives each evaluating a different
+important aspect of successful decks that we want to consider in our analysis.
 % Some of the specified penalty values have not yet been fully tested and may change in the future.
 
 \subsubsection{Deck Size}
@@ -332,7 +325,7 @@ If one were to count the converted mana cost of each card in the deck and store 
 the relative frequency graph of that vector is the \enquote{mana curve}.
 Specifically, the ideal mana curve can be represented with the following R code:
 
-\begin{minted}{R}
+\begin{lstlisting}[language=R, frame=single]
 
 ideal.mana.curve <- c(
     1,
@@ -343,7 +336,7 @@ ideal.mana.curve <- c(
     6, 6)
 relative.frequency <- table(ideal.mana.curve) / length(ideal.mana.curve)
 
-\end{minted}
+\end{lstlisting}
 
 To differentiate an optimal mana curve from a suboptimal one,
 let us first recall cumulative distribution functions (CDFs) from statistics.
@@ -376,7 +369,7 @@ so we can develop a quantitative measure for how the two differ.
 For example, take the following mana curve:
 
 
-\begin{minted}{R}
+\begin{lstlisting}[language=R, frame=single]
 
 bad.mana.curve <- c(
     1,
@@ -389,8 +382,8 @@ bad.mana.curve <- c(
     8, 8, 8, 8, 8, 8)
 
 bad.relative.frequency <- table(bad.mana.curve) / length(bad.mana.curve)
+\end{lstlisting}
 
-\end{minted}
 
 Using its CDF $ F' $, we can describe this mana curve with the following table:
 
@@ -464,7 +457,6 @@ or lower ratio of lands to non-lands with the following function:
 $$
 f(r) = \begin{cases}
     0 & \frac{16}{40} <= r <= \frac{18}{40} \\
-    \abs{\frac{17}{40} - r} * 1000 & r > 0.75 \\
     \abs{\frac{17}{40} - r} & otherwise
 \end{cases}
 $$
@@ -702,10 +694,14 @@ Since we can evaluate how good each card with the objective function described a
 the use of this algorithm
 would allow us to find the best cards to use from the pool.
 
+<<<<<<< HEAD:writeups/Report.tex
 \phantomsection
 \label{paragraph:Particle Swarm}
+The second optimization algorithm we are considering is particle swarm optimization.
+=======
 The second optimization algorithm we are considering is particle swarm optimization,
 specifically the set-based variant.
+>>>>>>> e3aa4fe4eb1728d48c010e3c62cb34f881d51533:writeups/Project Report.tex
 This method simulates birds flocking to food.
 It works by having all particles follow the two \enquote{best} values.
 These two bests are the local best and the global best.
@@ -740,160 +736,6 @@ Hernandez's optimization algorithm was written entirely in R,
 and while we searched for a method of integrating an R function
 into Python, we ended up not going with this method.
 
-\section{Implementation}
-
-\subsection{Data Sets}
-
-To implement the objective function we designed,
-we require a comprehensive description of the Magic: The Gathering
-set of which a candidate solution of cards are members.
-To this end,
-we query a publicly available database containing all MTG cards to date.
-% TODO: Add link or citation
-The database contains information such as:
-
-\begin{itemize}
-    \item Set id
-    \item Card number
-    \item Card rarity
-    \item Converted mana cost as well as individual cost components
-    \item Card type
-\end{itemize}
-
-Using this data,
-we can account for mana curve (\ref{objective:Mana Curve}),
-land percentage (\ref{objective:Land Percentage}),
-land color percentage (\ref{objective:Land Color Percentage}),
-as well as color identity (\ref{objective:Color Identity}).
-The deck size objective (\ref{objective:Deck Size})
-can be trivially implemented independently of the above data
-but accounting for card archetypes (\ref{objective:Card Archetypes}) requires additional data.
-So, we decided to handcraft our own database using as much pre-existing data as possible.
-We decided to keep the above columns and add the following:
-
-\begin{itemize}
-    \item Archetypes (Bomb, Removal, Combat trick, Evasive, Counter, Card draw, Mana fixing)
-    \item Rating
-\end{itemize}
-
-To give an example of what this looks like in practice,
-we represented the \enquote{Angel of Grace} card in the following fashion:
-
-\begin{itemize}
-    \item Set id: \enquote{RNA}
-    \item Card number: $ 1 $
-    \item Card rarity: \enquote{Mythic rare}
-    \item Converted mana cost: $ 5 $
-    \item Mana cost: \enquote{\{3\}\{W\}\{W\}}
-    \item Card type: \enquote{Creature}
-\end{itemize}
-
-For mana cost,
-we use a commonly-understood notation.
-In this example,
-\enquote{\{3\}\{W\}\{W\}} means $ 2 $ white mana symbols
-and $ 3 $ additional mana symbols of any color
-are required to play the card.
-
-However, we found that this schema was not enough.
-Additional complexities arise due to the fact that
-some cards effectively have two faces.
-These cards are essentially two cards printed on one piece
-of paper.
-However, due to their inseparability,
-they share some properties in common
-(such as rating or converted mana cost).
-To accommodate for this inconsistency,
-we decided to store both faces in the same data entry
-using the same fields,
-using the special value \enquote{ // } to separate unshared properties.
-
-To demonstrate,
-let's look at card 224 from the RNA set.
-The card is divided in two and on one side it reads \enquote{Consecrate},
-on the other it reads \enquote{Consume}.
-It shares a converted mana cost of $ 6 $
-while the left side is an \enquote{Instant} card type
-and the right side is a \enquote{Sorcery}.
-We represent such a card in the following manner:
-
-\begin{itemize}
-    \item Set id: \enquote{RNA}
-    \item Card number: $ 224 $
-    \item Card rarity: \enquote{Uncommon}
-    \item Converted mana cost: $ 6 $
-    \item Mana cost: \enquote{\{1\}\{W/B\}//\{2\}\{W\}\{B\}}
-    \item Card type: \enquote{Instant // Sorcery}
-\end{itemize}
-
-Furthermore,
-this card demonstrates another exception the game provides.
-\enquote{Consecrate}'s mana cost is \enquote{\{1\}\{W/B\}},
-meaning that it requires $ 2 $ mana symbols,
-one of which can be of any color and the other must either be white or black.
-Since the \enquote{W/B} notation greatly resembles how the mana symbols appear
-on the card,
-we internally represent the construct in this manner as well.
-
-\subsection{Time complexity}
-
-\subsubsection{Database parsing}
-
-Before running our application,
-we export our database to a single CSV file.
-
-Then, at run time,
-we read it in and process it in its entirety.
-Since we process each card,
-this phase is at least $ \Omega(n) $
-
-During processing,
-we convert each card into the following data structures:
-
-% CardFace definition
-\inputminted[firstline=161, lastline=165]{python}{../src/algorithm.py}
-
-% Card definition
-\inputminted[firstline=168, lastline=175]{python}{../src/algorithm.py}
-
-For each card,
-we split on the string \enquote{//} and create a CardFace for each half.
-If the sentinal string is absent (the card is monolithic),
-we just create a single instance of CardFace.
-In Card,
-we store the attributes common to the card faces.
-
-Note that we are defining forward relations from a Card instance
-to an instance of Rarity, Archetype, etc.
-It will be useful, as we will later find,
-to reverse the relation so we can go from Rarity, etc. to appropriate Card instances.
-To this end,
-we create another data structure SetInfo and it stores such reverse relations:
-
-% SetInfo definition
-\inputminted[firstline=188, lastline=194]{python}{../src/algorithm.py}
-
-Finally,
-we create a CardTypes data structure to store additional properties that are
-specific card types.
-For example,
-\enquote{creature} cards have an additional power and toughness value
-while \enquote{land} cards have an additional attribute \enquote{color}.
-
-% CardTypes definition
-\inputminted[firstline=178, lastline=185]{python}{../src/algorithm.py}
-
-% Land, Enchantment, ..., Instant
-\inputminted[firstline=122, lastline=151]{python}{../src/algorithm.py}
-
-\subsubsection{Objective function}
-
-In our implementation of our objective function we do not have any iterative processes
-based upon the number of cards within the deck,
-leading to a time complexity of $ O(1) $ for the objective function.
-In generating the values for the objective function to process,
-each card in the deck is processed one at a time leading to a time complexity of $ O(n) $
-where $ n $ is the number of cards within the deck.
 
 \section{Contributions}
 

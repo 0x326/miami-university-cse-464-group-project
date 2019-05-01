@@ -888,12 +888,18 @@ while \enquote{land} cards have an additional attribute \enquote{color}.
 
 \subsubsection{Objective function}
 
-In our implementation of our objective function we do not have any iterative processes
-based upon the number of cards within the deck,
-leading to a time complexity of $ O(1) $ for the objective function.
-In generating the values for the objective function to process,
-each card in the deck is processed one at a time leading to a time complexity of $ O(n) $
-where $ n $ is the number of cards within the deck.
+The objective function loops over each card in a candidate deck of $ n $ cards.
+In this loop,
+it loops over $ f $ card faces with $ m $ mana symbols each.
+It also loops over $ a $ archetypes present in the cards
+as well as $ c $ distinct converted mana cost values.
+
+So,
+the time complexity can be said to be $ O(nmfc + nma) $.
+However, $ 1 \le f \le 2 $, $ 0 \le a \le 7 $, and $ 0 \le c \le 5 $.
+so these variables can be seen as constants, even in their worst case.
+As a result,
+we can more accurately say the time complexity to be $ O(nm) $.
 
 \section{Contributions}
 
